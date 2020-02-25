@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
 
 namespace Domain
@@ -16,8 +17,10 @@ namespace Domain
         [Required] public int FriendId { get; set; }
         public virtual Friend Friend { get; set; }
         
+        [Column(TypeName = "decimal(18,4)")]
         [Required] public decimal Percent { get; set; }
 
+        [Column(TypeName = "decimal(18,4)")]
         [Required]
         public decimal Calculation
         {

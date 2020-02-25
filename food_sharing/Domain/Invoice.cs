@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace Domain
@@ -32,10 +33,13 @@ namespace Domain
             set { InvoiceCode = RandomString(20); }
         }
         
+        [Column(TypeName = "decimal(18,4)")]
         [Required] public decimal TotalNet { get; set; }
         
+        [Column(TypeName = "decimal(18,4)")]
         [Required] public decimal TotalTax { get; set; }
         
+        [Column(TypeName = "decimal(18,4)")]
         [Required] public decimal TotalGross { get; set; }
         
         

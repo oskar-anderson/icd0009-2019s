@@ -15,7 +15,7 @@ namespace WebApp
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
-            InsertData.InsertAll();
+            // InsertData.InsertAll();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

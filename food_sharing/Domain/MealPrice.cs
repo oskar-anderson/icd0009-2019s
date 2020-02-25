@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain
 {
@@ -20,8 +21,10 @@ namespace Domain
         [MaxLength(64, ErrorMessage = "Too long!")]
         public string Name { get; set; }
         
+        [Column(TypeName = "decimal(18,4)")]
         [Required] public decimal Tax { get; set; }
         
+        [Column(TypeName = "decimal(18,4)")]
         [Required] public decimal Gross { get; set; }
         
         [Required]

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain
 {
@@ -16,6 +17,7 @@ namespace Domain
         [MaxLength(64)]
         public string Name { get; set; }
         
+        [Column(TypeName = "decimal(18,4)")]
         [Required]
         public float Gross { get; set; }
         

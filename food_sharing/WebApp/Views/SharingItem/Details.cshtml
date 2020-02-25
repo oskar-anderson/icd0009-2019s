@@ -1,0 +1,48 @@
+@model Domain.SharingItem
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>SharingItem</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Sharing)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Sharing.SharingId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Item)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Item.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Friend)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Friend.FirstName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Percent)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Percent)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Calculation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Calculation)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.SharingItemId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

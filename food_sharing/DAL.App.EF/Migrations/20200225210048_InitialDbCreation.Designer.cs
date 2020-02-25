@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.App.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200224184943_InitialDbCreation")]
+    [Migration("20200225210048_InitialDbCreation")]
     partial class InitialDbCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,7 +51,7 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Total")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -159,7 +159,7 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Gross")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("RestaurantId")
                         .HasColumnType("int");
@@ -168,7 +168,7 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<decimal>("Tax")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<DateTime>("Until")
                         .HasColumnType("datetime(6)");
@@ -248,13 +248,13 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("TotalGross")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<decimal>("TotalNet")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<decimal>("TotalTax")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.HasKey("InvoiceId");
 
@@ -277,7 +277,7 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Gross")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("InvoiceId")
                         .HasColumnType("int");
@@ -288,13 +288,13 @@ namespace DAL.App.EF.Migrations
                         .HasMaxLength(32);
 
                     b.Property<decimal>("Net")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Tax")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.HasKey("InvoiceLineId");
 
@@ -311,8 +311,8 @@ namespace DAL.App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<float>("Gross")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Gross")
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("InvoiceLineId")
                         .HasColumnType("int");
@@ -419,7 +419,7 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Gross")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("MealId")
                         .HasColumnType("int");
@@ -436,7 +436,7 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<decimal>("Tax")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<DateTime>("Until")
                         .HasColumnType("datetime(6)");
@@ -605,7 +605,7 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Calculation")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("FriendId")
                         .HasColumnType("int");
@@ -614,7 +614,7 @@ namespace DAL.App.EF.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Percent")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("SharingId")
                         .HasColumnType("int");

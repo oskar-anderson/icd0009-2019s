@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain
 {
@@ -20,10 +21,13 @@ namespace Domain
         [Required]
         public int Quantity { get; set; } 
         
+        [Column(TypeName = "decimal(18,4)")]
         [Required] public decimal Net { get; set; }
         
+        [Column(TypeName = "decimal(18,4)")]
         [Required] public decimal Tax { get; set; }
         
+        [Column(TypeName = "decimal(18,4)")]
         [Required] public decimal Gross { get; set; }
     }
 }

@@ -23,6 +23,7 @@ namespace Domain
         [Required] public int RestaurantId { get; set; }
         public virtual Restaurant Restaurant { get; set; }
         
+        [Column(TypeName = "decimal(18,4)")]
         [Required] public decimal Total { get; set; }
         
         [Display(Name = "Ready by")]

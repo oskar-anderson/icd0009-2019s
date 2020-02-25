@@ -50,6 +50,7 @@ namespace DAL.App.EF
         in project folder:
         dotnet ef migrations add InitialDbCreation --project DAL.App.EF --startup-project WebApp
         dotnet ef database update --project DAL.App.EF --startup-project WebApp
+        dotnet ef database drop --project DAL.App.EF --startup-project WebApp
 
         in WebApp folder:
         dotnet aspnet-codegenerator controller -name PersonController -actions -m Person -dc ApplicationDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
@@ -76,8 +77,6 @@ namespace DAL.App.EF
         dotnet aspnet-codegenerator controller -name SharingController -actions -m Sharing -dc ApplicationDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
         dotnet aspnet-codegenerator controller -name ItemController -actions -m Item -dc ApplicationDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
         dotnet aspnet-codegenerator controller -name SharingItemController -actions -m SharingItem -dc ApplicationDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
-        dotnet aspnet-codegenerator controller -name RoleController -actions -m Role -dc ApplicationDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
-        dotnet aspnet-codegenerator controller -name UserRoleController -actions -m UserRole -dc ApplicationDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
         dotnet aspnet-codegenerator controller -name ClientGroupController -actions -m ClientGroup -dc ApplicationDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
         dotnet aspnet-codegenerator controller -name UserClientGroupController -actions -m UserClientGroup -dc ApplicationDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
         

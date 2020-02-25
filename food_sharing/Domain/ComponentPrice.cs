@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain
 {
@@ -13,8 +14,10 @@ namespace Domain
         [Required] public int RestaurantId { get; set; }
         public virtual Restaurant Restaurant { get; set; }
         
+        [Column(TypeName = "decimal(18,4)")]
         [Required] public decimal Gross { get; set; }
         
+        [Column(TypeName = "decimal(18,4)")]
         [Required] public decimal Tax { get; set; }
         
         [Required]

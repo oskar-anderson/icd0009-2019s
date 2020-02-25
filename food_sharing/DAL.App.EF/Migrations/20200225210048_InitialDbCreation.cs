@@ -232,8 +232,8 @@ namespace DAL.App.EF.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ComponentId = table.Column<int>(nullable: false),
                     RestaurantId = table.Column<int>(nullable: false),
-                    Gross = table.Column<decimal>(nullable: false),
-                    Tax = table.Column<decimal>(nullable: false),
+                    Gross = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Tax = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     Since = table.Column<DateTime>(nullable: false),
                     Until = table.Column<DateTime>(nullable: false)
                 },
@@ -265,9 +265,9 @@ namespace DAL.App.EF.Migrations
                     PaymentMethodId = table.Column<int>(nullable: false),
                     CreationTimestamp = table.Column<DateTimeOffset>(nullable: false),
                     InvoiceCode = table.Column<string>(maxLength: 32, nullable: false),
-                    TotalNet = table.Column<decimal>(nullable: false),
-                    TotalTax = table.Column<decimal>(nullable: false),
-                    TotalGross = table.Column<decimal>(nullable: false)
+                    TotalNet = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    TotalTax = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    TotalGross = table.Column<decimal>(type: "decimal(18,4)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -420,8 +420,8 @@ namespace DAL.App.EF.Migrations
                     RestaurantId = table.Column<int>(nullable: false),
                     ClientGroupId = table.Column<int>(nullable: true),
                     Name = table.Column<string>(maxLength: 64, nullable: false),
-                    Tax = table.Column<decimal>(nullable: false),
-                    Gross = table.Column<decimal>(nullable: false),
+                    Tax = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Gross = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     Since = table.Column<DateTime>(nullable: false),
                     Until = table.Column<DateTime>(nullable: false)
                 },
@@ -484,7 +484,7 @@ namespace DAL.App.EF.Migrations
                     HandoverTypeId = table.Column<int>(nullable: false),
                     UserLocationId = table.Column<int>(nullable: false),
                     RestaurantId = table.Column<int>(nullable: false),
-                    Total = table.Column<decimal>(nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     ReadyBy = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -552,9 +552,9 @@ namespace DAL.App.EF.Migrations
                     InvoiceId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(maxLength: 32, nullable: false),
                     Quantity = table.Column<int>(nullable: false),
-                    Net = table.Column<decimal>(nullable: false),
-                    Tax = table.Column<decimal>(nullable: false),
-                    Gross = table.Column<decimal>(nullable: false)
+                    Net = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Tax = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Gross = table.Column<decimal>(type: "decimal(18,4)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -582,7 +582,7 @@ namespace DAL.App.EF.Migrations
                     SharingId = table.Column<int>(nullable: false),
                     InvoiceLineId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(maxLength: 64, nullable: false),
-                    Gross = table.Column<float>(nullable: false)
+                    Gross = table.Column<decimal>(type: "decimal(18,4)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -610,8 +610,8 @@ namespace DAL.App.EF.Migrations
                     SharingId = table.Column<int>(nullable: false),
                     ItemId = table.Column<int>(nullable: false),
                     FriendId = table.Column<int>(nullable: false),
-                    Percent = table.Column<decimal>(nullable: false),
-                    Calculation = table.Column<decimal>(nullable: false)
+                    Percent = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Calculation = table.Column<decimal>(type: "decimal(18,4)", nullable: false)
                 },
                 constraints: table =>
                 {
