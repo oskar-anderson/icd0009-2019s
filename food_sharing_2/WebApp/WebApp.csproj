@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <UserSecretsId>aspnet-WebApp-AEC1A70A-66B1-4392-946C-F395EAC39736</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGenerators.Mvc" Version="3.1.1" />
+        <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DAL.App.EF\DAL.App.EF.csproj" />
+      <ProjectReference Include="..\Domain\Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="ApiControllers" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\ContactTypes\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ContactTypes\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ContactTypes\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ContactTypes\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ContactTypes\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Persons\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Persons\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Persons\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Persons\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Persons\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Person\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Person\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Person\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Person\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Person\Index.cshtml" />
+    </ItemGroup>
+
+</Project>
