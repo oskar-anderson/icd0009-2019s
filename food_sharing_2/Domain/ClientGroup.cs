@@ -1,17 +1,17 @@
-﻿﻿using System.ComponentModel.DataAnnotations;
+﻿﻿using System.Collections.Generic;
+ using System.ComponentModel.DataAnnotations;
+ using DAL.Base;
 
-namespace Domain
+ namespace Domain
 {
-    public class ClientGroup
+    public class ClientGroup : DomainEntityMetadata
     {
-        [Required] public int ClientGroupId { get; set; }
+        [MinLength(1)] [MaxLength(64)] public string Name { get; set; } = default!;
+
+        [MinLength(1)] [MaxLength(4024)] public string Description { get; set; } = default!;
         
-        [Required] 
-        [MaxLength(64)]
-        public string Name { get; set; }
+        public virtual ICollection<UserClientGroup>? UserClientGroups { get; set; }
         
-        [Required] 
-        [MaxLength(4024)]
-        public string Description { get; set; }
+        public virtual ICollection<MealPrice>? MealPrices { get; set; }
     }
 }

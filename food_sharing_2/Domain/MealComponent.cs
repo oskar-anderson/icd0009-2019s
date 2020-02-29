@@ -1,20 +1,18 @@
 ﻿﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+ using DAL.Base;
 
-namespace Domain
+ namespace Domain
 {
-    public class MealComponent
+    public class MealComponent : DomainEntityMetadata
     {
-        [Required] public int MealComponentId { get; set; }
-        
-        [Required] public int ComponentId { get; set; }
-        public virtual Component Component { get; set; }
+        [MaxLength(32)] public string ComponentId { get; set; } = default!;
+        public virtual Component? Component { get; set; }
 
-        [Required] public int MealId { get; set; }
-        public virtual Meal Meal { get; set; }
-        
-        [Required]
+        [MaxLength(32)] public string MealId { get; set; } = default!;
+        public virtual Meal? Meal { get; set; }
+
         [Range(1, 4, ErrorMessage = "Please enter an amount between 1 and 4")]
-        public int Amount { get; set; }
+        public int Amount { get; set; } = default!;
     }
 }

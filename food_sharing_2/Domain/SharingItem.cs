@@ -1,33 +1,26 @@
 ﻿﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
+ using DAL.Base;
 
-namespace Domain
+ namespace Domain
 {
-    public class SharingItem
+    public class SharingItem : DomainEntityMetadata
     {
-        [Required] public int SharingItemId { get; set; }
-        
-        [Required] public int SharingId { get; set; }
-        public virtual Sharing Sharing { get; set; }
+        [MaxLength(32)] public string SharingId { get; set; } = default!;
+        public virtual Sharing? Sharing { get; set; }
 
-        [Required] public int ItemId { get; set; }
-        public virtual Item Item { get; set; } 
-        
-        [Required] public int FriendId { get; set; }
-        public virtual Friend Friend { get; set; }
-        
-        [Column(TypeName = "decimal(18,4)")]
-        [Required] public decimal Percent { get; set; }
+        [MaxLength(32)] public string ItemId { get; set; } = default!;
+        public virtual Item? Item { get; set; }
+
+        [MaxLength(32)] public string FriendId { get; set; } = default!;
+        public virtual Friend? Friend { get; set; }
+
+        [Column(TypeName = "decimal(18,4)")] public decimal Percent { get; set; } = default!;
 
         [Column(TypeName = "decimal(18,4)")]
-        [Required]
-        public decimal Calculation
-        {
-            get {return Calculation;}
-            set { Calculation = CalculatePersonSharePrice(Item); }
-        }
-
+        
+        public decimal FriendOwns => CalculatePersonSharePrice(Item);
 
         public decimal CalculatePersonSharePrice(Item item)
         {

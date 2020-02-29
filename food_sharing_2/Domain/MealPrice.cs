@@ -1,36 +1,33 @@
 ﻿﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+ using DAL.Base;
 
-namespace Domain
+ namespace Domain
 {
-    public class MealPrice
+    public class MealPrice : DomainEntityMetadata
     {
-        [Required] public int MealPriceId { get; set; }
+        [MaxLength(32)] public string MealId { get; set; } = default!;
+        public virtual Meal? Meal { get; set; }
+
+        [MaxLength(32)] public string RestaurantId { get; set; } = default!;
+        public virtual Restaurant? Restaurant { get; set; }
         
-        [Required] public int MealId { get; set; }
-        public virtual Meal Meal { get; set; }
-        
-        [Required] public int RestaurantId { get; set; }
-        public virtual Restaurant Restaurant { get; set; }
-        
-        public int? ClientGroupId { get; set; }
+        [MaxLength(32)] public string? ClientGroupId { get; set; }
         public virtual ClientGroup? ClientGroup { get; set; }
 
-        [Required]
         [MaxLength(64, ErrorMessage = "Too long!")]
-        public string Name { get; set; }
-        
+        public string Name { get; set; } = default!;
+
         [Column(TypeName = "decimal(18,4)")]
-        [Required] public decimal Tax { get; set; }
-        
+        public decimal Tax { get; set; } = default!;
+
         [Column(TypeName = "decimal(18,4)")]
-        [Required] public decimal Gross { get; set; }
-        
         [Required]
-        public DateTime Since { get; set; }
+        public decimal Gross { get; set; } = default!;
+
+        public DateTime Since { get; set; } = default!;
         
-        [Required]
-        public DateTime Until { get; set; }
+        public DateTime Until { get; set; } = default!;
     }
 }

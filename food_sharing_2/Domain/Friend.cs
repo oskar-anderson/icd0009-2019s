@@ -1,16 +1,16 @@
 ﻿﻿using System.ComponentModel.DataAnnotations;
+ using DAL.Base;
+ using Domain.Identity;
 
-namespace Domain
+ namespace Domain
 {
-    public class Friend
+    public class Friend : DomainEntityMetadata
     {
-        public int FriendId { get; set; }
+        [MaxLength(32)] public string AppUserId { get; set; } = default!;
+        public virtual AppUser? AppUser { get; set; }
+
+        [MaxLength(128)][MinLength(1)] public string FirstName { get; set; } = default!;
         
-        public int UserId { get; set; }
-        public virtual User User { get; set; }
-        
-        [MaxLength(128)] public string FirstName { get; set; }
-        
-        [MaxLength(128)] public string LastName { get; set; }
+        [MaxLength(128)] public string? LastName { get; set; }
     }
 }

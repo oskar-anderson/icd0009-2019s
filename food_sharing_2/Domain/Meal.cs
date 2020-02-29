@@ -1,36 +1,48 @@
 ﻿﻿using System.Buffers.Text;
-using System.ComponentModel.DataAnnotations;
+ using System.Collections.Generic;
+ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+ using System.Linq;
+ using DAL.Base;
 
-namespace Domain
+ namespace Domain
 {
-    public class Meal
+    public class Meal : DomainEntityMetadata
     {
-        [Required] public int MealId { get; set; }
+        [MaxLength(32)] public string CategoryId { get; set; } = default!;
+        public Category? Category { get; set; }
+
+        [MaxLength(32)] public string? SizeId { get; set; }
+        public virtual Size? Size { get; set; }
         
-        [Required] public int CategoryId { get; set; }
-        public Category Category { get; set; }
-        
-        public int SizeId { get; set; }
-        public virtual Size Size { get; set; }
-        
-        public int? BaseId { get; set; }
+        [MaxLength(32)] public string? BaseId { get; set; }
         public Base? Base { get; set; }
+
+        [MaxLength(128)] public string Name { get; set; } = default!;
         
-        [Required] 
-        [MaxLength(128)]
-        public string Name { get; set; }
+        [MaxLength(128)] public string? Picture { get; set; }
+
+        public int Modifications { get; set; } = default!;
+
+        public int Extras { get; set; } = default!;
+
+        [MaxLength(128)] [MinLength(1)] public string Description { get; set; } = default!;
+
         
-        [MaxLength(128)]
-        public string? Picture { get; set; }
+        public virtual ICollection<MealPrice>? MealPrices { get; set; }
+        public virtual ICollection<MealComponent>? MealComponents { get; set; }
+        public virtual ICollection<MenuMeal>? MenuMeals { get; set; }
+        public IList<Menu> GetMenus(ICollection<MenuMeal> menuMeals)
+        {
+            return menuMeals.Select(m => m.Menu).ToList();
+        }
         
-        [Required] public int Modifications { get; set; }
+        public virtual ICollection<CartMeal>? CartMeals { get; set; }
+        public IList<Cart> GetCarts(ICollection<CartMeal> cartMeals)
+        {
+            return cartMeals.Select(m => m.Cart).ToList();
+        }
         
-        [Required] public int Extras { get; set; }
-        
-        [Required] 
-        [MaxLength(128)]
-        public string Description { get; set; }
         
         /*
         Americana

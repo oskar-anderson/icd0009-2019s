@@ -1,19 +1,18 @@
 ﻿﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+ using DAL.Base;
 
-namespace Domain
+ namespace Domain
 {
-    public class Menu
+    public class Menu : DomainEntityMetadata
     {
-        [Required] public int MenuId { get; set; }
-        
-        [Required]
+        [MinLength(1)]
         [MaxLength(64, ErrorMessage = "Too long!")]
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
 
-        public virtual ICollection<Restaurant> Restaurants { get; set; }
-        public virtual ICollection<Meal> Meals { get; set; }
+        public virtual ICollection<Restaurant>? Restaurants { get; set; }
+        public virtual ICollection<MenuMeal>? MenuMeals { get; set; }
         
         
         /*

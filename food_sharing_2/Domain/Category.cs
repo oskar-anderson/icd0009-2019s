@@ -1,18 +1,15 @@
 ﻿﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+ using DAL.Base;
 
-namespace Domain
+ namespace Domain
 {
-    public class Category
+    public class Category : DomainEntityMetadata
     {
-        [Required] public int CategoryId { get; set; }
-        
-        public virtual ICollection<Meal> Meals { get; set; }
-        
-        [Required] 
-        [MaxLength(64)]
-        public string Name { get; set; }
+        [MaxLength(64)] [MinLength(1)] public string Name { get; set; } = default!;
+
+        public virtual ICollection<Meal>? Meals { get; set; }
         
         /*
         Fish

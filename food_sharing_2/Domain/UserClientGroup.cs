@@ -1,23 +1,21 @@
 ﻿﻿using System;
 using System.ComponentModel.DataAnnotations;
+ using DAL.Base;
+ using Domain.Identity;
 
-namespace Domain
+ namespace Domain
 {
-    public class UserClientGroup
+    public class UserClientGroup : DomainEntityMetadata
     {
-        [Required] public int UserClientGroupId { get; set; }
-        
-        [Required] public int UserId { get; set; }
-        public virtual User User { get; set; }
-        
-        [Required] public int ClientGroupId { get; set; }
-        public virtual ClientGroup ClientGroup { get; set; }
-        
-        [Required]
-        public DateTime Since { get; set; }
-        
-        [Required]
-        public DateTime Until { get; set; }
-        
+        [MaxLength(32)] public string AppUserId { get; set; } = default!;
+        public virtual AppUser? AppUser { get; set; }
+
+        [MaxLength(32)] public string ClientGroupId { get; set; } = default!;
+        public virtual ClientGroup? ClientGroup { get; set; }
+
+        public DateTime Since { get; set; } = default!;
+
+        public DateTime Until { get; set; } = default!;
+
     }
 }

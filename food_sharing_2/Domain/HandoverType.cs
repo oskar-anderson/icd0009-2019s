@@ -1,14 +1,14 @@
 ﻿﻿using System.Collections;
-using System.ComponentModel.DataAnnotations;
+ using System.Collections.Generic;
+ using System.ComponentModel.DataAnnotations;
+ using DAL.Base;
 
-namespace Domain
+ namespace Domain
 {
-    public class HandoverType
+    public class HandoverType : DomainEntityMetadata
     {
-        [Required] public int HandoverTypeId { get; set; }
+        [MaxLength(64)] [MinLength(1)] public string Name { get; set; } = default!;
         
-        [Required] 
-        [MaxLength(64)]
-        public string Name { get; set; }
+        public virtual ICollection<Cart>? Carts { get; set; }
     }
 }

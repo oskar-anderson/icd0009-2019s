@@ -1,34 +1,29 @@
-﻿﻿using System.ComponentModel.DataAnnotations;
+﻿﻿using System.Collections.Generic;
+ using System.ComponentModel.DataAnnotations;
+ using DAL.Base;
 
-namespace Domain
+ namespace Domain
 {
-    public class Restaurant
+    public class Restaurant : DomainEntityMetadata
     {
-        [Required] public int RestaurantId { get; set; }
-        
-        public int ? MenuId { get; set; }
+        public string ? MenuId { get; set; }
         public virtual Menu ? Menu { get; set; }
-        
-        
-        [Required]
-        [MaxLength(64)]
-        public string Name { get; set; }
-        
-        [Required]
-        [MaxLength(64)]
-        public string Location { get; set; }
-        
-        [Required]
-        [MaxLength(64)]
-        public string Telephone { get; set; }
-        
-        [Required]
-        [MaxLength(64)]
-        public string OpenTime { get; set; }
-        
-        [Required]
-        [MaxLength(64)]
-        public string OpenNotification { get; set; }
+
+
+        [MinLength(1)] [MaxLength(64)] public string Name { get; set; } = default!;
+
+        [MinLength(1)] [MaxLength(64)] public string Location { get; set; } = default!;
+
+        [MinLength(1)] [MaxLength(64)] public string Telephone { get; set; } = default!;
+
+        [MinLength(1)] [MaxLength(64)] public string OpenTime { get; set; } = default!;
+
+        [MinLength(1)] [MaxLength(64)] public string OpenNotification { get; set; } = default!;
+
+        public virtual ICollection<Cart>? Carts { get; set; } 
+        public virtual ICollection<Invoice>? Invoices { get; set; } 
+        public virtual ICollection<MealPrice>? MealPrices { get; set; } 
+        public virtual ICollection<ComponentPrice>? ComponentPrices { get; set; } 
         
         /*
         Pitsa Riina

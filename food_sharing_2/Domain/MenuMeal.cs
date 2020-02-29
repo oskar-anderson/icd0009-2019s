@@ -1,15 +1,14 @@
 ﻿﻿using System.ComponentModel.DataAnnotations;
+ using DAL.Base;
 
-namespace Domain
+ namespace Domain
 {
-    public class MenuMeal
+    public class MenuMeal : DomainEntityMetadata
     {
-        [Required] public int MenuMealId { get; set; }
-        
-        [Required] public int MealId { get; set; } 
-        public virtual Meal Meal { get; set; }
-        
-        [Required] public int MenuId { get; set; }
-        public virtual Menu Menu { get; set; }
+        [MaxLength(32)] public int MealId { get; set; } = default!; 
+        public virtual Meal? Meal { get; set; }
+
+        [MaxLength(32)] public int MenuId { get; set; } = default!;
+        public virtual Menu? Menu { get; set; }
     }
 }

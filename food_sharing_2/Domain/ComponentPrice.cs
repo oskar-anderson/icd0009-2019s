@@ -1,29 +1,26 @@
 ﻿﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+ using DAL.Base;
 
-namespace Domain
+ namespace Domain
 {
-    public class ComponentPrice
+    public class ComponentPrice : DomainEntityMetadata
     {
-        [Required] public int ComponentPriceId { get; set; }
-        
-        [Required] public int ComponentId { get; set; }
-        public virtual Component Component { get; set; }
-        
-        [Required] public int RestaurantId { get; set; }
-        public virtual Restaurant Restaurant { get; set; }
-        
+        [MaxLength(32)] public string ComponentId { get; set; } = default!;
+        public virtual Component? Component { get; set; }
+
+        [MaxLength(32)] public string RestaurantId { get; set; } = default!;
+        public virtual Restaurant? Restaurant { get; set; }
+
         [Column(TypeName = "decimal(18,4)")]
-        [Required] public decimal Gross { get; set; }
-        
+        public decimal Gross { get; set; } = default!;
+
         [Column(TypeName = "decimal(18,4)")]
-        [Required] public decimal Tax { get; set; }
-        
-        [Required]
-        public DateTime Since { get; set; }
-        
-        [Required]
-        public DateTime Until { get; set; }
+        public decimal Tax { get; set; } = default!;
+
+        public DateTime Since { get; set; } = default!;
+
+        public DateTime Until { get; set; } = default!;
     }
 }

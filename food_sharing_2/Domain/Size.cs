@@ -1,16 +1,15 @@
-﻿﻿using System.ComponentModel.DataAnnotations;
+﻿﻿using System.Collections.Generic;
+ using System.ComponentModel.DataAnnotations;
+ using DAL.Base;
 
-namespace Domain
+ namespace Domain
 {
-    public class Size
+    public class Size : DomainEntityMetadata
     {
-        [Required] public int SizeId { get; set; }
-        
-        [MaxLength(32)]
-        [Required]
-        public string Name { get; set; }
-        
-        
+        [MaxLength(32)] [MinLength(1)] public string Name { get; set; } = default!;
+
+        public virtual ICollection<Meal>? Meals { get; set; } 
+
         /*
         
         Väike

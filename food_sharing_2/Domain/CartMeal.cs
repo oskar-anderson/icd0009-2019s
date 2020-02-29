@@ -2,21 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+ using DAL.Base;
 
-namespace Domain
+ namespace Domain
 {
-    public class CartMeal
+    public class CartMeal : DomainEntityMetadata
     {
-        [Required] public int CartMealId { get; set; }
-        
-        [Required]
-        [ForeignKey(nameof(Domain.Cart))] 
-        public int CartId { get; set; }
-        public virtual Cart Cart { get; set; }
+        [MaxLength(36)]
+        public string CartId { get; set; } = default!;
+        public virtual Cart? Cart { get; set; }
 
-        [Required]
-        [ForeignKey(nameof(Domain.Meal))] 
-        public int MealId { get; set; }
-        public virtual Meal Meal { get; set; }
+        [MaxLength(36)] public string MealId { get; set; } = default!;
+        public virtual Meal? Meal { get; set; }
     }
 }

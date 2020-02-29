@@ -1,33 +1,30 @@
 ﻿﻿using System;
-using System.ComponentModel.DataAnnotations;
+ using System.Collections.Generic;
+ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+ using DAL.Base;
 
-namespace Domain
+ namespace Domain
 {
-    public class InvoiceLine
+    public class InvoiceLine : DomainEntityMetadata
     {
-        [Required] public int InvoiceLineId { get; set; }
+        public string CartId { get; set; } = default!;
+        public Cart? Cart { get; set; }
 
-        [Required] public int CartId { get; set; }
-        public Cart Cart { get; set; }
+        public string InvoiceId { get; set; } = default!;
+        public Invoice? Invoice { get; set; }
 
-        [Required] public int InvoiceId { get; set; }
-        public Invoice Invoice { get; set; }
-        
-        [Required]
-        [MaxLength(32)]
-        public string Name { get; set; }
+        [MaxLength(32)] [MinLength(1)] public string Name { get; set; } = default!;
 
-        [Required]
-        public int Quantity { get; set; } 
-        
+        public int Quantity { get; set; } = default!;
+
         [Column(TypeName = "decimal(18,4)")]
-        [Required] public decimal Net { get; set; }
+        public decimal Net { get; set; } = default!;
+
+        [Column(TypeName = "decimal(18,4)")] public decimal Tax { get; set; } = default!;
+
+        [Column(TypeName = "decimal(18,4)")] public decimal Gross { get; set; } = default!;
         
-        [Column(TypeName = "decimal(18,4)")]
-        [Required] public decimal Tax { get; set; }
-        
-        [Column(TypeName = "decimal(18,4)")]
-        [Required] public decimal Gross { get; set; }
+        public virtual ICollection<Item>? Items { get; set; }
     }
 }

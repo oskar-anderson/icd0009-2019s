@@ -1,20 +1,17 @@
-﻿﻿using System.ComponentModel.DataAnnotations;
+﻿﻿using System.Collections.Generic;
+ using System.ComponentModel.DataAnnotations;
+ using DAL.Base;
 
-namespace Domain
+ namespace Domain
 {
-    public class Component
+    public class Component : DomainEntityMetadata
     {
-        [Required] public int ComponentId { get; set; }
-        
-        [Required]
-        [MaxLength(32)]
-        public string Name { get; set; }
+        [MaxLength(32)] public string Name { get; set; } = default!;
 
-        [Required]
-        [Range(0, 4)]
-        public int Max { get; set; }
-        
-                
+        [Range(0, 4)] public int Max { get; set; } = default!;
+
+        public virtual ICollection<ComponentPrice>? ComponentPrices { get; set; }
+        public virtual ICollection<MealComponent>? MealComponents { get; set; }
         /*
         0.6 €
         Ananass
@@ -45,6 +42,6 @@ namespace Domain
         Krevetid
         
         */
-        
+
     }
 }

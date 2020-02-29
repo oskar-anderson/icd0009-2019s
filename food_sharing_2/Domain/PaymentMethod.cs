@@ -1,15 +1,15 @@
-﻿﻿using System.ComponentModel.DataAnnotations;
+﻿﻿using System.Collections.Generic;
+ using System.ComponentModel.DataAnnotations;
+ using DAL.Base;
 
-namespace Domain
+ namespace Domain
 {
-    public class PaymentMethod
+    public class PaymentMethod : DomainEntityMetadata
     {
-        [Required] public int PaymentMethodId { get; set; }
+        [MaxLength(64)] [MinLength(1)] public string Name { get; set; } = default!;
         
-        [Required] 
-        [MaxLength(64)]
-        public string Name { get; set; }
-
+        public ICollection<Invoice>? Invoices { get; set; } 
+        
         /*
         
         Swedbank

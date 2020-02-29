@@ -1,30 +1,23 @@
 ﻿﻿using System;
-using System.ComponentModel.DataAnnotations;
+ using System.Collections.Generic;
+ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+ using DAL.Base;
 
-namespace Domain
+ namespace Domain
 {
-    public class Invoice
+    public class Invoice : DomainEntityMetadata
     {
-        [Required] public int InvoiceId { get; set; }
+        [MaxLength(32)] public string PersonId { get; set; } = default!;
+        public Person? Person { get; set; }
 
-        [Required] public int PersonId { get; set; }
-        public Person Person { get; set; }
+        [MaxLength(32)] public string RestaurantId { get; set; } = default!;
+        public Restaurant? Restaurant { get; set; }
 
-        [Required] public int RestaurantId { get; set; }
-        public Restaurant Restaurant { get; set; }
-
-        [Required] public int PaymentMethodId { get; set; }
-        public PaymentMethod PaymentMethod { get; set; }
-
-        [Required]
-        public DateTimeOffset CreationTimestamp
-        {
-            get { return CreationTimestamp; } 
-            set { CreationTimestamp = DateTimeOffset.Now; }
-        }
-
+        [MaxLength(32)] public string PaymentMethodId { get; set; } = default!;
+        public PaymentMethod? PaymentMethod { get; set; }
+        
         [Required]
         [MaxLength(32)]
         public string InvoiceCode
@@ -32,17 +25,17 @@ namespace Domain
             get { return InvoiceCode; }
             set { InvoiceCode = RandomString(20); }
         }
+
+        [Column(TypeName = "decimal(18,4)")]
+        public decimal TotalNet { get; set; } = default!;
+
+        [Column(TypeName = "decimal(18,4)")]
+        public decimal TotalTax { get; set; } = default!;
         
         [Column(TypeName = "decimal(18,4)")]
-        [Required] public decimal TotalNet { get; set; }
+        public decimal TotalGross { get; set; } = default!;
         
-        [Column(TypeName = "decimal(18,4)")]
-        [Required] public decimal TotalTax { get; set; }
-        
-        [Column(TypeName = "decimal(18,4)")]
-        [Required] public decimal TotalGross { get; set; }
-        
-        
+        public virtual ICollection<InvoiceLine>? InvoiceLines { get; set; }
         
         
         

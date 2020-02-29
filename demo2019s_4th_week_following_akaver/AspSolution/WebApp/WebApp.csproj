@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <UserSecretsId>aspnet-WebApp-3D8F7B1F-BF51-407E-9A56-349B628E51DC</UserSecretsId>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.1" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+        <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DAL.App.EF\DAL.App.EF.csproj" />
+      <ProjectReference Include="..\Extensions\Extensions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ValidationScriptsPartial.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ViewStart.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Posts\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Posts\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Posts\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Posts\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Posts\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\AuthorPictures\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\AuthorPictures\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\AuthorPictures\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\AuthorPictures\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\AuthorPictures\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Authors\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Authors\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Authors\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Authors\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Authors\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Categories\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Categories\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Categories\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Categories\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Categories\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\PostCategories\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\PostCategories\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\PostCategories\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\PostCategories\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\PostCategories\Index.cshtml" />
+    </ItemGroup>
+
+</Project>
