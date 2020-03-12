@@ -1,11 +1,24 @@
 'use strict';
-
 import {sayHi} from './sayHi.js'
 import {ho} from './utils/ho.js'
 
-alert(sayHi("andres"))
-alert(ho("andres"))
 
+console.log(document.body.firstElementChild.tagName);
+
+let appContainer = document.body.firstElementChild;
+console.log(appContainer);
+
+let appRootView = document.createElement("div");
+appRootView.innerHTML = "<i>italic</i>";
+console.log(appRootView);
+
+appContainer.append(appRootView);
+
+
+if (false) {
+    alert(sayHi("andres"))
+    alert(ho("andres"))
+}
 
 if (false) {
     class Person {
