@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+  <title>Dara</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/css?family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+</head>
+
+<body>
+
+  <div class="page_content">
+    <h2 class="title1">Dara</h2>
+
+    <div class="message_container1">
+      <h2 class="title2">Rules</h2>
+      <div id="rules">
+        <p>
+          The game starts with phase 1 also know as the placement phase.
+          In the placement phase players take turn placing their 12 stones onto the empty cells of the board.
+          Making three-in-a-row vertically or horizontally during the placement phase is not allowed.
+          After all 24 stones have been placed phase 2 the swap phase begins.
+        </p>
+        
+        <p>
+          In the swap phase players swap 2 orthogonally adjacent stones.
+          The goal is to get a three-in-a-row, four or more in a row is not allowed.
+          If a player forms three-in-a-row then they enter phase 3 the removal phase.
+        </p>
+        
+        <p>
+          In the removal phase players get to remove 1 of the opponent's stones.
+          If a player had formed two or more three-in-a-rows in one move then only one enemy piece will be removed.
+          Removing a opponent's piece that is part of a three-in-a-row is not allowed.
+        </p>
+        
+        <p>
+          The player that has 2 pieces left loses.
+        </p>
+      </div>
+    </div>
+
+    <div class="message_container1">
+      <h2 class="title2">Settings</h2>
+      <div class="message_container2">
+        <legend>
+          <span class="setting_desc">Game mode:</span>
+        </legend>
+        <p>
+          <input id="singleplayer_check" name="opponent" type="radio"  value="1">Singleplayer <br>
+          <input id="multiplayer_check" name="opponent" type="radio" value="2" checked="checked">Multiplayer <br>
+          <input id="AI_check" name="opponent" type="radio" value="3">A.I. <br>
+        </p>
+
+        <legend>
+          <span class="setting_desc">Starting player:</span>
+        </legend>
+        <p>
+          <input id="black_player_check" name="starting_player" type="radio" value="1" checked="checked">Black player starts<br>
+          <input id="white_player_check" name="starting_player" type="radio" value="2">White player starts<br>
+        </p>
+
+        <div class="wrapper">
+          <button id="Start_btn">Start/reset</button>
+        </div>
+      </div> 
+    </div> 
+    <div id="game_state_info" class="message_container1">
+      <div>
+        <span class="phase_display title2">@Placement phase | swapping phase | removing phase</span>
+        <div>
+          <p class="black_pieces_placed_display">@Black player's pieces placed</p>
+          <p class="white_pieces_placed_display">@White player's pieces placed</p>
+        </div>
+      </div>
+      <p class="active_player_display">@Black player's turn | White player's turn</p>
+      <p class="game_mode_display">@Singleplayer | Multiplayer | AI</p>
+    </div>
+
+
+    <div id="container2">
+      <div class="q r0 c0" id="q0"></div>
+      <div class="q r0 c1" id="q1"></div>
+      <div class="q r0 c2" id="q2"></div>
+      <div class="q r0 c3" id="q3"></div>
+      <div class="q r0 c4" id="q4"></div>
+      <div class="q r0 c5" id="q5"></div>
+
+      <div class="q r1 c0" id="q6"></div>
+      <div class="q r1 c1" id="q7"></div>
+      <div class="q r1 c2" id="q8"></div>
+      <div class="q r1 c3" id="q9"></div>
+      <div class="q r1 c4" id="q10"></div>
+      <div class="q r1 c5" id="q11"></div>
+
+      <div class="q r2 c0" id="q12"></div>
+      <div class="q r2 c1" id="q13"></div>
+      <div class="q r2 c2" id="q14"></div>
+      <div class="q r2 c3" id="q15"></div>
+      <div class="q r2 c4" id="q16"></div>
+      <div class="q r2 c5" id="q17"></div>
+
+      <div class="q r3 c0" id="q18"></div>
+      <div class="q r3 c1" id="q19"></div>
+      <div class="q r3 c2" id="q20"></div>
+      <div class="q r3 c3" id="q21"></div>
+      <div class="q r3 c4" id="q22"></div>
+      <div class="q r3 c5" id="q23"></div>
+
+      <div class="q r4 c0" id="q24"></div>
+      <div class="q r4 c1" id="q25"></div>
+      <div class="q r4 c2" id="q26"></div>
+      <div class="q r4 c3" id="q27"></div>
+      <div class="q r4 c4" id="q28"></div>
+      <div class="q r4 c5" id="q29"></div>
+    </div>
+  </div>
+
+    <footer class="page-footer orange">
+      <div class="footer-copyright">
+        <div class="container">
+          Thanks to PortEXE!
+        </div>
+      </div>
+    </footer>
+
+  <!--  Scripts-->
+  <script src="main.js"></script>
+</body>
+
+</html>
