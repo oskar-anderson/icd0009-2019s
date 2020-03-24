@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories
 {
-    public class UserClientGroupRepository : BaseRepository<UserClientGroup>, IUserClientGroupRepository
+    public class UserLocationRepository : BaseRepository<UserLocation>, IUserLocationRepository
     {
-        public UserClientGroupRepository(DbContext dbContext) : base(dbContext)
+        public UserLocationRepository(DbContext dbContext) : base(dbContext)
         {
         }
     }

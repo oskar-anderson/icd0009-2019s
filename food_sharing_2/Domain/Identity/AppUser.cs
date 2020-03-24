@@ -1,20 +1,21 @@
-﻿﻿using System.Collections;
+﻿﻿using System;
+ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Identity
 {
-    public class AppUser : IdentityUser
+    public class AppUser : IdentityUser<Guid>
     {
-        // fix the pk lenght
-        [MaxLength(36)] public override string Id { get; set; } = default!;
         
         // add your own fields
         [MinLength(1)] [MaxLength(128)] public string FirstName { get; set; } = default!;
 
         [MinLength(1)] [MaxLength(128)] public string LastName { get; set; } = default!;
 
+        [MinLength(1)] [MaxLength(16)] public string Phone { get; set; } = default!;
+        
         public virtual ICollection<Friend>? Friends { get; set; }
         public virtual ICollection<Sharing>? Sharings { get; set; }
         public virtual ICollection<UserLocation>? UserLocations { get; set; }

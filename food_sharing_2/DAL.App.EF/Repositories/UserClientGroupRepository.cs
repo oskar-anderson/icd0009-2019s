@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories
 {
-    public class SizeRepository : BaseRepository<Size>, ISizeRepository
+    public class UserClientGroupRepository : BaseRepository<UserClientGroup>, IUserClientGroupRepository
     {
-        public SizeRepository(DbContext dbContext) : base(dbContext)
+        public UserClientGroupRepository(DbContext dbContext) : base(dbContext)
         {
         }
     }

@@ -1,13 +1,16 @@
-﻿using Contracts.DAL.App.Repositories;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Contracts.DAL.App.Repositories;
 using DAL.Base.EF.Repositories;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories
 {
-    public class CartRepository : BaseRepository<Cart>, ICartRepository
+    public class CartMealRepository : BaseRepository<CartMeal>, ICartMealRepository
     {
-        public CartRepository(DbContext dbContext) : base(dbContext)
+        public CartMealRepository(DbContext dbContext) : base(dbContext)
         {
         }
     }

@@ -14,22 +14,22 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="AppUserId" class="control-label"></label>
-                <select asp-for="AppUserId" class="form-control" asp-items="ViewBag.AppUserId"></select>
+                <input asp-for="AppUserId" class="form-control" />
                 <span asp-validation-for="AppUserId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="HandoverTypeId" class="control-label"></label>
-                <select asp-for="HandoverTypeId" class="form-control" asp-items="ViewBag.HandoverTypeId"></select>
+                <input asp-for="HandoverTypeId" class="form-control" />
                 <span asp-validation-for="HandoverTypeId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="UserLocationId" class="control-label"></label>
-                <select asp-for="UserLocationId" class="form-control" asp-items="ViewBag.UserLocationId"></select>
+                <input asp-for="UserLocationId" class="form-control" />
                 <span asp-validation-for="UserLocationId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="RestaurantId" class="control-label"></label>
-                <select asp-for="RestaurantId" class="form-control" asp-items="ViewBag.RestaurantId"></select>
+                <input asp-for="RestaurantId" class="form-control" />
                 <span asp-validation-for="RestaurantId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -42,6 +42,7 @@
                 <input asp-for="ReadyBy" class="form-control" />
                 <span asp-validation-for="ReadyBy" class="text-danger"></span>
             </div>
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="CreatedBy" class="control-label"></label>
                 <input asp-for="CreatedBy" class="form-control" />
@@ -53,16 +54,15 @@
                 <span asp-validation-for="CreatedAt" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DeletedBy" class="control-label"></label>
-                <input asp-for="DeletedBy" class="form-control" />
-                <span asp-validation-for="DeletedBy" class="text-danger"></span>
+                <label asp-for="ChangedBy" class="control-label"></label>
+                <input asp-for="ChangedBy" class="form-control" />
+                <span asp-validation-for="ChangedBy" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DeletedAt" class="control-label"></label>
-                <input asp-for="DeletedAt" class="form-control" />
-                <span asp-validation-for="DeletedAt" class="text-danger"></span>
+                <label asp-for="ChangedAt" class="control-label"></label>
+                <input asp-for="ChangedAt" class="form-control" />
+                <span asp-validation-for="ChangedAt" class="text-danger"></span>
             </div>
-            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

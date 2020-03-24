@@ -22,12 +22,11 @@ namespace WebApp.Controllers
         // GET: SharingItem
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.SharingItems.Include(s => s.Friend).Include(s => s.Item).Include(s => s.Sharing);
-            return View(await appDbContext.ToListAsync());
+            return View(await _context.SharingItems.ToListAsync());
         }
 
         // GET: SharingItem/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -35,9 +34,6 @@ namespace WebApp.Controllers
             }
 
             var sharingItem = await _context.SharingItems
-                .Include(s => s.Friend)
-                .Include(s => s.Item)
-                .Include(s => s.Sharing)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (sharingItem == null)
             {
@@ -50,9 +46,6 @@ namespace WebApp.Controllers
         // GET: SharingItem/Create
         public IActionResult Create()
         {
-            ViewData["FriendId"] = new SelectList(_context.Friends, "Id", "Id");
-            ViewData["ItemId"] = new SelectList(_context.Items, "Id", "Id");
-            ViewData["SharingId"] = new SelectList(_context.Sharings, "Id", "Id");
             return View();
         }
 
@@ -61,22 +54,20 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SharingId,ItemId,FriendId,Percent,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] SharingItem sharingItem)
+        public async Task<IActionResult> Create([Bind("SharingId,ItemId,FriendId,Percent,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] SharingItem sharingItem)
         {
             if (ModelState.IsValid)
             {
+                sharingItem.Id = Guid.NewGuid();
                 _context.Add(sharingItem);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FriendId"] = new SelectList(_context.Friends, "Id", "Id", sharingItem.FriendId);
-            ViewData["ItemId"] = new SelectList(_context.Items, "Id", "Id", sharingItem.ItemId);
-            ViewData["SharingId"] = new SelectList(_context.Sharings, "Id", "Id", sharingItem.SharingId);
             return View(sharingItem);
         }
 
         // GET: SharingItem/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -88,9 +79,6 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["FriendId"] = new SelectList(_context.Friends, "Id", "Id", sharingItem.FriendId);
-            ViewData["ItemId"] = new SelectList(_context.Items, "Id", "Id", sharingItem.ItemId);
-            ViewData["SharingId"] = new SelectList(_context.Sharings, "Id", "Id", sharingItem.SharingId);
             return View(sharingItem);
         }
 
@@ -99,7 +87,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("SharingId,ItemId,FriendId,Percent,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] SharingItem sharingItem)
+        public async Task<IActionResult> Edit(Guid id, [Bind("SharingId,ItemId,FriendId,Percent,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] SharingItem sharingItem)
         {
             if (id != sharingItem.Id)
             {
@@ -126,14 +114,11 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FriendId"] = new SelectList(_context.Friends, "Id", "Id", sharingItem.FriendId);
-            ViewData["ItemId"] = new SelectList(_context.Items, "Id", "Id", sharingItem.ItemId);
-            ViewData["SharingId"] = new SelectList(_context.Sharings, "Id", "Id", sharingItem.SharingId);
             return View(sharingItem);
         }
 
         // GET: SharingItem/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -141,9 +126,6 @@ namespace WebApp.Controllers
             }
 
             var sharingItem = await _context.SharingItems
-                .Include(s => s.Friend)
-                .Include(s => s.Item)
-                .Include(s => s.Sharing)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (sharingItem == null)
             {
@@ -156,7 +138,7 @@ namespace WebApp.Controllers
         // POST: SharingItem/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var sharingItem = await _context.SharingItems.FindAsync(id);
             _context.SharingItems.Remove(sharingItem);
@@ -164,7 +146,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SharingItemExists(string id)
+        private bool SharingItemExists(Guid id)
         {
             return _context.SharingItems.Any(e => e.Id == id);
         }

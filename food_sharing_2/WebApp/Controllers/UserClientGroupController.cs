@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
-using Extensions;
 
 namespace WebApp.Controllers
 {
@@ -23,12 +22,11 @@ namespace WebApp.Controllers
         // GET: UserClientGroup
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.UserClientGroups.Include(u => u.AppUser).Include(u => u.ClientGroup);
-            return View(await appDbContext.ToListAsync());
+            return View(await _context.UserClientGroups.ToListAsync());
         }
 
         // GET: UserClientGroup/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -36,8 +34,6 @@ namespace WebApp.Controllers
             }
 
             var userClientGroup = await _context.UserClientGroups
-                .Include(u => u.AppUser)
-                .Include(u => u.ClientGroup)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (userClientGroup == null)
             {
@@ -50,8 +46,6 @@ namespace WebApp.Controllers
         // GET: UserClientGroup/Create
         public IActionResult Create()
         {
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["ClientGroupId"] = new SelectList(_context.ClientGroups, "Id", "Id");
             return View();
         }
 
@@ -60,23 +54,20 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppUserId,ClientGroupId,Since,Until,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] UserClientGroup userClientGroup)
+        public async Task<IActionResult> Create([Bind("AppUserId,ClientGroupId,Since,Until,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] UserClientGroup userClientGroup)
         {
-            userClientGroup.AppUserId = User.GetUserId();
-            
             if (ModelState.IsValid)
             {
+                userClientGroup.Id = Guid.NewGuid();
                 _context.Add(userClientGroup);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", userClientGroup.AppUserId);
-            ViewData["ClientGroupId"] = new SelectList(_context.ClientGroups, "Id", "Id", userClientGroup.ClientGroupId);
             return View(userClientGroup);
         }
 
         // GET: UserClientGroup/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -88,8 +79,6 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", userClientGroup.AppUserId);
-            ViewData["ClientGroupId"] = new SelectList(_context.ClientGroups, "Id", "Id", userClientGroup.ClientGroupId);
             return View(userClientGroup);
         }
 
@@ -98,7 +87,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("AppUserId,ClientGroupId,Since,Until,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] UserClientGroup userClientGroup)
+        public async Task<IActionResult> Edit(Guid id, [Bind("AppUserId,ClientGroupId,Since,Until,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] UserClientGroup userClientGroup)
         {
             if (id != userClientGroup.Id)
             {
@@ -125,13 +114,11 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", userClientGroup.AppUserId);
-            ViewData["ClientGroupId"] = new SelectList(_context.ClientGroups, "Id", "Id", userClientGroup.ClientGroupId);
             return View(userClientGroup);
         }
 
         // GET: UserClientGroup/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -139,8 +126,6 @@ namespace WebApp.Controllers
             }
 
             var userClientGroup = await _context.UserClientGroups
-                .Include(u => u.AppUser)
-                .Include(u => u.ClientGroup)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (userClientGroup == null)
             {
@@ -153,7 +138,7 @@ namespace WebApp.Controllers
         // POST: UserClientGroup/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var userClientGroup = await _context.UserClientGroups.FindAsync(id);
             _context.UserClientGroups.Remove(userClientGroup);
@@ -161,7 +146,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserClientGroupExists(string id)
+        private bool UserClientGroupExists(Guid id)
         {
             return _context.UserClientGroups.Any(e => e.Id == id);
         }

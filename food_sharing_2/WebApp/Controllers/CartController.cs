@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
-using Extensions;
 
 namespace WebApp.Controllers
 {
@@ -23,12 +22,11 @@ namespace WebApp.Controllers
         // GET: Cart
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Carts.Include(c => c.AppUser).Include(c => c.HandoverType).Include(c => c.Restaurant).Include(c => c.UserLocation);
-            return View(await appDbContext.ToListAsync());
+            return View(await _context.Carts.ToListAsync());
         }
 
         // GET: Cart/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -36,10 +34,6 @@ namespace WebApp.Controllers
             }
 
             var cart = await _context.Carts
-                .Include(c => c.AppUser)
-                .Include(c => c.HandoverType)
-                .Include(c => c.Restaurant)
-                .Include(c => c.UserLocation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cart == null)
             {
@@ -52,10 +46,6 @@ namespace WebApp.Controllers
         // GET: Cart/Create
         public IActionResult Create()
         {
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["HandoverTypeId"] = new SelectList(_context.HandoverTypes, "Id", "Id");
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Id");
-            ViewData["UserLocationId"] = new SelectList(_context.UserLocations, "Id", "Id");
             return View();
         }
 
@@ -64,25 +54,20 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppUserId,HandoverTypeId,UserLocationId,RestaurantId,Total,ReadyBy,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] Cart cart)
+        public async Task<IActionResult> Create([Bind("AppUserId,HandoverTypeId,UserLocationId,RestaurantId,Total,ReadyBy,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Cart cart)
         {
-            cart.AppUserId = User.GetUserId();
-            
             if (ModelState.IsValid)
             {
+                cart.Id = Guid.NewGuid();
                 _context.Add(cart);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", cart.AppUserId);
-            ViewData["HandoverTypeId"] = new SelectList(_context.HandoverTypes, "Id", "Id", cart.HandoverTypeId);
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Id", cart.RestaurantId);
-            ViewData["UserLocationId"] = new SelectList(_context.UserLocations, "Id", "Id", cart.UserLocationId);
             return View(cart);
         }
 
         // GET: Cart/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -94,10 +79,6 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", cart.AppUserId);
-            ViewData["HandoverTypeId"] = new SelectList(_context.HandoverTypes, "Id", "Id", cart.HandoverTypeId);
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Id", cart.RestaurantId);
-            ViewData["UserLocationId"] = new SelectList(_context.UserLocations, "Id", "Id", cart.UserLocationId);
             return View(cart);
         }
 
@@ -106,7 +87,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("AppUserId,HandoverTypeId,UserLocationId,RestaurantId,Total,ReadyBy,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] Cart cart)
+        public async Task<IActionResult> Edit(Guid id, [Bind("AppUserId,HandoverTypeId,UserLocationId,RestaurantId,Total,ReadyBy,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Cart cart)
         {
             if (id != cart.Id)
             {
@@ -133,15 +114,11 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", cart.AppUserId);
-            ViewData["HandoverTypeId"] = new SelectList(_context.HandoverTypes, "Id", "Id", cart.HandoverTypeId);
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Id", cart.RestaurantId);
-            ViewData["UserLocationId"] = new SelectList(_context.UserLocations, "Id", "Id", cart.UserLocationId);
             return View(cart);
         }
 
         // GET: Cart/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -149,10 +126,6 @@ namespace WebApp.Controllers
             }
 
             var cart = await _context.Carts
-                .Include(c => c.AppUser)
-                .Include(c => c.HandoverType)
-                .Include(c => c.Restaurant)
-                .Include(c => c.UserLocation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cart == null)
             {
@@ -165,7 +138,7 @@ namespace WebApp.Controllers
         // POST: Cart/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var cart = await _context.Carts.FindAsync(id);
             _context.Carts.Remove(cart);
@@ -173,7 +146,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CartExists(string id)
+        private bool CartExists(Guid id)
         {
             return _context.Carts.Any(e => e.Id == id);
         }

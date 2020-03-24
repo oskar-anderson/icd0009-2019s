@@ -22,12 +22,11 @@ namespace WebApp.Controllers
         // GET: Friend
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Friends.Include(f => f.AppUser);
-            return View(await appDbContext.ToListAsync());
+            return View(await _context.Friends.ToListAsync());
         }
 
         // GET: Friend/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -35,7 +34,6 @@ namespace WebApp.Controllers
             }
 
             var friend = await _context.Friends
-                .Include(f => f.AppUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (friend == null)
             {
@@ -48,7 +46,6 @@ namespace WebApp.Controllers
         // GET: Friend/Create
         public IActionResult Create()
         {
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -57,20 +54,20 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppUserId,FirstName,LastName,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] Friend friend)
+        public async Task<IActionResult> Create([Bind("AppUserId,FirstName,LastName,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Friend friend)
         {
             if (ModelState.IsValid)
             {
+                friend.Id = Guid.NewGuid();
                 _context.Add(friend);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", friend.AppUserId);
             return View(friend);
         }
 
         // GET: Friend/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -82,7 +79,6 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", friend.AppUserId);
             return View(friend);
         }
 
@@ -91,7 +87,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("AppUserId,FirstName,LastName,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] Friend friend)
+        public async Task<IActionResult> Edit(Guid id, [Bind("AppUserId,FirstName,LastName,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Friend friend)
         {
             if (id != friend.Id)
             {
@@ -118,12 +114,11 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", friend.AppUserId);
             return View(friend);
         }
 
         // GET: Friend/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -131,7 +126,6 @@ namespace WebApp.Controllers
             }
 
             var friend = await _context.Friends
-                .Include(f => f.AppUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (friend == null)
             {
@@ -144,7 +138,7 @@ namespace WebApp.Controllers
         // POST: Friend/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var friend = await _context.Friends.FindAsync(id);
             _context.Friends.Remove(friend);
@@ -152,7 +146,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool FriendExists(string id)
+        private bool FriendExists(Guid id)
         {
             return _context.Friends.Any(e => e.Id == id);
         }

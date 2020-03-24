@@ -26,7 +26,7 @@ namespace WebApp.Controllers
         }
 
         // GET: MenuMeal/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -54,10 +54,11 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MealId,MenuId,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] MenuMeal menuMeal)
+        public async Task<IActionResult> Create([Bind("MealId,MenuId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] MenuMeal menuMeal)
         {
             if (ModelState.IsValid)
             {
+                menuMeal.Id = Guid.NewGuid();
                 _context.Add(menuMeal);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -66,7 +67,7 @@ namespace WebApp.Controllers
         }
 
         // GET: MenuMeal/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -86,7 +87,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("MealId,MenuId,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] MenuMeal menuMeal)
+        public async Task<IActionResult> Edit(Guid id, [Bind("MealId,MenuId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] MenuMeal menuMeal)
         {
             if (id != menuMeal.Id)
             {
@@ -117,7 +118,7 @@ namespace WebApp.Controllers
         }
 
         // GET: MenuMeal/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -137,7 +138,7 @@ namespace WebApp.Controllers
         // POST: MenuMeal/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var menuMeal = await _context.MenuMeals.FindAsync(id);
             _context.MenuMeals.Remove(menuMeal);
@@ -145,7 +146,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MenuMealExists(string id)
+        private bool MenuMealExists(Guid id)
         {
             return _context.MenuMeals.Any(e => e.Id == id);
         }

@@ -22,12 +22,11 @@ namespace WebApp.Controllers
         // GET: CartMeal
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.CartMeals.Include(c => c.Cart).Include(c => c.Meal);
-            return View(await appDbContext.ToListAsync());
+            return View(await _context.CartMeals.ToListAsync());
         }
 
         // GET: CartMeal/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -35,8 +34,6 @@ namespace WebApp.Controllers
             }
 
             var cartMeal = await _context.CartMeals
-                .Include(c => c.Cart)
-                .Include(c => c.Meal)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cartMeal == null)
             {
@@ -49,8 +46,6 @@ namespace WebApp.Controllers
         // GET: CartMeal/Create
         public IActionResult Create()
         {
-            ViewData["CartId"] = new SelectList(_context.Carts, "Id", "Id");
-            ViewData["MealId"] = new SelectList(_context.Meals, "Id", "Id");
             return View();
         }
 
@@ -59,21 +54,20 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CartId,MealId,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] CartMeal cartMeal)
+        public async Task<IActionResult> Create([Bind("CartId,MealId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] CartMeal cartMeal)
         {
             if (ModelState.IsValid)
             {
+                cartMeal.Id = Guid.NewGuid();
                 _context.Add(cartMeal);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CartId"] = new SelectList(_context.Carts, "Id", "Id", cartMeal.CartId);
-            ViewData["MealId"] = new SelectList(_context.Meals, "Id", "Id", cartMeal.MealId);
             return View(cartMeal);
         }
 
         // GET: CartMeal/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -85,8 +79,6 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["CartId"] = new SelectList(_context.Carts, "Id", "Id", cartMeal.CartId);
-            ViewData["MealId"] = new SelectList(_context.Meals, "Id", "Id", cartMeal.MealId);
             return View(cartMeal);
         }
 
@@ -95,7 +87,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("CartId,MealId,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] CartMeal cartMeal)
+        public async Task<IActionResult> Edit(Guid id, [Bind("CartId,MealId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] CartMeal cartMeal)
         {
             if (id != cartMeal.Id)
             {
@@ -122,13 +114,11 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CartId"] = new SelectList(_context.Carts, "Id", "Id", cartMeal.CartId);
-            ViewData["MealId"] = new SelectList(_context.Meals, "Id", "Id", cartMeal.MealId);
             return View(cartMeal);
         }
 
         // GET: CartMeal/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -136,8 +126,6 @@ namespace WebApp.Controllers
             }
 
             var cartMeal = await _context.CartMeals
-                .Include(c => c.Cart)
-                .Include(c => c.Meal)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cartMeal == null)
             {
@@ -150,7 +138,7 @@ namespace WebApp.Controllers
         // POST: CartMeal/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var cartMeal = await _context.CartMeals.FindAsync(id);
             _context.CartMeals.Remove(cartMeal);
@@ -158,7 +146,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CartMealExists(string id)
+        private bool CartMealExists(Guid id)
         {
             return _context.CartMeals.Any(e => e.Id == id);
         }

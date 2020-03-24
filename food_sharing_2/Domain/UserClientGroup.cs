@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
  namespace Domain
 {
-    public class UserClientGroup : DomainEntityMetadata
+    public class UserClientGroup : DomainEntity
     {
         [MaxLength(32)] public string AppUserId { get; set; } = default!;
         public virtual AppUser? AppUser { get; set; }

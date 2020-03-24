@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories
 {
-    public class RestaurantRepository : BaseRepository<Restaurant>, IRestaurantRepository
+    public class SharingRepository : BaseRepository<Sharing>, ISharingRepository
     {
-        public RestaurantRepository(DbContext dbContext) : base(dbContext)
+        public SharingRepository(DbContext dbContext) : base(dbContext)
         {
         }
     }

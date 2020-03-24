@@ -26,7 +26,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Component/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -54,10 +54,11 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Max,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] Component component)
+        public async Task<IActionResult> Create([Bind("Name,Max,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Component component)
         {
             if (ModelState.IsValid)
             {
+                component.Id = Guid.NewGuid();
                 _context.Add(component);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -66,7 +67,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Component/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -86,7 +87,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,Max,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] Component component)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Max,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Component component)
         {
             if (id != component.Id)
             {
@@ -117,7 +118,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Component/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -137,7 +138,7 @@ namespace WebApp.Controllers
         // POST: Component/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var component = await _context.Components.FindAsync(id);
             _context.Components.Remove(component);
@@ -145,7 +146,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ComponentExists(string id)
+        private bool ComponentExists(Guid id)
         {
             return _context.Components.Any(e => e.Id == id);
         }

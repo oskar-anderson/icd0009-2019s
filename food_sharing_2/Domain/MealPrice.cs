@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
  namespace Domain
 {
-    public class MealPrice : DomainEntityMetadata
+    public class MealPrice : DomainEntity
     {
         [MaxLength(32)] public string MealId { get; set; } = default!;
         public virtual Meal? Meal { get; set; }

@@ -5,7 +5,7 @@
 
  namespace Domain
 {
-    public class HandoverType : DomainEntityMetadata
+    public class HandoverType : DomainEntity
     {
         [MaxLength(64)] [MinLength(1)] public string Name { get; set; } = default!;
         

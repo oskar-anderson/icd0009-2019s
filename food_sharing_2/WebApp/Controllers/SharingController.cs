@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
-using Extensions;
 
 namespace WebApp.Controllers
 {
@@ -23,12 +22,11 @@ namespace WebApp.Controllers
         // GET: Sharing
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Sharings.Include(s => s.AppUser);
-            return View(await appDbContext.ToListAsync());
+            return View(await _context.Sharings.ToListAsync());
         }
 
         // GET: Sharing/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -36,7 +34,6 @@ namespace WebApp.Controllers
             }
 
             var sharing = await _context.Sharings
-                .Include(s => s.AppUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (sharing == null)
             {
@@ -49,7 +46,6 @@ namespace WebApp.Controllers
         // GET: Sharing/Create
         public IActionResult Create()
         {
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -58,22 +54,20 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppUserId,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] Sharing sharing)
+        public async Task<IActionResult> Create([Bind("AppUserId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Sharing sharing)
         {
-            sharing.AppUserId = User.GetUserId();
-            
             if (ModelState.IsValid)
             {
+                sharing.Id = Guid.NewGuid();
                 _context.Add(sharing);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", sharing.AppUserId);
             return View(sharing);
         }
 
         // GET: Sharing/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -85,7 +79,6 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", sharing.AppUserId);
             return View(sharing);
         }
 
@@ -94,7 +87,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("AppUserId,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] Sharing sharing)
+        public async Task<IActionResult> Edit(Guid id, [Bind("AppUserId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Sharing sharing)
         {
             if (id != sharing.Id)
             {
@@ -121,12 +114,11 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", sharing.AppUserId);
             return View(sharing);
         }
 
         // GET: Sharing/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -134,7 +126,6 @@ namespace WebApp.Controllers
             }
 
             var sharing = await _context.Sharings
-                .Include(s => s.AppUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (sharing == null)
             {
@@ -147,7 +138,7 @@ namespace WebApp.Controllers
         // POST: Sharing/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var sharing = await _context.Sharings.FindAsync(id);
             _context.Sharings.Remove(sharing);
@@ -155,7 +146,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SharingExists(string id)
+        private bool SharingExists(Guid id)
         {
             return _context.Sharings.Any(e => e.Id == id);
         }

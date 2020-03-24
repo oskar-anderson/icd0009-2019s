@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
  namespace Domain
 {
-    public class Menu : DomainEntityMetadata
+    public class Menu : DomainEntity
     {
         [MinLength(1)]
         [MaxLength(64, ErrorMessage = "Too long!")]

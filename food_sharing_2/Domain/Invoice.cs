@@ -7,7 +7,7 @@ using System.Linq;
 
  namespace Domain
 {
-    public class Invoice : DomainEntityMetadata
+    public class Invoice : DomainEntity
     {
         [MaxLength(32)] public string PersonId { get; set; } = default!;
         public Person? Person { get; set; }
@@ -41,12 +41,18 @@ using System.Linq;
         
         
         
-        private static readonly Random Random = new Random();
         public static string RandomString(int length)
         {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            return new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[Random.Next(s.Length)]).ToArray());
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var stringChars = new char[32];
+            var random = new Random();
+
+            for (int i = 0; i < stringChars.Length; i++)
+            {
+                stringChars[i] = chars[random.Next(chars.Length)];
+            }
+
+            return new String(stringChars);
         }
     }
 }

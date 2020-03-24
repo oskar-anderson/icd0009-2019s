@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories
 {
-    public class CartMealRepository : BaseRepository<CartMeal>, ICartMealRepository
+    public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     {
-        public CartMealRepository(DbContext dbContext) : base(dbContext)
+        public CategoryRepository(DbContext dbContext) : base(dbContext)
         {
         }
     }

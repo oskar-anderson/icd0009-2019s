@@ -22,12 +22,11 @@ namespace WebApp.Controllers
         // GET: Item
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Items.Include(i => i.InvoiceLine).Include(i => i.Sharing);
-            return View(await appDbContext.ToListAsync());
+            return View(await _context.Items.ToListAsync());
         }
 
         // GET: Item/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -35,8 +34,6 @@ namespace WebApp.Controllers
             }
 
             var item = await _context.Items
-                .Include(i => i.InvoiceLine)
-                .Include(i => i.Sharing)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (item == null)
             {
@@ -49,8 +46,6 @@ namespace WebApp.Controllers
         // GET: Item/Create
         public IActionResult Create()
         {
-            ViewData["InvoiceLineId"] = new SelectList(_context.InvoiceLines, "Id", "Id");
-            ViewData["SharingId"] = new SelectList(_context.Sharings, "Id", "Id");
             return View();
         }
 
@@ -59,21 +54,20 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SharingId,InvoiceLineId,Name,Gross,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] Item item)
+        public async Task<IActionResult> Create([Bind("SharingId,InvoiceLineId,Name,Net,Tax,Gross,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Item item)
         {
             if (ModelState.IsValid)
             {
+                item.Id = Guid.NewGuid();
                 _context.Add(item);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["InvoiceLineId"] = new SelectList(_context.InvoiceLines, "Id", "Id", item.InvoiceLineId);
-            ViewData["SharingId"] = new SelectList(_context.Sharings, "Id", "Id", item.SharingId);
             return View(item);
         }
 
         // GET: Item/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -85,8 +79,6 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["InvoiceLineId"] = new SelectList(_context.InvoiceLines, "Id", "Id", item.InvoiceLineId);
-            ViewData["SharingId"] = new SelectList(_context.Sharings, "Id", "Id", item.SharingId);
             return View(item);
         }
 
@@ -95,7 +87,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("SharingId,InvoiceLineId,Name,Gross,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] Item item)
+        public async Task<IActionResult> Edit(Guid id, [Bind("SharingId,InvoiceLineId,Name,Net,Tax,Gross,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Item item)
         {
             if (id != item.Id)
             {
@@ -122,13 +114,11 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["InvoiceLineId"] = new SelectList(_context.InvoiceLines, "Id", "Id", item.InvoiceLineId);
-            ViewData["SharingId"] = new SelectList(_context.Sharings, "Id", "Id", item.SharingId);
             return View(item);
         }
 
         // GET: Item/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -136,8 +126,6 @@ namespace WebApp.Controllers
             }
 
             var item = await _context.Items
-                .Include(i => i.InvoiceLine)
-                .Include(i => i.Sharing)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (item == null)
             {
@@ -150,7 +138,7 @@ namespace WebApp.Controllers
         // POST: Item/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var item = await _context.Items.FindAsync(id);
             _context.Items.Remove(item);
@@ -158,7 +146,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ItemExists(string id)
+        private bool ItemExists(Guid id)
         {
             return _context.Items.Any(e => e.Id == id);
         }

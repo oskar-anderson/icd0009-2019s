@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
  namespace Domain
 {
-    public class MealComponent : DomainEntityMetadata
+    public class MealComponent : DomainEntity
     {
         [MaxLength(32)] public string ComponentId { get; set; } = default!;
         public virtual Component? Component { get; set; }

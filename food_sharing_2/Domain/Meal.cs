@@ -7,16 +7,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
  namespace Domain
 {
-    public class Meal : DomainEntityMetadata
+    public class Meal : DomainEntity
     {
         [MaxLength(32)] public string CategoryId { get; set; } = default!;
         public Category? Category { get; set; }
 
         [MaxLength(32)] public string? SizeId { get; set; }
         public virtual Size? Size { get; set; }
-        
-        [MaxLength(32)] public string? BaseId { get; set; }
-        public Base? Base { get; set; }
 
         [MaxLength(128)] public string Name { get; set; } = default!;
         

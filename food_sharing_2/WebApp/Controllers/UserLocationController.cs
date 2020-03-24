@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
-using Extensions;
 
 namespace WebApp.Controllers
 {
@@ -23,12 +22,11 @@ namespace WebApp.Controllers
         // GET: UserLocation
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.UserLocations.Include(u => u.AppUser);
-            return View(await appDbContext.ToListAsync());
+            return View(await _context.UserLocations.ToListAsync());
         }
 
         // GET: UserLocation/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -36,7 +34,6 @@ namespace WebApp.Controllers
             }
 
             var userLocation = await _context.UserLocations
-                .Include(u => u.AppUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (userLocation == null)
             {
@@ -49,7 +46,6 @@ namespace WebApp.Controllers
         // GET: UserLocation/Create
         public IActionResult Create()
         {
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -58,22 +54,20 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppUserId,District,ApartmentName,StreetName,BuildingOrApartmentNumber,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] UserLocation userLocation)
+        public async Task<IActionResult> Create([Bind("AppUserId,District,StreetName,BuildingNumber,ApartmentNumber,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] UserLocation userLocation)
         {
-            userLocation.AppUserId = User.GetUserId();
-            
             if (ModelState.IsValid)
             {
+                userLocation.Id = Guid.NewGuid();
                 _context.Add(userLocation);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", userLocation.AppUserId);
             return View(userLocation);
         }
 
         // GET: UserLocation/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -85,7 +79,6 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", userLocation.AppUserId);
             return View(userLocation);
         }
 
@@ -94,7 +87,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("AppUserId,District,ApartmentName,StreetName,BuildingOrApartmentNumber,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] UserLocation userLocation)
+        public async Task<IActionResult> Edit(Guid id, [Bind("AppUserId,District,StreetName,BuildingNumber,ApartmentNumber,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] UserLocation userLocation)
         {
             if (id != userLocation.Id)
             {
@@ -121,12 +114,11 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", userLocation.AppUserId);
             return View(userLocation);
         }
 
         // GET: UserLocation/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -134,7 +126,6 @@ namespace WebApp.Controllers
             }
 
             var userLocation = await _context.UserLocations
-                .Include(u => u.AppUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (userLocation == null)
             {
@@ -147,7 +138,7 @@ namespace WebApp.Controllers
         // POST: UserLocation/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var userLocation = await _context.UserLocations.FindAsync(id);
             _context.UserLocations.Remove(userLocation);
@@ -155,7 +146,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserLocationExists(string id)
+        private bool UserLocationExists(Guid id)
         {
             return _context.UserLocations.Any(e => e.Id == id);
         }

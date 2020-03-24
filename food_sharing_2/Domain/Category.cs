@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
  namespace Domain
 {
-    public class Category : DomainEntityMetadata
+    public class Category : DomainEntity
     {
         [MaxLength(64)] [MinLength(1)] public string Name { get; set; } = default!;
 

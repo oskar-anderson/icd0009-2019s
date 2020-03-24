@@ -4,7 +4,7 @@
 
  namespace Domain
 {
-    public class PaymentMethod : DomainEntityMetadata
+    public class PaymentMethod : DomainEntity
     {
         [MaxLength(64)] [MinLength(1)] public string Name { get; set; } = default!;
         

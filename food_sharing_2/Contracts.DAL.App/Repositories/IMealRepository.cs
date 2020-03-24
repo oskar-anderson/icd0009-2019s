@@ -3,7 +3,7 @@ using Domain;
 
 namespace Contracts.DAL.App.Repositories
 {
-    public interface IMealPriceRepository : IBaseRepository<MealPrice>
+    public interface IMealRepository : IBaseRepository<Meal>
     {
         
     }

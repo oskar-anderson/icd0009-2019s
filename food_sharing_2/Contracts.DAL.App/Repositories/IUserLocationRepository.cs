@@ -3,7 +3,7 @@ using Domain;
 
 namespace Contracts.DAL.App.Repositories
 {
-    public interface IUserClientGroupRepository : IBaseRepository<UserClientGroup>
+    public interface IUserLocationRepository : IBaseRepository<UserLocation>
     {
         
     }

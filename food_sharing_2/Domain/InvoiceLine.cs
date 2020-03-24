@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
  namespace Domain
 {
-    public class InvoiceLine : DomainEntityMetadata
+    public class InvoiceLine : DomainEntity
     {
         public string CartId { get; set; } = default!;
         public Cart? Cart { get; set; }

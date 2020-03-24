@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories
 {
-    public class FriendRepository : BaseRepository<Friend>, IFriendRepository
+    public class HandoverTypeRepository : BaseRepository<HandoverType>, IHandoverTypeRepository
     {
-        public FriendRepository(DbContext dbContext) : base(dbContext)
+        public HandoverTypeRepository(DbContext dbContext) : base(dbContext)
         {
         }
     }

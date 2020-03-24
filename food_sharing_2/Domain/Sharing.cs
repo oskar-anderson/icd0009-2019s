@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
  namespace Domain
 {
-    public class Sharing : DomainEntityMetadata
+    public class Sharing : DomainEntity
     {
         [MaxLength(32)] public string AppUserId { get; set; } = default!;
         public virtual AppUser? AppUser { get; set; }

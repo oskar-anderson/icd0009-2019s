@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
  namespace Domain
 {
-    public class CartMeal : DomainEntityMetadata
+    public class CartMeal : DomainEntity
     {
         [MaxLength(36)]
         public string CartId { get; set; } = default!;

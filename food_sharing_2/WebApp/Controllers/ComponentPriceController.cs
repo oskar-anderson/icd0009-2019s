@@ -22,12 +22,11 @@ namespace WebApp.Controllers
         // GET: ComponentPrice
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.ComponentPrices.Include(c => c.Component).Include(c => c.Restaurant);
-            return View(await appDbContext.ToListAsync());
+            return View(await _context.ComponentPrices.ToListAsync());
         }
 
         // GET: ComponentPrice/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -35,8 +34,6 @@ namespace WebApp.Controllers
             }
 
             var componentPrice = await _context.ComponentPrices
-                .Include(c => c.Component)
-                .Include(c => c.Restaurant)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (componentPrice == null)
             {
@@ -49,8 +46,6 @@ namespace WebApp.Controllers
         // GET: ComponentPrice/Create
         public IActionResult Create()
         {
-            ViewData["ComponentId"] = new SelectList(_context.Components, "Id", "Id");
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Id");
             return View();
         }
 
@@ -59,21 +54,20 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ComponentId,RestaurantId,Gross,Tax,Since,Until,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] ComponentPrice componentPrice)
+        public async Task<IActionResult> Create([Bind("ComponentId,RestaurantId,Gross,Tax,Since,Until,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] ComponentPrice componentPrice)
         {
             if (ModelState.IsValid)
             {
+                componentPrice.Id = Guid.NewGuid();
                 _context.Add(componentPrice);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ComponentId"] = new SelectList(_context.Components, "Id", "Id", componentPrice.ComponentId);
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Id", componentPrice.RestaurantId);
             return View(componentPrice);
         }
 
         // GET: ComponentPrice/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -85,8 +79,6 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["ComponentId"] = new SelectList(_context.Components, "Id", "Id", componentPrice.ComponentId);
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Id", componentPrice.RestaurantId);
             return View(componentPrice);
         }
 
@@ -95,7 +87,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ComponentId,RestaurantId,Gross,Tax,Since,Until,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] ComponentPrice componentPrice)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ComponentId,RestaurantId,Gross,Tax,Since,Until,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] ComponentPrice componentPrice)
         {
             if (id != componentPrice.Id)
             {
@@ -122,13 +114,11 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ComponentId"] = new SelectList(_context.Components, "Id", "Id", componentPrice.ComponentId);
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Id", componentPrice.RestaurantId);
             return View(componentPrice);
         }
 
         // GET: ComponentPrice/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -136,8 +126,6 @@ namespace WebApp.Controllers
             }
 
             var componentPrice = await _context.ComponentPrices
-                .Include(c => c.Component)
-                .Include(c => c.Restaurant)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (componentPrice == null)
             {
@@ -150,7 +138,7 @@ namespace WebApp.Controllers
         // POST: ComponentPrice/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var componentPrice = await _context.ComponentPrices.FindAsync(id);
             _context.ComponentPrices.Remove(componentPrice);
@@ -158,7 +146,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ComponentPriceExists(string id)
+        private bool ComponentPriceExists(Guid id)
         {
             return _context.ComponentPrices.Any(e => e.Id == id);
         }

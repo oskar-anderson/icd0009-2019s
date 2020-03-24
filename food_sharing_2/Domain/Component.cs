@@ -4,7 +4,7 @@
 
  namespace Domain
 {
-    public class Component : DomainEntityMetadata
+    public class Component : DomainEntity
     {
         [MaxLength(32)] public string Name { get; set; } = default!;
 

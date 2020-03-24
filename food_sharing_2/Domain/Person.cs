@@ -8,12 +8,13 @@ using System.Net.NetworkInformation;
 
  namespace Domain
 {
-    public class Person : DomainEntityMetadata
+    public class Person : DomainEntity
     {
-        [MaxLength(32)] public string? AppUserId { get; set; }
+        [MaxLength(32)] public string AppUserId { get; set; }
         public virtual AppUser? User { get; set; }
         
         public bool ThisIsMe { get; set; } = default!;
+        
         [MaxLength(128)] [MinLength(1)] public string FirstName { get; set; } = default!;
 
         [MinLength(1)] [MaxLength(128)] public string LastName { get; set; } = default!;

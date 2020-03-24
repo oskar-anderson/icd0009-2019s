@@ -4,7 +4,7 @@
 
  namespace Domain
 {
-    public class Size : DomainEntityMetadata
+    public class Size : DomainEntity
     {
         [MaxLength(32)] [MinLength(1)] public string Name { get; set; } = default!;
 

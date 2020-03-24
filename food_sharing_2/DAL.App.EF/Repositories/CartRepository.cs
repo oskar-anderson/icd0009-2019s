@@ -1,7 +1,14 @@
-﻿namespace DAL.App.EF.Repositories
+﻿using Contracts.DAL.App.Repositories;
+using DAL.Base.EF.Repositories;
+using Domain;
+using Microsoft.EntityFrameworkCore;
+
+namespace DAL.App.EF.Repositories
 {
-    public class CartRepository
+    public class CartRepository : BaseRepository<Cart>, ICartRepository
     {
-        
+        public CartRepository(DbContext dbContext) : base(dbContext)
+        {
+        }
     }
 }

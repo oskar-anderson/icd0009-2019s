@@ -13,13 +13,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Meal)
+                @Html.DisplayNameFor(model => model.MealId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Restaurant)
+                @Html.DisplayNameFor(model => model.RestaurantId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClientGroup)
+                @Html.DisplayNameFor(model => model.ClientGroupId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
@@ -43,10 +43,10 @@
                 @Html.DisplayNameFor(model => model.CreatedAt)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DeletedBy)
+                @Html.DisplayNameFor(model => model.ChangedBy)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DeletedAt)
+                @Html.DisplayNameFor(model => model.ChangedAt)
             </th>
             <th></th>
         </tr>
@@ -55,13 +55,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Meal.Id)
+                @Html.DisplayFor(modelItem => item.MealId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Restaurant.Id)
+                @Html.DisplayFor(modelItem => item.RestaurantId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ClientGroup.Id)
+                @Html.DisplayFor(modelItem => item.ClientGroupId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -85,10 +85,10 @@
                 @Html.DisplayFor(modelItem => item.CreatedAt)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DeletedBy)
+                @Html.DisplayFor(modelItem => item.ChangedBy)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DeletedAt)
+                @Html.DisplayFor(modelItem => item.ChangedAt)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

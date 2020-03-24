@@ -26,7 +26,7 @@ namespace WebApp.Controllers
         }
 
         // GET: ClientGroup/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -54,10 +54,11 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] ClientGroup clientGroup)
+        public async Task<IActionResult> Create([Bind("Name,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] ClientGroup clientGroup)
         {
             if (ModelState.IsValid)
             {
+                clientGroup.Id = Guid.NewGuid();
                 _context.Add(clientGroup);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -66,7 +67,7 @@ namespace WebApp.Controllers
         }
 
         // GET: ClientGroup/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -86,7 +87,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,Description,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] ClientGroup clientGroup)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] ClientGroup clientGroup)
         {
             if (id != clientGroup.Id)
             {
@@ -117,7 +118,7 @@ namespace WebApp.Controllers
         }
 
         // GET: ClientGroup/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -137,7 +138,7 @@ namespace WebApp.Controllers
         // POST: ClientGroup/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var clientGroup = await _context.ClientGroups.FindAsync(id);
             _context.ClientGroups.Remove(clientGroup);
@@ -145,7 +146,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClientGroupExists(string id)
+        private bool ClientGroupExists(Guid id)
         {
             return _context.ClientGroups.Any(e => e.Id == id);
         }

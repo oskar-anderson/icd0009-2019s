@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories
 {
-    public class HandoverTypeRepository : BaseRepository<HandoverType>, IHandoverTypeRepository
+    public class InvoiceRepository : BaseRepository<Invoice>, IInvoiceRepository
     {
-        public HandoverTypeRepository(DbContext dbContext) : base(dbContext)
+        public InvoiceRepository(DbContext dbContext) : base(dbContext)
         {
         }
     }

@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories
 {
-    public class SharingRepository : BaseRepository<Sharing>, ISharingRepository
+    public class SharingItemRepository : BaseRepository<SharingItem>, ISharingItemRepository
     {
-        public SharingRepository(DbContext dbContext) : base(dbContext)
+        public SharingItemRepository(DbContext dbContext) : base(dbContext)
         {
         }
     }

@@ -22,12 +22,11 @@ namespace WebApp.Controllers
         // GET: MealComponent
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.MealComponents.Include(m => m.Component).Include(m => m.Meal);
-            return View(await appDbContext.ToListAsync());
+            return View(await _context.MealComponents.ToListAsync());
         }
 
         // GET: MealComponent/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -35,8 +34,6 @@ namespace WebApp.Controllers
             }
 
             var mealComponent = await _context.MealComponents
-                .Include(m => m.Component)
-                .Include(m => m.Meal)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (mealComponent == null)
             {
@@ -49,8 +46,6 @@ namespace WebApp.Controllers
         // GET: MealComponent/Create
         public IActionResult Create()
         {
-            ViewData["ComponentId"] = new SelectList(_context.Components, "Id", "Id");
-            ViewData["MealId"] = new SelectList(_context.Meals, "Id", "Id");
             return View();
         }
 
@@ -59,21 +54,20 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ComponentId,MealId,Amount,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] MealComponent mealComponent)
+        public async Task<IActionResult> Create([Bind("ComponentId,MealId,Amount,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] MealComponent mealComponent)
         {
             if (ModelState.IsValid)
             {
+                mealComponent.Id = Guid.NewGuid();
                 _context.Add(mealComponent);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ComponentId"] = new SelectList(_context.Components, "Id", "Id", mealComponent.ComponentId);
-            ViewData["MealId"] = new SelectList(_context.Meals, "Id", "Id", mealComponent.MealId);
             return View(mealComponent);
         }
 
         // GET: MealComponent/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -85,8 +79,6 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["ComponentId"] = new SelectList(_context.Components, "Id", "Id", mealComponent.ComponentId);
-            ViewData["MealId"] = new SelectList(_context.Meals, "Id", "Id", mealComponent.MealId);
             return View(mealComponent);
         }
 
@@ -95,7 +87,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ComponentId,MealId,Amount,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] MealComponent mealComponent)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ComponentId,MealId,Amount,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] MealComponent mealComponent)
         {
             if (id != mealComponent.Id)
             {
@@ -122,13 +114,11 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ComponentId"] = new SelectList(_context.Components, "Id", "Id", mealComponent.ComponentId);
-            ViewData["MealId"] = new SelectList(_context.Meals, "Id", "Id", mealComponent.MealId);
             return View(mealComponent);
         }
 
         // GET: MealComponent/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -136,8 +126,6 @@ namespace WebApp.Controllers
             }
 
             var mealComponent = await _context.MealComponents
-                .Include(m => m.Component)
-                .Include(m => m.Meal)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (mealComponent == null)
             {
@@ -150,7 +138,7 @@ namespace WebApp.Controllers
         // POST: MealComponent/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var mealComponent = await _context.MealComponents.FindAsync(id);
             _context.MealComponents.Remove(mealComponent);
@@ -158,7 +146,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MealComponentExists(string id)
+        private bool MealComponentExists(Guid id)
         {
             return _context.MealComponents.Any(e => e.Id == id);
         }

@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
  namespace Domain
 {
-    public class SharingItem : DomainEntityMetadata
+    public class SharingItem : DomainEntity
     {
         [MaxLength(32)] public string SharingId { get; set; } = default!;
         public virtual Sharing? Sharing { get; set; }

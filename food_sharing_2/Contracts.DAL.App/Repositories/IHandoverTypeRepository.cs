@@ -3,7 +3,7 @@ using Domain;
 
 namespace Contracts.DAL.App.Repositories
 {
-    public interface IFriendRepository : IBaseRepository<Friend>
+    public interface IHandoverTypeRepository : IBaseRepository<HandoverType>
     {
         
     }

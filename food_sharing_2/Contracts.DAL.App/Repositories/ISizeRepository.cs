@@ -3,7 +3,7 @@ using Domain;
 
 namespace Contracts.DAL.App.Repositories
 {
-    public interface ISharingRepository : IBaseRepository<Sharing>
+    public interface ISizeRepository : IBaseRepository<Size>
     {
         
     }

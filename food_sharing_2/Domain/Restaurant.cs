@@ -4,7 +4,7 @@
 
  namespace Domain
 {
-    public class Restaurant : DomainEntityMetadata
+    public class Restaurant : DomainEntity
     {
         public string ? MenuId { get; set; }
         public virtual Menu ? Menu { get; set; }

@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories
 {
-    public class InvoiceRepository : BaseRepository<Invoice>, IInvoiceRepository
+    public class InvoiceLineRepository : BaseRepository<InvoiceLine>, IInvoiceLineRepository
     {
-        public InvoiceRepository(DbContext dbContext) : base(dbContext)
+        public InvoiceLineRepository(DbContext dbContext) : base(dbContext)
         {
         }
     }

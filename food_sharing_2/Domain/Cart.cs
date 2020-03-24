@@ -10,7 +10,7 @@ using System.Linq;
 
  namespace Domain
 {
-    public class Cart : DomainEntityMetadata
+    public class Cart : DomainEntity
     {
         [MaxLength(36)] public string AppUserId { get; set; } = default!;
         public virtual AppUser? AppUser { get; set; }

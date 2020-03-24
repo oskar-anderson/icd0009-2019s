@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
-using Extensions;
 
 namespace WebApp.Controllers
 {
@@ -24,12 +22,11 @@ namespace WebApp.Controllers
         // GET: Person
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Persons.Include(p => p.User);
-            return View(await appDbContext.ToListAsync());
+            return View(await _context.Persons.ToListAsync());
         }
 
         // GET: Person/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -37,7 +34,6 @@ namespace WebApp.Controllers
             }
 
             var person = await _context.Persons
-                .Include(p => p.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (person == null)
             {
@@ -50,7 +46,6 @@ namespace WebApp.Controllers
         // GET: Person/Create
         public IActionResult Create()
         {
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -59,22 +54,20 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppUserId,ThisIsMe,FirstName,LastName,NationalIdentificationNumber,Since,Until,Phone,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] Person person)
+        public async Task<IActionResult> Create([Bind("AppUserId,ThisIsMe,FirstName,LastName,NationalIdentificationNumber,Since,Until,Phone,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Person person)
         {
-            person.AppUserId = User.GetUserId();
-                
             if (ModelState.IsValid)
             {
+                person.Id = Guid.NewGuid();
                 _context.Add(person);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", person.AppUserId);
             return View(person);
         }
 
         // GET: Person/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -86,7 +79,6 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", person.AppUserId);
             return View(person);
         }
 
@@ -95,7 +87,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("AppUserId,ThisIsMe,FirstName,LastName,NationalIdentificationNumber,Since,Until,Phone,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] Person person)
+        public async Task<IActionResult> Edit(Guid id, [Bind("AppUserId,ThisIsMe,FirstName,LastName,NationalIdentificationNumber,Since,Until,Phone,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Person person)
         {
             if (id != person.Id)
             {
@@ -122,12 +114,11 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", person.AppUserId);
             return View(person);
         }
 
         // GET: Person/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -135,7 +126,6 @@ namespace WebApp.Controllers
             }
 
             var person = await _context.Persons
-                .Include(p => p.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (person == null)
             {
@@ -148,7 +138,7 @@ namespace WebApp.Controllers
         // POST: Person/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var person = await _context.Persons.FindAsync(id);
             _context.Persons.Remove(person);
@@ -156,7 +146,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PersonExists(string id)
+        private bool PersonExists(Guid id)
         {
             return _context.Persons.Any(e => e.Id == id);
         }

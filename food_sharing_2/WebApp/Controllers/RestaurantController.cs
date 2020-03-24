@@ -22,12 +22,11 @@ namespace WebApp.Controllers
         // GET: Restaurant
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Restaurants.Include(r => r.Menu);
-            return View(await appDbContext.ToListAsync());
+            return View(await _context.Restaurants.ToListAsync());
         }
 
         // GET: Restaurant/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -35,7 +34,6 @@ namespace WebApp.Controllers
             }
 
             var restaurant = await _context.Restaurants
-                .Include(r => r.Menu)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (restaurant == null)
             {
@@ -48,7 +46,6 @@ namespace WebApp.Controllers
         // GET: Restaurant/Create
         public IActionResult Create()
         {
-            ViewData["MenuId"] = new SelectList(_context.Menus, "Id", "Id");
             return View();
         }
 
@@ -57,20 +54,20 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MenuId,Name,Location,Telephone,OpenTime,OpenNotification,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] Restaurant restaurant)
+        public async Task<IActionResult> Create([Bind("MenuId,Name,Location,Telephone,OpenTime,OpenNotification,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Restaurant restaurant)
         {
             if (ModelState.IsValid)
             {
+                restaurant.Id = Guid.NewGuid();
                 _context.Add(restaurant);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MenuId"] = new SelectList(_context.Menus, "Id", "Id", restaurant.MenuId);
             return View(restaurant);
         }
 
         // GET: Restaurant/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -82,7 +79,6 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["MenuId"] = new SelectList(_context.Menus, "Id", "Id", restaurant.MenuId);
             return View(restaurant);
         }
 
@@ -91,7 +87,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("MenuId,Name,Location,Telephone,OpenTime,OpenNotification,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] Restaurant restaurant)
+        public async Task<IActionResult> Edit(Guid id, [Bind("MenuId,Name,Location,Telephone,OpenTime,OpenNotification,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Restaurant restaurant)
         {
             if (id != restaurant.Id)
             {
@@ -118,12 +114,11 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MenuId"] = new SelectList(_context.Menus, "Id", "Id", restaurant.MenuId);
             return View(restaurant);
         }
 
         // GET: Restaurant/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -131,7 +126,6 @@ namespace WebApp.Controllers
             }
 
             var restaurant = await _context.Restaurants
-                .Include(r => r.Menu)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (restaurant == null)
             {
@@ -144,7 +138,7 @@ namespace WebApp.Controllers
         // POST: Restaurant/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var restaurant = await _context.Restaurants.FindAsync(id);
             _context.Restaurants.Remove(restaurant);
@@ -152,7 +146,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RestaurantExists(string id)
+        private bool RestaurantExists(Guid id)
         {
             return _context.Restaurants.Any(e => e.Id == id);
         }

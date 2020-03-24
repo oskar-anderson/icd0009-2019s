@@ -3,7 +3,7 @@
 
  namespace Domain
 {
-    public class MenuMeal : DomainEntityMetadata
+    public class MenuMeal : DomainEntity
     {
         [MaxLength(32)] public int MealId { get; set; } = default!; 
         public virtual Meal? Meal { get; set; }

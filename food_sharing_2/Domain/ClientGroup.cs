@@ -4,7 +4,7 @@
 
  namespace Domain
 {
-    public class ClientGroup : DomainEntityMetadata
+    public class ClientGroup : DomainEntity
     {
         [MinLength(1)] [MaxLength(64)] public string Name { get; set; } = default!;
 

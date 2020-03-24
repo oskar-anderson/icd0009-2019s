@@ -3,7 +3,7 @@ using Domain;
 
 namespace Contracts.DAL.App.Repositories
 {
-    public interface IRestaurantRepository : IBaseRepository<Restaurant>
+    public interface ISharingItemRepository : IBaseRepository<SharingItem>
     {
         
     }

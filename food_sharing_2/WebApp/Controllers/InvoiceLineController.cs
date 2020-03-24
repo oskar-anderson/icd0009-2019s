@@ -22,12 +22,11 @@ namespace WebApp.Controllers
         // GET: InvoiceLine
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.InvoiceLines.Include(i => i.Cart).Include(i => i.Invoice);
-            return View(await appDbContext.ToListAsync());
+            return View(await _context.InvoiceLines.ToListAsync());
         }
 
         // GET: InvoiceLine/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -35,8 +34,6 @@ namespace WebApp.Controllers
             }
 
             var invoiceLine = await _context.InvoiceLines
-                .Include(i => i.Cart)
-                .Include(i => i.Invoice)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (invoiceLine == null)
             {
@@ -49,8 +46,6 @@ namespace WebApp.Controllers
         // GET: InvoiceLine/Create
         public IActionResult Create()
         {
-            ViewData["CartId"] = new SelectList(_context.Carts, "Id", "Id");
-            ViewData["InvoiceId"] = new SelectList(_context.Invoices, "Id", "Id");
             return View();
         }
 
@@ -59,21 +54,20 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CartId,InvoiceId,Name,Quantity,Net,Tax,Gross,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] InvoiceLine invoiceLine)
+        public async Task<IActionResult> Create([Bind("CartId,InvoiceId,Name,Quantity,Net,Tax,Gross,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] InvoiceLine invoiceLine)
         {
             if (ModelState.IsValid)
             {
+                invoiceLine.Id = Guid.NewGuid();
                 _context.Add(invoiceLine);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CartId"] = new SelectList(_context.Carts, "Id", "Id", invoiceLine.CartId);
-            ViewData["InvoiceId"] = new SelectList(_context.Invoices, "Id", "Id", invoiceLine.InvoiceId);
             return View(invoiceLine);
         }
 
         // GET: InvoiceLine/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -85,8 +79,6 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["CartId"] = new SelectList(_context.Carts, "Id", "Id", invoiceLine.CartId);
-            ViewData["InvoiceId"] = new SelectList(_context.Invoices, "Id", "Id", invoiceLine.InvoiceId);
             return View(invoiceLine);
         }
 
@@ -95,7 +87,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("CartId,InvoiceId,Name,Quantity,Net,Tax,Gross,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] InvoiceLine invoiceLine)
+        public async Task<IActionResult> Edit(Guid id, [Bind("CartId,InvoiceId,Name,Quantity,Net,Tax,Gross,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] InvoiceLine invoiceLine)
         {
             if (id != invoiceLine.Id)
             {
@@ -122,13 +114,11 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CartId"] = new SelectList(_context.Carts, "Id", "Id", invoiceLine.CartId);
-            ViewData["InvoiceId"] = new SelectList(_context.Invoices, "Id", "Id", invoiceLine.InvoiceId);
             return View(invoiceLine);
         }
 
         // GET: InvoiceLine/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -136,8 +126,6 @@ namespace WebApp.Controllers
             }
 
             var invoiceLine = await _context.InvoiceLines
-                .Include(i => i.Cart)
-                .Include(i => i.Invoice)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (invoiceLine == null)
             {
@@ -150,7 +138,7 @@ namespace WebApp.Controllers
         // POST: InvoiceLine/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var invoiceLine = await _context.InvoiceLines.FindAsync(id);
             _context.InvoiceLines.Remove(invoiceLine);
@@ -158,7 +146,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool InvoiceLineExists(string id)
+        private bool InvoiceLineExists(Guid id)
         {
             return _context.InvoiceLines.Any(e => e.Id == id);
         }

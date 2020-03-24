@@ -22,12 +22,11 @@ namespace WebApp.Controllers
         // GET: MealPrice
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.MealPrices.Include(m => m.ClientGroup).Include(m => m.Meal).Include(m => m.Restaurant);
-            return View(await appDbContext.ToListAsync());
+            return View(await _context.MealPrices.ToListAsync());
         }
 
         // GET: MealPrice/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -35,9 +34,6 @@ namespace WebApp.Controllers
             }
 
             var mealPrice = await _context.MealPrices
-                .Include(m => m.ClientGroup)
-                .Include(m => m.Meal)
-                .Include(m => m.Restaurant)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (mealPrice == null)
             {
@@ -50,9 +46,6 @@ namespace WebApp.Controllers
         // GET: MealPrice/Create
         public IActionResult Create()
         {
-            ViewData["ClientGroupId"] = new SelectList(_context.ClientGroups, "Id", "Id");
-            ViewData["MealId"] = new SelectList(_context.Meals, "Id", "Id");
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Id");
             return View();
         }
 
@@ -61,22 +54,20 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MealId,RestaurantId,ClientGroupId,Name,Tax,Gross,Since,Until,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] MealPrice mealPrice)
+        public async Task<IActionResult> Create([Bind("MealId,RestaurantId,ClientGroupId,Name,Tax,Gross,Since,Until,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] MealPrice mealPrice)
         {
             if (ModelState.IsValid)
             {
+                mealPrice.Id = Guid.NewGuid();
                 _context.Add(mealPrice);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientGroupId"] = new SelectList(_context.ClientGroups, "Id", "Id", mealPrice.ClientGroupId);
-            ViewData["MealId"] = new SelectList(_context.Meals, "Id", "Id", mealPrice.MealId);
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Id", mealPrice.RestaurantId);
             return View(mealPrice);
         }
 
         // GET: MealPrice/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -88,9 +79,6 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClientGroupId"] = new SelectList(_context.ClientGroups, "Id", "Id", mealPrice.ClientGroupId);
-            ViewData["MealId"] = new SelectList(_context.Meals, "Id", "Id", mealPrice.MealId);
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Id", mealPrice.RestaurantId);
             return View(mealPrice);
         }
 
@@ -99,7 +87,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("MealId,RestaurantId,ClientGroupId,Name,Tax,Gross,Since,Until,CreatedBy,CreatedAt,DeletedBy,DeletedAt,Id")] MealPrice mealPrice)
+        public async Task<IActionResult> Edit(Guid id, [Bind("MealId,RestaurantId,ClientGroupId,Name,Tax,Gross,Since,Until,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] MealPrice mealPrice)
         {
             if (id != mealPrice.Id)
             {
@@ -126,14 +114,11 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientGroupId"] = new SelectList(_context.ClientGroups, "Id", "Id", mealPrice.ClientGroupId);
-            ViewData["MealId"] = new SelectList(_context.Meals, "Id", "Id", mealPrice.MealId);
-            ViewData["RestaurantId"] = new SelectList(_context.Restaurants, "Id", "Id", mealPrice.RestaurantId);
             return View(mealPrice);
         }
 
         // GET: MealPrice/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -141,9 +126,6 @@ namespace WebApp.Controllers
             }
 
             var mealPrice = await _context.MealPrices
-                .Include(m => m.ClientGroup)
-                .Include(m => m.Meal)
-                .Include(m => m.Restaurant)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (mealPrice == null)
             {
@@ -156,7 +138,7 @@ namespace WebApp.Controllers
         // POST: MealPrice/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var mealPrice = await _context.MealPrices.FindAsync(id);
             _context.MealPrices.Remove(mealPrice);
@@ -164,7 +146,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MealPriceExists(string id)
+        private bool MealPriceExists(Guid id)
         {
             return _context.MealPrices.Any(e => e.Id == id);
         }

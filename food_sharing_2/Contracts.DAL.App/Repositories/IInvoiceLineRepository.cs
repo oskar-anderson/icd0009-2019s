@@ -3,7 +3,7 @@ using Domain;
 
 namespace Contracts.DAL.App.Repositories
 {
-    public interface IHandoverTypeRepository : IBaseRepository<HandoverType>
+    public interface IInvoiceLineRepository : IBaseRepository<InvoiceLine>
     {
         
     }
