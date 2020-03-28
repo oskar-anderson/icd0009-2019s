@@ -19,8 +19,8 @@ dotnet ef database drop --project DAL.App.EF --startup-project WebApp
 ~~~
 
 
-run in WebApp folder
-~~~
+Run in WebApp folder
+
 Generate Controllers
 ~~~
 dotnet aspnet-codegenerator controller -name PersonController           -actions -m Person -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
@@ -47,6 +47,8 @@ dotnet aspnet-codegenerator controller -name ItemController             -actions
 dotnet aspnet-codegenerator controller -name SharingItemController      -actions -m SharingItem -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 dotnet aspnet-codegenerator controller -name ClientGroupController      -actions -m ClientGroup -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
 dotnet aspnet-codegenerator controller -name UserClientGroupController  -actions -m UserClientGroup -dc AppDbContext -outDir Controllers --useDefaultLayout --useAsyncActions --referenceScriptLibraries -f
+~~~
+Run in WebApp folder
 
 Generate Identity UI
 ~~~
