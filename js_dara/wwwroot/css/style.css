@@ -41,6 +41,12 @@ div.page_content {
   margin-bottom: 6.0ex;
 }
 
+.message_container2, #game_state_info{
+  padding-left: 1ex;
+  padding-right: 1ex;
+  padding-bottom: 0.1ex;
+}
+
 body{
   background-image: url(http://d1vx0kqiw28888.cloudfront.net/static_v101/img/lair_bg_colour2.jpg);
   color: #cfb76d;

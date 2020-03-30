@@ -52,6 +52,7 @@ namespace WebApp.Areas.Identity.Pages.Account
             public string Email { get; set; }
             public string FirstName { get; set; }
             public string LastName { get; set; }
+            public string Phone { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -79,10 +80,11 @@ namespace WebApp.Areas.Identity.Pages.Account
             {
                 var user = new AppUser
                 {
-                    UserName = Input.Email, 
+                    UserName = Input.Email,
                     Email = Input.Email,
                     FirstName = Input.FirstName,
-                    LastName = Input.LastName
+                    LastName = Input.LastName,
+                    Phone = Input.Phone
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)

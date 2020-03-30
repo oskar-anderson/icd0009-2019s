@@ -1,3 +1,3 @@
-# js basics demo
+# js Dara game
 
-JS basics demo
+JS Dara Game
