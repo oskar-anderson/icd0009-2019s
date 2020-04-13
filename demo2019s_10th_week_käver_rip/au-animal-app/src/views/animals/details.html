@@ -1,0 +1,37 @@
+<template>
+    <require from="../../components/alert"></require>
+
+    <alert alert-data.bind="_alert"></alert>
+
+
+    <h1>Details</h1>
+
+    <div>
+        <h4>Animal</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                AnimalName
+            </dt>
+            <dd class="col-sm-10">
+                ${_animal.animalName}
+            </dd>
+            <dt class="col-sm-2">
+                BirthYear
+            </dt>
+            <dd class="col-sm-10">
+                ${_animal.birthYear}
+            </dd>
+            <dt class="col-sm-2">
+                OwnerCount
+            </dt>
+            <dd class="col-sm-10">
+                ${_animal.ownerCount}
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a route-href="route: animals-edit; params.bind: { id: _animal.id }">Edit</a> |
+        <a route-href="route: animals-index; params.bind: { }">Back to List</a>
+    </div>
+</template>

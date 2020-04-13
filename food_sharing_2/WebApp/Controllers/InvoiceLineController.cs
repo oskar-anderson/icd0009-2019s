@@ -2,27 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using Extensions;
 
 namespace WebApp.Controllers
 {
     public class InvoiceLineController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _uow;
 
-        public InvoiceLineController(AppDbContext context)
+        public InvoiceLineController(IAppUnitOfWork uow)
         {
-            _context = context;
+            _uow = uow;
         }
 
         // GET: InvoiceLine
         public async Task<IActionResult> Index()
         {
-            return View(await _context.InvoiceLines.ToListAsync());
+            IEnumerable<InvoiceLine> invoiceLines = await _uow.InvoiceLines.AllAsync(User.UserGuidId());
+            return View(invoiceLines);
         }
 
         // GET: InvoiceLine/Details/5
@@ -33,8 +36,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var invoiceLine = await _context.InvoiceLines
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var invoiceLine = await _uow.InvoiceLines.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (invoiceLine == null)
             {
                 return NotFound();
@@ -44,8 +47,10 @@ namespace WebApp.Controllers
         }
 
         // GET: InvoiceLine/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewData["CartId"] = new SelectList(await _uow.Carts.AllAsync(User.UserGuidId()), "Id", "Id");
+            ViewData["InvoiceId"] = new SelectList(await _uow.Invoices.AllAsync(User.UserGuidId()), "Id", "Id");
             return View();
         }
 
@@ -58,11 +63,12 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                invoiceLine.Id = Guid.NewGuid();
-                _context.Add(invoiceLine);
-                await _context.SaveChangesAsync();
+                _uow.InvoiceLines.Add(invoiceLine);
+                await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CartId"] = new SelectList(await _uow.Carts.AllAsync(User.UserGuidId()), "Id", "Id", invoiceLine.CartId);
+            ViewData["InvoiceId"] = new SelectList(await _uow.Invoices.AllAsync(User.UserGuidId()), "Id", "Id", invoiceLine.InvoiceId);
             return View(invoiceLine);
         }
 
@@ -74,11 +80,14 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var invoiceLine = await _context.InvoiceLines.FindAsync(id);
+            var invoiceLine = await _uow.InvoiceLines.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (invoiceLine == null)
             {
                 return NotFound();
             }
+            ViewData["CartId"] = new SelectList(await _uow.Carts.AllAsync(User.UserGuidId()), "Id", "Id", invoiceLine.CartId);
+            ViewData["InvoiceId"] = new SelectList(await _uow.Invoices.AllAsync(User.UserGuidId()), "Id", "Id", invoiceLine.InvoiceId);
             return View(invoiceLine);
         }
 
@@ -96,24 +105,12 @@ namespace WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(invoiceLine);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!InvoiceLineExists(invoiceLine.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _uow.InvoiceLines.Update(invoiceLine);
+                await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CartId"] = new SelectList(await _uow.Carts.AllAsync(User.UserGuidId()), "Id", "Id", invoiceLine.CartId);
+            ViewData["InvoiceId"] = new SelectList(await _uow.Invoices.AllAsync(User.UserGuidId()), "Id", "Id", invoiceLine.InvoiceId);
             return View(invoiceLine);
         }
 
@@ -125,8 +122,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var invoiceLine = await _context.InvoiceLines
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var invoiceLine = await _uow.InvoiceLines.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (invoiceLine == null)
             {
                 return NotFound();
@@ -140,15 +137,9 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var invoiceLine = await _context.InvoiceLines.FindAsync(id);
-            _context.InvoiceLines.Remove(invoiceLine);
-            await _context.SaveChangesAsync();
+            await _uow.InvoiceLines.DeleteAsync(id, User.UserGuidId());
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool InvoiceLineExists(Guid id)
-        {
-            return _context.InvoiceLines.Any(e => e.Id == id);
         }
     }
 }

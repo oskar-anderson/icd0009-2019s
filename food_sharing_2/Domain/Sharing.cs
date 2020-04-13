@@ -1,4 +1,5 @@
-﻿﻿using System.Collections;
+﻿﻿using System;
+ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
  using DAL.Base;
@@ -8,10 +9,12 @@ using System.ComponentModel.DataAnnotations;
 {
     public class Sharing : DomainEntity
     {
-        [MaxLength(32)] public string AppUserId { get; set; } = default!;
-        public virtual AppUser? AppUser { get; set; }
+        public Guid AppUserId { get; set; } = default!;
+        public AppUser? AppUser { get; set; }
         
-        public virtual ICollection<SharingItem>? SharingItems { get; set; } 
-        public virtual ICollection<Item>? Items { get; set; } 
+        [MinLength(1)] [MaxLength(64)] public string Name { get; set; } = default!;
+        
+        public ICollection<SharingItem>? SharingItems { get; set; } 
+        public ICollection<Item>? Items { get; set; } 
     }
 }

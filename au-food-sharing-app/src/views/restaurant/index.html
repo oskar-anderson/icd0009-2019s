@@ -1,0 +1,62 @@
+<template>
+    <require from="../../components/alert"></require>
+
+    <alert alert-data.bind="_alert"></alert>
+
+    <h1>Index Restaurants</h1>
+    
+    <p>
+        <a route-href="route: restaurant-create; params.bind: {}">Create New</a>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Location
+                </th>
+                <th>
+                    Telephone
+                </th>
+                <th>
+                    OpenTime
+                </th>
+                <th>
+                    OpenTime
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="restaurant of _restaurants">
+                <td>
+                    ${restaurant.name}
+                </td>
+                <td>
+                    ${restaurant.location}
+                </td>
+                <td>
+                    ${restaurant.telephone}
+                </td>
+                <td>
+                    ${restaurant.telephone}
+                </td>
+                <td>
+                    ${restaurant.openTime}
+                </td>
+                <td>
+                    ${restaurant.openNote}
+                </td>
+
+                <td>
+                    <a route-href="route: restaurant-edit; params.bind: { id: restaurant.id }">Edit</a> |
+                    <a route-href="route: restaurant-details; params.bind: { id: restaurant.id }">Details</a> |
+                    <a route-href="route: restaurant-delete; params.bind: { id: restaurant.id }">Delete</a>
+                </td>
+    
+            </tr>
+        </tbody>
+    </table>
+</template>

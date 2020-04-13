@@ -13,16 +13,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.SharingId)
+                @Html.DisplayNameFor(model => model.Sharing)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ItemId)
+                @Html.DisplayNameFor(model => model.Item)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FriendId)
+                @Html.DisplayNameFor(model => model.FriendName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Percent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FriendOwns)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CreatedBy)
@@ -43,16 +46,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.SharingId)
+                @Html.DisplayFor(modelItem => item.Sharing.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ItemId)
+                @Html.DisplayFor(modelItem => item.Item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FriendId)
+                @Html.DisplayFor(modelItem => item.FriendName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Percent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FriendOwns)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedBy)

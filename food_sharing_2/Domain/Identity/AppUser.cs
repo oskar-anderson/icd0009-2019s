@@ -16,11 +16,9 @@ namespace Domain.Identity
 
         [MinLength(1)] [MaxLength(16)] public string Phone { get; set; } = default!;
         
-        public virtual ICollection<Friend>? Friends { get; set; }
         public virtual ICollection<Sharing>? Sharings { get; set; }
         public virtual ICollection<UserLocation>? UserLocations { get; set; }
         public virtual ICollection<Cart>? Carts { get; set; }
-        public virtual ICollection<UserClientGroup>? UserClientGroups { get; set; }
         public virtual ICollection<Person>? Persons { get; set; }
 
 

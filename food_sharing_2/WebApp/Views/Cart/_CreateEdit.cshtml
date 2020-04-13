@@ -1,0 +1,51 @@
+﻿@model Domain.Cart
+
+<div class="form-group">
+    <label asp-for="AppUserId" class="control-label"></label>
+    <select asp-for="AppUserId" class ="form-control" asp-items="ViewBag.AppUserId"></select>
+</div>
+<div class="form-group form-check">
+    <label class="form-check-label">
+        <input class="form-check-input" asp-for="AsDelivery" /> @Html.DisplayNameFor(model => model.AsDelivery)
+    </label>
+</div>
+<div class="form-group">
+    <label asp-for="UserLocationId" class="control-label"></label>
+    <select asp-for="UserLocationId" class ="form-control" asp-items="ViewBag.UserLocationId"></select>
+</div>
+<div class="form-group">
+    <label asp-for="RestaurantId" class="control-label"></label>
+    <select asp-for="RestaurantId" class ="form-control" asp-items="ViewBag.RestaurantId"></select>
+</div>
+<div class="form-group">
+    <label asp-for="Total" class="control-label"></label>
+    <input asp-for="Total" class="form-control" />
+    <span asp-validation-for="Total" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ReadyBy" class="control-label"></label>
+    <input asp-for="ReadyBy" class="form-control" />
+    <span asp-validation-for="ReadyBy" class="text-danger"></span>
+</div>
+@*
+<div class="form-group">
+    <label asp-for="CreatedBy" class="control-label"></label>
+    <input asp-for="CreatedBy" class="form-control" />
+    <span asp-validation-for="CreatedBy" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="CreatedAt" class="control-label"></label>
+    <input asp-for="CreatedAt" class="form-control" />
+    <span asp-validation-for="CreatedAt" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ChangedBy" class="control-label"></label>
+    <input asp-for="ChangedBy" class="form-control" />
+    <span asp-validation-for="ChangedBy" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ChangedAt" class="control-label"></label>
+    <input asp-for="ChangedAt" class="form-control" />
+    <span asp-validation-for="ChangedAt" class="text-danger"></span>
+</div>
+*@

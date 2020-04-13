@@ -10,8 +10,8 @@ using System.Net.NetworkInformation;
 {
     public class Person : DomainEntity
     {
-        [MaxLength(32)] public string AppUserId { get; set; }
-        public virtual AppUser? User { get; set; }
+        public Guid AppUserId { get; set; } = default!;
+        public AppUser? AppUser { get; set; }
         
         public bool ThisIsMe { get; set; } = default!;
         
@@ -29,6 +29,6 @@ using System.Net.NetworkInformation;
 
         [MinLength(1)] [MaxLength(16)] public string Phone { get; set; } = default!;
 
-        public virtual ICollection<Invoice>? Invoices { get; set; }
+        public ICollection<Invoice>? Invoices { get; set; }
     }
 }

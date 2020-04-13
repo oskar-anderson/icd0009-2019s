@@ -2,27 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using Extensions;
 
 namespace WebApp.Controllers
 {
     public class SizeController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _uow;
 
-        public SizeController(AppDbContext context)
+        public SizeController(IAppUnitOfWork uow)
         {
-            _context = context;
+            _uow = uow;
         }
 
         // GET: Size
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Sizes.ToListAsync());
+            var Sizes = await _uow.Sizes.AllAsync(User.UserGuidId());
+            return View(Sizes);
         }
 
         // GET: Size/Details/5
@@ -33,8 +36,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var size = await _context.Sizes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var size = await _uow.Sizes.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (size == null)
             {
                 return NotFound();
@@ -58,9 +61,8 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                size.Id = Guid.NewGuid();
-                _context.Add(size);
-                await _context.SaveChangesAsync();
+                _uow.Sizes.Add(size);
+                await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(size);
@@ -74,7 +76,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var size = await _context.Sizes.FindAsync(id);
+            var size = await _uow.Sizes.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            
             if (size == null)
             {
                 return NotFound();
@@ -96,22 +99,8 @@ namespace WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(size);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SizeExists(size.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _uow.Sizes.Update(size);
+                await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(size);
@@ -125,8 +114,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var size = await _context.Sizes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var size = await _uow.Sizes.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            
             if (size == null)
             {
                 return NotFound();
@@ -140,15 +129,9 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var size = await _context.Sizes.FindAsync(id);
-            _context.Sizes.Remove(size);
-            await _context.SaveChangesAsync();
+            await _uow.Sizes.DeleteAsync(id, User.UserGuidId());
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool SizeExists(Guid id)
-        {
-            return _context.Sizes.Any(e => e.Id == id);
         }
     }
 }

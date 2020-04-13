@@ -13,16 +13,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.AppUserId)
+                @Html.DisplayNameFor(model => model.AppUser)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HandoverTypeId)
+                @Html.DisplayNameFor(model => model.AsDelivery)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserLocationId)
+                @Html.DisplayNameFor(model => model.UserLocation)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RestaurantId)
+                @Html.DisplayNameFor(model => model.Restaurant)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Total)
@@ -49,16 +49,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.AppUserId)
+                @Html.DisplayFor(modelItem => item.AppUser.FirstName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.HandoverTypeId)
+                @Html.DisplayFor(modelItem => item.AsDelivery)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UserLocationId)
+                @Html.DisplayFor(modelItem => item.UserLocation.BuildingNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RestaurantId)
+                @Html.DisplayFor(modelItem => item.Restaurant.Location)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Total)

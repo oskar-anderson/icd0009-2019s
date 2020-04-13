@@ -1,0 +1,56 @@
+<template>
+    <require from="../../components/alert"></require>
+
+    <alert alert-data.bind="_alert"></alert>
+
+    <h1>Index Meals</h1>
+    
+    <p>
+        <a route-href="route: meal-create; params.bind: {}">Create New</a>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Category
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Picture
+                </th>
+                <th>
+                    Description
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="meal of _meals">
+                <td>
+                    ${meal.name}
+                </td>
+                <td>
+                    ${meal.location}
+                </td>
+                <td>
+                    ${meal.telephone}
+                </td>
+                <td>
+                    ${meal.telephone}
+                </td>
+                <td>
+                    ${meal.openTime}
+                </td>
+
+                <td>
+                    <a route-href="route: meal-edit; params.bind: { id: meal.id }">Edit</a> |
+                    <a route-href="route: meal-details; params.bind: { id: meal.id }">Details</a> |
+                    <a route-href="route: meal-delete; params.bind: { id: meal.id }">Delete</a>
+                </td>
+    
+            </tr>
+        </tbody>
+    </table>
+</template>

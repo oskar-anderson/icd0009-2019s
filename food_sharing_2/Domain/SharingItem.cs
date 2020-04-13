@@ -1,4 +1,5 @@
-﻿﻿using System.ComponentModel.DataAnnotations;
+﻿﻿using System;
+ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
  using DAL.Base;
@@ -7,25 +8,21 @@ using System.Runtime.CompilerServices;
 {
     public class SharingItem : DomainEntity
     {
-        [MaxLength(32)] public string SharingId { get; set; } = default!;
-        public virtual Sharing? Sharing { get; set; }
+        public Guid SharingId { get; set; } = default!;
+        public Sharing? Sharing { get; set; }
 
-        [MaxLength(32)] public string ItemId { get; set; } = default!;
-        public virtual Item? Item { get; set; }
+        public Guid ItemId { get; set; } = default!;
+        public Item? Item { get; set; }
 
-        [MaxLength(32)] public string FriendId { get; set; } = default!;
-        public virtual Friend? Friend { get; set; }
-
-        [Column(TypeName = "decimal(18,4)")] public decimal Percent { get; set; } = default!;
-
-        [Column(TypeName = "decimal(18,4)")]
+        [MaxLength(128)][MinLength(1)] public string FriendName { get; set; } = default!;
         
-        public decimal FriendOwns => CalculatePersonSharePrice(Item);
-
-        public decimal CalculatePersonSharePrice(Item item)
-        {
-            return (decimal) item.Gross * Percent;
-        }
+        [Column(TypeName = "decimal(18, 2)")] 
+        public decimal Percent { get; set; } = default!;
+        
+        [DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(18, 2)")] 
+        public decimal FriendOwns { get; set; } = default!;    // Will be calculated - item.Gross * Percent / 100;
+        
         
     }
 }

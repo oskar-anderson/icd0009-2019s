@@ -23,6 +23,7 @@ namespace DAL.Base.EF
 
         public async Task<int> SaveChangesAsync()
         {
+            // calls DAL.App.EF/AppDbContext/SaveChangesAsynch which generates metadata
             return await UOWDbContext.SaveChangesAsync();
         }
         

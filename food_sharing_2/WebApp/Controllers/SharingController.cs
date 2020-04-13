@@ -2,27 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using Extensions;
 
 namespace WebApp.Controllers
 {
     public class SharingController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _uow;
 
-        public SharingController(AppDbContext context)
+        public SharingController(IAppUnitOfWork uow)
         {
-            _context = context;
+            _uow = uow;
         }
 
         // GET: Sharing
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Sharings.ToListAsync());
+            var sharings = await _uow.Sharings.AllAsync(User.UserGuidId());
+            return View(sharings);
         }
 
         // GET: Sharing/Details/5
@@ -33,8 +36,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var sharing = await _context.Sharings
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var sharing = await _uow.Sharings.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+                
             if (sharing == null)
             {
                 return NotFound();
@@ -46,6 +49,7 @@ namespace WebApp.Controllers
         // GET: Sharing/Create
         public IActionResult Create()
         {
+            
             return View();
         }
 
@@ -54,15 +58,16 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppUserId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Sharing sharing)
+        public async Task<IActionResult> Create(Sharing sharing)
         {
+            sharing.AppUserId = User.UserGuidId();
             if (ModelState.IsValid)
             {
-                sharing.Id = Guid.NewGuid();
-                _context.Add(sharing);
-                await _context.SaveChangesAsync();
+                _uow.Sharings.Add(sharing);
+                await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            
             return View(sharing);
         }
 
@@ -74,11 +79,13 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var sharing = await _context.Sharings.FindAsync(id);
+            var sharing = await _uow.Sharings.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            
             if (sharing == null)
             {
                 return NotFound();
             }
+            
             return View(sharing);
         }
 
@@ -87,8 +94,10 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("AppUserId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Sharing sharing)
+        public async Task<IActionResult> Edit(Guid id, [Bind("AppUserId,Name,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Sharing sharing)
         {
+            sharing.AppUserId = User.UserGuidId();
+            
             if (id != sharing.Id)
             {
                 return NotFound();
@@ -96,24 +105,11 @@ namespace WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(sharing);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SharingExists(sharing.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _uow.Sharings.Update(sharing);
+                await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            
             return View(sharing);
         }
 
@@ -125,8 +121,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var sharing = await _context.Sharings
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var sharing = await _uow.Sharings
+                .FirstOrDefaultAsync(id.Value, User.UserGuidId());
             if (sharing == null)
             {
                 return NotFound();
@@ -140,15 +136,9 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var sharing = await _context.Sharings.FindAsync(id);
-            _context.Sharings.Remove(sharing);
-            await _context.SaveChangesAsync();
+            await _uow.Sharings.DeleteAsync(id, User.UserGuidId());
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool SharingExists(Guid id)
-        {
-            return _context.Sharings.Any(e => e.Id == id);
         }
     }
 }

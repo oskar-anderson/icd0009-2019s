@@ -49,11 +49,18 @@ namespace WebApp.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
+            [MinLength(1)] [MaxLength(128)]
             public string Email { get; set; }
+            
+            [Required][MinLength(1)] [MaxLength(128)]
             public string FirstName { get; set; }
+            
+            [Required][MinLength(1)] [MaxLength(128)]
             public string LastName { get; set; }
+            
+            [Required][MinLength(1)] [MaxLength(16)]
             public string Phone { get; set; }
-
+            
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
@@ -66,13 +73,13 @@ namespace WebApp.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string? returnUrl = null)
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();

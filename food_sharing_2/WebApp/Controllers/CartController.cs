@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App;
-using Contracts.DAL.App.Repositories;
-using Contracts.DAL.Base.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using Extensions;
 
 namespace WebApp.Controllers
 {
@@ -25,7 +24,8 @@ namespace WebApp.Controllers
         // GET: Cart
         public async Task<IActionResult> Index()
         {
-            return View(await _uow.Carts.AllAsync());
+            var cart = await _uow.Carts.AllAsync(User.UserGuidId());
+            return View(cart);
         }
 
         // GET: Cart/Details/5
@@ -36,7 +36,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var cart = await _uow.Carts.FindAsync(id);
+            var cart = await _uow.Carts.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (cart == null)
             {
                 return NotFound();
@@ -46,8 +47,10 @@ namespace WebApp.Controllers
         }
 
         // GET: Cart/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewData["RestaurantId"] = new SelectList(await _uow.Restaurants.AllAsync(User.UserGuidId()), "Id", "Location");
+            ViewData["UserLocationId"] = new SelectList(await _uow.UserLocations.AllAsync(User.UserGuidId()), "Id", "BuildingNumber");
             return View();
         }
 
@@ -56,15 +59,16 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppUserId,HandoverTypeId,UserLocationId,RestaurantId,Total,ReadyBy,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Cart cart)
+        public async Task<IActionResult> Create([Bind("AppUserId,AsDelivery,UserLocationId,RestaurantId,Total,ReadyBy,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Cart cart)
         {
             if (ModelState.IsValid)
             {
-                cart.Id = Guid.NewGuid();
                 _uow.Carts.Add(cart);
                 await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["RestaurantId"] = new SelectList(await _uow.Restaurants.AllAsync(User.UserGuidId()), "Id", "Location", cart.RestaurantId);
+            ViewData["UserLocationId"] = new SelectList(await _uow.UserLocations.AllAsync(User.UserGuidId()), "Id", "BuildingNumber", cart.UserLocationId);
             return View(cart);
         }
 
@@ -76,11 +80,14 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var cart = await _uow.Carts.FindAsync(id);
+            var cart = await _uow.Carts.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (cart == null)
             {
                 return NotFound();
             }
+            ViewData["RestaurantId"] = new SelectList(await _uow.Restaurants.AllAsync(User.UserGuidId()), "Id", "Location", cart.RestaurantId);
+            ViewData["UserLocationId"] = new SelectList(await _uow.UserLocations.AllAsync(User.UserGuidId()), "Id", "BuildingNumber", cart.UserLocationId);
             return View(cart);
         }
 
@@ -89,7 +96,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("AppUserId,HandoverTypeId,UserLocationId,RestaurantId,Total,ReadyBy,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Cart cart)
+        public async Task<IActionResult> Edit(Guid id, [Bind("AppUserId,AsDelivery,UserLocationId,RestaurantId,Total,ReadyBy,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Cart cart)
         {
             if (id != cart.Id)
             {
@@ -100,9 +107,10 @@ namespace WebApp.Controllers
             {
                 _uow.Carts.Update(cart);
                 await _uow.SaveChangesAsync();
-
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["RestaurantId"] = new SelectList(await _uow.Restaurants.AllAsync(User.UserGuidId()), "Id", "Location", cart.RestaurantId);
+            ViewData["UserLocationId"] = new SelectList(await _uow.UserLocations.AllAsync(User.UserGuidId()), "Id", "BuildingNumber", cart.UserLocationId);
             return View(cart);
         }
 
@@ -114,7 +122,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var cart = await _uow.Carts.FindAsync(id);
+            var cart = await _uow.Carts.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (cart == null)
             {
                 return NotFound();
@@ -128,11 +137,10 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var cart = await _uow.Carts.FindAsync(id);
-            _uow.Carts.Remove(cart);
+            await _uow.Carts.DeleteAsync(id, User.UserGuidId());
             await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        
+
     }
 }

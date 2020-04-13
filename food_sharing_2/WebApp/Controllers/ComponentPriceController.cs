@@ -2,27 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using Extensions;
 
 namespace WebApp.Controllers
 {
     public class ComponentPriceController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _uow;
 
-        public ComponentPriceController(AppDbContext context)
+        public ComponentPriceController(IAppUnitOfWork uow)
         {
-            _context = context;
+            _uow = uow;
         }
 
         // GET: ComponentPrice
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ComponentPrices.ToListAsync());
+            var componentPrices = await _uow.ComponentPrices.AllAsync(User.UserGuidId());
+            return View(componentPrices);
         }
 
         // GET: ComponentPrice/Details/5
@@ -33,8 +36,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var componentPrice = await _context.ComponentPrices
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var componentPrice = await _uow.ComponentPrices.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (componentPrice == null)
             {
                 return NotFound();
@@ -44,8 +47,10 @@ namespace WebApp.Controllers
         }
 
         // GET: ComponentPrice/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewData["ComponentId"] = new SelectList(await _uow.Components.AllAsync(User.UserGuidId()), "Id", "Name");
+            ViewData["RestaurantId"] = new SelectList(await _uow.Restaurants.AllAsync(User.UserGuidId()), "Id", "Location");
             return View();
         }
 
@@ -58,11 +63,12 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                componentPrice.Id = Guid.NewGuid();
-                _context.Add(componentPrice);
-                await _context.SaveChangesAsync();
+                _uow.ComponentPrices.Add(componentPrice);
+                await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ComponentId"] = new SelectList(await _uow.Components.AllAsync(User.UserGuidId()), "Id", "Name", componentPrice.ComponentId);
+            ViewData["RestaurantId"] = new SelectList(await _uow.Restaurants.AllAsync(User.UserGuidId()), "Id", "Location", componentPrice.RestaurantId);
             return View(componentPrice);
         }
 
@@ -74,11 +80,14 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var componentPrice = await _context.ComponentPrices.FindAsync(id);
+            var componentPrice = await _uow.ComponentPrices.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (componentPrice == null)
             {
                 return NotFound();
             }
+            ViewData["ComponentId"] = new SelectList(await _uow.Components.AllAsync(User.UserGuidId()), "Id", "Name", componentPrice.ComponentId);
+            ViewData["RestaurantId"] = new SelectList(await _uow.Restaurants.AllAsync(User.UserGuidId()), "Id", "Location", componentPrice.RestaurantId);
             return View(componentPrice);
         }
 
@@ -96,24 +105,12 @@ namespace WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(componentPrice);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ComponentPriceExists(componentPrice.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _uow.ComponentPrices.Update(componentPrice);
+                await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ComponentId"] = new SelectList(await _uow.Components.AllAsync(User.UserGuidId()), "Id", "Name", componentPrice.ComponentId);
+            ViewData["RestaurantId"] = new SelectList(await _uow.Restaurants.AllAsync(User.UserGuidId()), "Id", "Location", componentPrice.RestaurantId);
             return View(componentPrice);
         }
 
@@ -125,8 +122,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var componentPrice = await _context.ComponentPrices
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var componentPrice = await _uow.ComponentPrices.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (componentPrice == null)
             {
                 return NotFound();
@@ -140,15 +137,10 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var componentPrice = await _context.ComponentPrices.FindAsync(id);
-            _context.ComponentPrices.Remove(componentPrice);
-            await _context.SaveChangesAsync();
+            await _uow.ComponentPrices.DeleteAsync(id, User.UserGuidId());
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ComponentPriceExists(Guid id)
-        {
-            return _context.ComponentPrices.Any(e => e.Id == id);
-        }
     }
 }

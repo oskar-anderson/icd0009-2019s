@@ -10,8 +10,8 @@
 
         [Range(0, 4)] public int Max { get; set; } = default!;
 
-        public virtual ICollection<ComponentPrice>? ComponentPrices { get; set; }
-        public virtual ICollection<MealComponent>? MealComponents { get; set; }
+        public ICollection<ComponentPrice>? ComponentPrices { get; set; }
+        public ICollection<PizzaComponent>? PizzaComponents { get; set; }
         /*
         0.6 €
         Ananass

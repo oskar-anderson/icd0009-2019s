@@ -2,27 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using Extensions;
 
 namespace WebApp.Controllers
 {
     public class MealController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _uow;
 
-        public MealController(AppDbContext context)
+        public MealController(IAppUnitOfWork uow)
         {
-            _context = context;
+            _uow = uow;
         }
 
         // GET: Meal
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Meals.ToListAsync());
+            var meal = await _uow.Meals.AllAsync(User.UserGuidId());
+            return View(meal);
         }
 
         // GET: Meal/Details/5
@@ -33,8 +36,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var meal = await _context.Meals
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var meal = await _uow.Meals.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (meal == null)
             {
                 return NotFound();
@@ -44,8 +47,9 @@ namespace WebApp.Controllers
         }
 
         // GET: Meal/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewData["CategoryId"] = new SelectList(await _uow.Categorys.AllAsync(User.UserGuidId()), "Id", "Name");
             return View();
         }
 
@@ -54,15 +58,15 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoryId,SizeId,Name,Picture,Modifications,Extras,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Meal meal)
+        public async Task<IActionResult> Create([Bind("CategoryId,Name,Picture,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Meal meal)
         {
             if (ModelState.IsValid)
             {
-                meal.Id = Guid.NewGuid();
-                _context.Add(meal);
-                await _context.SaveChangesAsync();
+                _uow.Meals.Add(meal);
+                await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoryId"] = new SelectList(await _uow.Categorys.AllAsync(User.UserGuidId()), "Id", "Name", meal.CategoryId);
             return View(meal);
         }
 
@@ -74,11 +78,13 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var meal = await _context.Meals.FindAsync(id);
+            var meal = await _uow.Meals.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (meal == null)
             {
                 return NotFound();
             }
+            ViewData["CategoryId"] = new SelectList(await _uow.Categorys.AllAsync(User.UserGuidId()), "Id", "Name", meal.CategoryId);
             return View(meal);
         }
 
@@ -87,7 +93,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("CategoryId,SizeId,Name,Picture,Modifications,Extras,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Meal meal)
+        public async Task<IActionResult> Edit(Guid id, [Bind("CategoryId,Name,Picture,Description,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] Meal meal)
         {
             if (id != meal.Id)
             {
@@ -96,24 +102,11 @@ namespace WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(meal);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MealExists(meal.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _uow.Meals.Update(meal);
+                await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoryId"] = new SelectList(await _uow.Categorys.AllAsync(User.UserGuidId()), "Id", "Name", meal.CategoryId);
             return View(meal);
         }
 
@@ -125,8 +118,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var meal = await _context.Meals
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var meal = await _uow.Meals.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (meal == null)
             {
                 return NotFound();
@@ -140,15 +133,9 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var meal = await _context.Meals.FindAsync(id);
-            _context.Meals.Remove(meal);
-            await _context.SaveChangesAsync();
+            await _uow.Meals.DeleteAsync(id, User.UserGuidId());
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool MealExists(Guid id)
-        {
-            return _context.Meals.Any(e => e.Id == id);
         }
     }
 }

@@ -2,27 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using Extensions;
 
 namespace WebApp.Controllers
 {
     public class ComponentController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _uow;
 
-        public ComponentController(AppDbContext context)
+        public ComponentController(IAppUnitOfWork uow)
         {
-            _context = context;
+            _uow = uow;
         }
 
         // GET: Component
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Components.ToListAsync());
+            var component = await _uow.Components.AllAsync(User.UserGuidId());
+            return View(component);
         }
 
         // GET: Component/Details/5
@@ -33,8 +36,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var component = await _context.Components
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var component = await _uow.Components.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (component == null)
             {
                 return NotFound();
@@ -58,9 +61,8 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                component.Id = Guid.NewGuid();
-                _context.Add(component);
-                await _context.SaveChangesAsync();
+                _uow.Components.Add(component);
+                await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(component);
@@ -74,7 +76,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var component = await _context.Components.FindAsync(id);
+            var component = await _uow.Components.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (component == null)
             {
                 return NotFound();
@@ -96,22 +99,8 @@ namespace WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(component);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ComponentExists(component.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _uow.Components.Update(component);
+                await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(component);
@@ -125,8 +114,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var component = await _context.Components
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var component = await _uow.Components.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (component == null)
             {
                 return NotFound();
@@ -140,15 +129,9 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var component = await _context.Components.FindAsync(id);
-            _context.Components.Remove(component);
-            await _context.SaveChangesAsync();
+            await _uow.Components.DeleteAsync(id, User.UserGuidId());
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ComponentExists(Guid id)
-        {
-            return _context.Components.Any(e => e.Id == id);
         }
     }
 }

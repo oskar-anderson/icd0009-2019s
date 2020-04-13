@@ -8,7 +8,7 @@
     {
         [MaxLength(32)] [MinLength(1)] public string Name { get; set; } = default!;
 
-        public virtual ICollection<Meal>? Meals { get; set; } 
+        public ICollection<Pizza>? Pizzas { get; set; } 
 
         /*
         

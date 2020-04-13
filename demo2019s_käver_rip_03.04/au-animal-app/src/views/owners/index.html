@@ -1,0 +1,44 @@
+<template>
+    <require from="../../components/alert"></require>
+
+    <alert alert-data.bind="_alert"></alert>
+
+    <h1>Index Owners</h1>
+    <p>
+        <a route-href="route: owners-create; params.bind: {}">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    FirstName
+                </th>
+                <th>
+                    LastName
+                </th>
+                <th>
+                    AnimalCount
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="owner of _owners">
+                <td>
+                    ${owner.firstName}
+                </td>
+                <td>
+                    ${owner.lastName}
+                </td>
+                <td>
+                    ${owner.animalCount}
+                </td>
+                <td>
+                    <a route-href="route: owners-edit; params.bind: { id: owner.id }">Edit</a> |
+                    <a route-href="route: owners-details; params.bind: { id: owner.id }">Details</a> |
+                    <a route-href="route: owners-delete; params.bind: { id: owner.id }">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</template>

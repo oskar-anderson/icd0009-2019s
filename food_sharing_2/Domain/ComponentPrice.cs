@@ -7,16 +7,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 {
     public class ComponentPrice : DomainEntity
     {
-        [MaxLength(32)] public string ComponentId { get; set; } = default!;
-        public virtual Component? Component { get; set; }
+        public Guid ComponentId { get; set; } = default!;
+        public Component? Component { get; set; }
 
-        [MaxLength(32)] public string RestaurantId { get; set; } = default!;
-        public virtual Restaurant? Restaurant { get; set; }
-
-        [Column(TypeName = "decimal(18,4)")]
+        public Guid RestaurantId { get; set; } = default!;
+        public Restaurant? Restaurant { get; set; }
+        
+        [DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Gross { get; set; } = default!;
 
-        [Column(TypeName = "decimal(18,4)")]
+        [DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Tax { get; set; } = default!;
 
         public DateTime Since { get; set; } = default!;

@@ -2,27 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using Extensions;
 
 namespace WebApp.Controllers
 {
     public class ItemController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _uow;
 
-        public ItemController(AppDbContext context)
+        public ItemController(IAppUnitOfWork uow)
         {
-            _context = context;
+            _uow = uow;
         }
 
         // GET: Item
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Items.ToListAsync());
+            var items = await _uow.Items.AllAsync(User.UserGuidId());
+            return View(items);
         }
 
         // GET: Item/Details/5
@@ -33,8 +36,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var item = await _context.Items
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var item = await _uow.Items.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (item == null)
             {
                 return NotFound();
@@ -44,8 +47,10 @@ namespace WebApp.Controllers
         }
 
         // GET: Item/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewData["InvoiceLineId"] = new SelectList(await _uow.InvoiceLines.AllAsync(User.UserGuidId()), "Id", "Name");
+            ViewData["SharingId"] = new SelectList(await _uow.Sharings.AllAsync(User.UserGuidId()), "Id", "Name");
             return View();
         }
 
@@ -58,11 +63,12 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                item.Id = Guid.NewGuid();
-                _context.Add(item);
-                await _context.SaveChangesAsync();
+                _uow.Items.Add(item);
+                await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["InvoiceLineId"] = new SelectList(await _uow.InvoiceLines.AllAsync(User.UserGuidId()), "Id", "Name", item.InvoiceLineId);
+            ViewData["SharingId"] = new SelectList(await _uow.Sharings.AllAsync(User.UserGuidId()), "Id", "Name", item.SharingId);
             return View(item);
         }
 
@@ -74,11 +80,14 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var item = await _context.Items.FindAsync(id);
+            var item = await _uow.Items.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (item == null)
             {
                 return NotFound();
             }
+            ViewData["InvoiceLineId"] = new SelectList(await _uow.InvoiceLines.AllAsync(User.UserGuidId()), "Id", "Name", item.InvoiceLineId);
+            ViewData["SharingId"] = new SelectList(await _uow.Sharings.AllAsync(User.UserGuidId()), "Id", "Name", item.SharingId);
             return View(item);
         }
 
@@ -96,24 +105,12 @@ namespace WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(item);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ItemExists(item.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _uow.Items.Update(item);
+                await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["InvoiceLineId"] = new SelectList(await _uow.InvoiceLines.AllAsync(User.UserGuidId()), "Id", "Name", item.InvoiceLineId);
+            ViewData["SharingId"] = new SelectList(await _uow.Sharings.AllAsync(User.UserGuidId()), "Id", "Name", item.SharingId);
             return View(item);
         }
 
@@ -125,8 +122,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var item = await _context.Items
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var item = await _uow.Items.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (item == null)
             {
                 return NotFound();
@@ -140,15 +137,9 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var item = await _context.Items.FindAsync(id);
-            _context.Items.Remove(item);
-            await _context.SaveChangesAsync();
+            await _uow.Items.DeleteAsync(id, User.UserGuidId());
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ItemExists(Guid id)
-        {
-            return _context.Items.Any(e => e.Id == id);
         }
     }
 }

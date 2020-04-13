@@ -8,23 +8,28 @@ using System.ComponentModel.DataAnnotations.Schema;
 {
     public class InvoiceLine : DomainEntity
     {
-        public string CartId { get; set; } = default!;
+        public Guid CartId { get; set; } = default!;
         public Cart? Cart { get; set; }
 
-        public string InvoiceId { get; set; } = default!;
+        public Guid InvoiceId { get; set; } = default!;
         public Invoice? Invoice { get; set; }
 
         [MaxLength(32)] [MinLength(1)] public string Name { get; set; } = default!;
 
         public int Quantity { get; set; } = default!;
 
-        [Column(TypeName = "decimal(18,4)")]
+        [DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Net { get; set; } = default!;
 
-        [Column(TypeName = "decimal(18,4)")] public decimal Tax { get; set; } = default!;
+        [DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal Tax { get; set; } = default!;
 
-        [Column(TypeName = "decimal(18,4)")] public decimal Gross { get; set; } = default!;
+        [DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal Gross { get; set; } = default!;
         
-        public virtual ICollection<Item>? Items { get; set; }
+        public ICollection<Item>? Items { get; set; }
     }
 }

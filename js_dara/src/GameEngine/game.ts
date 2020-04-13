@@ -50,7 +50,8 @@ export class Game {
     static grid = () => <HTMLElement[]> Array.from(document.getElementsByClassName('q'));    // get all quadrents
     static bloat = () => Game.grid().map(x => x.innerHTML)
     static emptyQs = () => Game.grid().filter(qEl => Game.tileIsEmpty(qEl));     // get empty quadrents
-    static legalPlacementQs = (symbol: string) => Game.emptyQs().filter(qEl => ! Game.isWinningCombo(symbol, Game.bloat(), Game.gridIndex(qEl), true));
+    static legalPlacementQs = (symbol: string) => Game.emptyQs().filter(qEl => 
+        ! Game.isWinningCombo(symbol, Game.bloat(), Game.gridIndex(qEl), true));
     static myQs = (game: Game) => Game.grid().filter(qEl => qEl.innerText === game.ActivePlayer.Symbol);
     static oppQs = (game: Game) => Game.grid().filter(qEl => qEl.innerText === game.InActivePlayer.Symbol);
     static tileIsEmpty = (qEl: HTMLElement) => qEl.innerText === '';

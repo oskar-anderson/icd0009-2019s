@@ -1,4 +1,5 @@
-﻿﻿using System.Collections;
+﻿﻿using System;
+ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,11 +9,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 {
     public class CartMeal : DomainEntity
     {
-        [MaxLength(36)]
-        public string CartId { get; set; } = default!;
-        public virtual Cart? Cart { get; set; }
+        public Guid CartId { get; set; } = default!;
+        public Cart Cart { get; set; }
 
-        [MaxLength(36)] public string MealId { get; set; } = default!;
-        public virtual Meal? Meal { get; set; }
+        public Guid? MealId { get; set; }
+        public Meal Meal { get; set; }
+        
+        public Guid? PizzaFinalId { get; set; }
+        public PizzaFinal PizzaFinal { get; set; }
     }
 }

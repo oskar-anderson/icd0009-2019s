@@ -2,27 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using Extensions;
 
 namespace WebApp.Controllers
 {
     public class UserLocationController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _uow;
 
-        public UserLocationController(AppDbContext context)
+        public UserLocationController(IAppUnitOfWork uow)
         {
-            _context = context;
+            _uow = uow;
         }
 
         // GET: UserLocation
         public async Task<IActionResult> Index()
         {
-            return View(await _context.UserLocations.ToListAsync());
+            var userLocations = await _uow.UserLocations.AllAsync(User.UserGuidId());
+            return View(userLocations);
         }
 
         // GET: UserLocation/Details/5
@@ -33,8 +36,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var userLocation = await _context.UserLocations
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var userLocation = await _uow.UserLocations.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (userLocation == null)
             {
                 return NotFound();
@@ -44,8 +47,9 @@ namespace WebApp.Controllers
         }
 
         // GET: UserLocation/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewData["AppUserId"] = new SelectList(await _uow.UserLocations.AllAsync(User.UserGuidId()), "Id", "FirstName");
             return View();
         }
 
@@ -58,11 +62,11 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                userLocation.Id = Guid.NewGuid();
-                _context.Add(userLocation);
-                await _context.SaveChangesAsync();
+                _uow.UserLocations.Add(userLocation);
+                await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AppUserId"] = new SelectList(await _uow.UserLocations.AllAsync(User.UserGuidId()), "Id", "FirstName", userLocation.AppUserId);
             return View(userLocation);
         }
 
@@ -74,11 +78,13 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var userLocation = await _context.UserLocations.FindAsync(id);
+            var userLocation = await _uow.UserLocations.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (userLocation == null)
             {
                 return NotFound();
             }
+            ViewData["AppUserId"] = new SelectList(await _uow.UserLocations.AllAsync(User.UserGuidId()), "Id", "FirstName", userLocation.AppUserId);
             return View(userLocation);
         }
 
@@ -96,24 +102,11 @@ namespace WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(userLocation);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UserLocationExists(userLocation.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _uow.UserLocations.Update(userLocation);
+                await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AppUserId"] = new SelectList(await _uow.UserLocations.AllAsync(User.UserGuidId()), "Id", "FirstName", userLocation.AppUserId);
             return View(userLocation);
         }
 
@@ -125,8 +118,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var userLocation = await _context.UserLocations
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var userLocation = await _uow.UserLocations.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+            
             if (userLocation == null)
             {
                 return NotFound();
@@ -140,15 +133,10 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var userLocation = await _context.UserLocations.FindAsync(id);
-            _context.UserLocations.Remove(userLocation);
-            await _context.SaveChangesAsync();
+            await _uow.UserLocations.DeleteAsync(id, User.UserGuidId());
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserLocationExists(Guid id)
-        {
-            return _context.UserLocations.Any(e => e.Id == id);
-        }
     }
 }

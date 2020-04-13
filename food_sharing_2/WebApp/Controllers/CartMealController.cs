@@ -2,27 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts.DAL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.App.EF;
 using Domain;
+using Extensions;
 
 namespace WebApp.Controllers
 {
     public class CartMealController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IAppUnitOfWork _uow;
 
-        public CartMealController(AppDbContext context)
+        public CartMealController(IAppUnitOfWork uow)
         {
-            _context = context;
+            _uow = uow;
         }
 
         // GET: CartMeal
         public async Task<IActionResult> Index()
         {
-            return View(await _context.CartMeals.ToListAsync());
+            var cartMeal = await _uow.CartMeals.AllAsync(User.UserGuidId());
+            return View(cartMeal);
         }
 
         // GET: CartMeal/Details/5
@@ -33,8 +36,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var cartMeal = await _context.CartMeals
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var cartMeal = await _uow.CartMeals.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (cartMeal == null)
             {
                 return NotFound();
@@ -44,8 +47,11 @@ namespace WebApp.Controllers
         }
 
         // GET: CartMeal/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewData["CartId"] = new SelectList(await _uow.Carts.AllAsync(User.UserGuidId()), "Id", "Id");
+            ViewData["MealId"] = new SelectList(await _uow.Meals.AllAsync(User.UserGuidId()), "Id", "Name");
+            ViewData["PizzaFinalId"] = new SelectList(await _uow.PizzaFinals.AllAsync(User.UserGuidId()), "Id", "Changes");
             return View();
         }
 
@@ -54,15 +60,17 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CartId,MealId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] CartMeal cartMeal)
+        public async Task<IActionResult> Create([Bind("CartId,MealId,PizzaFinalId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] CartMeal cartMeal)
         {
             if (ModelState.IsValid)
             {
-                cartMeal.Id = Guid.NewGuid();
-                _context.Add(cartMeal);
-                await _context.SaveChangesAsync();
+                _uow.CartMeals.Add(cartMeal);
+                await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CartId"] = new SelectList(await _uow.Carts.AllAsync(User.UserGuidId()), "Id", "Id", cartMeal.CartId);
+            ViewData["MealId"] = new SelectList(await _uow.Meals.AllAsync(User.UserGuidId()), "Id", "Name", cartMeal.MealId);
+            ViewData["PizzaFinalId"] = new SelectList(await _uow.PizzaFinals.AllAsync(User.UserGuidId()), "Id", "Changes", cartMeal.PizzaFinalId);
             return View(cartMeal);
         }
 
@@ -74,11 +82,15 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var cartMeal = await _context.CartMeals.FindAsync(id);
+            var cartMeal = await _uow.CartMeals.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (cartMeal == null)
             {
                 return NotFound();
             }
+            ViewData["CartId"] = new SelectList(await _uow.Carts.AllAsync(User.UserGuidId()), "Id", "Id", cartMeal.CartId);
+            ViewData["MealId"] = new SelectList(await _uow.Meals.AllAsync(User.UserGuidId()), "Id", "Name", cartMeal.MealId);
+            ViewData["PizzaFinalId"] = new SelectList(await _uow.PizzaFinals.AllAsync(User.UserGuidId()), "Id", "Changes", cartMeal.PizzaFinalId);
             return View(cartMeal);
         }
 
@@ -87,7 +99,7 @@ namespace WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("CartId,MealId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] CartMeal cartMeal)
+        public async Task<IActionResult> Edit(Guid id, [Bind("CartId,MealId,PizzaFinalId,Id,CreatedBy,CreatedAt,ChangedBy,ChangedAt")] CartMeal cartMeal)
         {
             if (id != cartMeal.Id)
             {
@@ -96,24 +108,13 @@ namespace WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(cartMeal);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CartMealExists(cartMeal.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _uow.CartMeals.Update(cartMeal);
+                await _uow.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CartId"] = new SelectList(await _uow.Carts.AllAsync(User.UserGuidId()), "Id", "Id", cartMeal.CartId);
+            ViewData["MealId"] = new SelectList(await _uow.Meals.AllAsync(User.UserGuidId()), "Id", "Name", cartMeal.MealId);
+            ViewData["PizzaFinalId"] = new SelectList(await _uow.PizzaFinals.AllAsync(User.UserGuidId()), "Id", "Changes", cartMeal.PizzaFinalId);
             return View(cartMeal);
         }
 
@@ -125,8 +126,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var cartMeal = await _context.CartMeals
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var cartMeal = await _uow.CartMeals.FirstOrDefaultAsync(id.Value, User.UserGuidId());
+
             if (cartMeal == null)
             {
                 return NotFound();
@@ -140,15 +141,9 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var cartMeal = await _context.CartMeals.FindAsync(id);
-            _context.CartMeals.Remove(cartMeal);
-            await _context.SaveChangesAsync();
+            await _uow.CartMeals.DeleteAsync(id, User.UserGuidId());
+            await _uow.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool CartMealExists(Guid id)
-        {
-            return _context.CartMeals.Any(e => e.Id == id);
         }
     }
 }

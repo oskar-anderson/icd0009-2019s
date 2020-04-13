@@ -6,10 +6,6 @@
 {
     public class Restaurant : DomainEntity
     {
-        public string ? MenuId { get; set; }
-        public virtual Menu ? Menu { get; set; }
-
-
         [MinLength(1)] [MaxLength(64)] public string Name { get; set; } = default!;
 
         [MinLength(1)] [MaxLength(64)] public string Location { get; set; } = default!;
@@ -20,10 +16,10 @@
 
         [MinLength(1)] [MaxLength(64)] public string OpenNotification { get; set; } = default!;
 
-        public virtual ICollection<Cart>? Carts { get; set; } 
-        public virtual ICollection<Invoice>? Invoices { get; set; } 
-        public virtual ICollection<MealPrice>? MealPrices { get; set; } 
-        public virtual ICollection<ComponentPrice>? ComponentPrices { get; set; } 
+        public ICollection<Cart>? Carts { get; set; } 
+        public ICollection<Invoice>? Invoices { get; set; } 
+        public ICollection<RestaurantFood>? RestaurantFoods { get; set; } 
+        public ICollection<ComponentPrice>? ComponentPrices { get; set; } 
         
         /*
         Pitsa Riina
