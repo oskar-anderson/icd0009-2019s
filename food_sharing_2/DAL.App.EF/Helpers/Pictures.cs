@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DAL.App.EF.Helpers
+namespace Domain.Base.App.EF.Helpers
 {
     public class Pictures
     {

@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
-using DAL.Base.EF.Repositories;
-using Domain;
+using Domain.Base.EF.Repositories;
+using Domain.Base.Mappers;
 using Microsoft.EntityFrameworkCore;
-using PublicApi.DTO.v1;
 
-namespace DAL.App.EF.Repositories
+namespace Domain.Base.App.EF.Repositories
 {
-    public class PersonRepository :  EFBaseRepository<Person, AppDbContext>, IPersonRepository
+    public class PersonRepository : EFBaseRepository<AppDbContext, Domain.Identity.AppUser, Domain.Person, DTO.Person>, 
+        IPersonRepository
     {
-        public PersonRepository(AppDbContext dbContext) : base(dbContext)
+        public PersonRepository(AppDbContext dbContext) : base(dbContext, 
+            new BaseMapper<Domain.Person, DTO.Person>())
         {
         }
 
-        public async Task<IEnumerable<Person>> AllAsync(Guid? userId = null)
+        public async Task<IEnumerable<DTO.Person>> GetAllAsync(Guid id, Guid? userId = null, bool noTracking = true)
         {
             var query = RepoDbSet
                 .AsQueryable();
@@ -26,10 +27,11 @@ namespace DAL.App.EF.Repositories
                 query = query.Where(p => p.AppUserId == userId);
             }
 
-            return await query.ToListAsync();
+            return (await query.ToListAsync()).
+                Select(domainEntity => Mapper.Map(domainEntity));
         }
 
-        public async Task<Person> FirstOrDefaultAsync(Guid id, Guid? userId = null)
+        public async Task<DTO.Person> FirstOrDefaultAsync(Guid id, Guid? userId = null)
         {
             var query = RepoDbSet
                 .Where(p => p.Id == id)
@@ -40,7 +42,7 @@ namespace DAL.App.EF.Repositories
                 query = query.Where(p => p.AppUserId == userId);
             }
 
-            return await query.FirstOrDefaultAsync();
+            return Mapper.Map(await query.FirstOrDefaultAsync());
         }
 
         public async Task<bool> ExistsAsync(Guid id, Guid? userId = null)
@@ -57,9 +59,10 @@ namespace DAL.App.EF.Repositories
         public async Task DeleteAsync(Guid id, Guid? userId = null)
         {
             var person = await FirstOrDefaultAsync(id, userId);
-            base.Remove(person);
+            await base.RemoveAsync(person.Id);
         }
 
+        /*
         public async Task<IEnumerable<PersonDTO>> DTOAllAsync(Guid? userId = null)
         {
             var query = RepoDbSet.AsQueryable();
@@ -100,5 +103,6 @@ namespace DAL.App.EF.Repositories
             
             return cartMealDTO;
         }
+        */
     }
 }

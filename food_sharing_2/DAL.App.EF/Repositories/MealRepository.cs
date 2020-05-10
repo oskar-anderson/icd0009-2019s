@@ -3,34 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
-using DAL.Base.EF.Repositories;
-using Domain;
+using Domain.Base.EF.Repositories;
+using Domain.Base.Mappers;
 using Microsoft.EntityFrameworkCore;
-using PublicApi.DTO.v1;
 
-namespace DAL.App.EF.Repositories
+namespace Domain.Base.App.EF.Repositories
 {
-    public class MealRepository :  EFBaseRepository<Meal, AppDbContext>, IMealRepository
+    public class MealRepository : EFBaseRepository<AppDbContext, Domain.Identity.AppUser, Domain.Meal, DTO.Meal>, 
+        IMealRepository
     {
-        public MealRepository(AppDbContext dbContext) : base(dbContext)
+        public MealRepository(AppDbContext dbContext) : base(dbContext, 
+            new BaseMapper<Domain.Meal, DTO.Meal>())
         {
         }
 
-        public async Task<IEnumerable<Meal>> AllAsync(Guid? userId = null)
+        public async Task<IEnumerable<DTO.Meal>> GetAllAsync(Guid id, Guid? userId = null, bool noTracking = true)
         {
             var query = RepoDbSet
                 .Include(m => m.Category)
                 .AsQueryable();
-            return await query.ToListAsync();
+            return (await query.ToListAsync()).
+                Select(domainEntity => Mapper.Map(domainEntity));
         }
 
-        public async Task<Meal> FirstOrDefaultAsync(Guid id, Guid? userId = null)
+        public async Task<DTO.Meal> FirstOrDefaultAsync(Guid id, Guid? userId = null)
         {
             var query = RepoDbSet
                 .Include(m => m.Category)
                 .Where(m => m.Id == id)
                 .AsQueryable();
-            return await query.FirstOrDefaultAsync();
+            return Mapper.Map(await query.FirstOrDefaultAsync());
         }
 
         public async Task<bool> ExistsAsync(Guid id, Guid? userId = null)
@@ -42,9 +44,10 @@ namespace DAL.App.EF.Repositories
         public async Task DeleteAsync(Guid id, Guid? userId = null)
         {
             var meal = await FirstOrDefaultAsync(id, userId);
-            base.Remove(meal);
+            await base.RemoveAsync(meal.Id);
         }
-
+        
+        /*
         public async Task<IEnumerable<MealDTO>> DTOAllAsync(Guid? userId = null)
         {
             var query = RepoDbSet.AsQueryable();
@@ -84,5 +87,6 @@ namespace DAL.App.EF.Repositories
 
             return mealDTO;
         }
+        */
     }
 }

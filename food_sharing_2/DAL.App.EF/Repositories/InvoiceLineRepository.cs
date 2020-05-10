@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
-using DAL.Base.EF.Repositories;
-using Domain;
+using Domain.Base.EF.Repositories;
+using Domain.Base.Mappers;
 using Microsoft.EntityFrameworkCore;
-using PublicApi.DTO.v1;
 
-namespace DAL.App.EF.Repositories
+namespace Domain.Base.App.EF.Repositories
 {
-    public class InvoiceLineRepository :  EFBaseRepository<InvoiceLine, AppDbContext>, IInvoiceLineRepository
+    public class InvoiceLineRepository : EFBaseRepository<AppDbContext, Domain.Identity.AppUser, Domain.InvoiceLine, DTO.InvoiceLine>, 
+        IInvoiceLineRepository
     {
-        public InvoiceLineRepository(AppDbContext dbContext) : base(dbContext)
+        public InvoiceLineRepository(AppDbContext dbContext) : base(dbContext, 
+            new BaseMapper<Domain.InvoiceLine, DTO.InvoiceLine>())
         {
         }
 
-        public async Task<IEnumerable<InvoiceLine>> AllAsync(Guid? userId = null)
+        public async Task<IEnumerable<DTO.InvoiceLine>> GetAllAsync(Guid id, Guid? userId = null, bool noTracking = true)
         {
             var query = RepoDbSet
                 .Include(a => a.Invoice)
@@ -28,10 +29,11 @@ namespace DAL.App.EF.Repositories
                 query = query.Where(il => il.Invoice.Person.AppUser.Id == userId);
             }
 
-            return await query.ToListAsync();
+            return (await query.ToListAsync()).
+                Select(domainEntity => Mapper.Map(domainEntity));
         }
 
-        public async Task<InvoiceLine> FirstOrDefaultAsync(Guid id, Guid? userId = null)
+        public async Task<DTO.InvoiceLine> FirstOrDefaultAsync(Guid id, Guid? userId = null)
         {
             var query = RepoDbSet
                 .Include(a => a.Invoice)
@@ -44,7 +46,7 @@ namespace DAL.App.EF.Repositories
                 query = query.Where(il => il.Invoice.Person.AppUser.Id == userId);
             }
 
-            return await query.FirstOrDefaultAsync();
+            return Mapper.Map(await query.FirstOrDefaultAsync());
         }
 
         public async Task<bool> ExistsAsync(Guid id, Guid? userId = null)
@@ -60,9 +62,10 @@ namespace DAL.App.EF.Repositories
         public async Task DeleteAsync(Guid id, Guid? userId = null)
         {
             var invoiceLine = await FirstOrDefaultAsync(id, userId);
-            base.Remove(invoiceLine);
+            await base.RemoveAsync(invoiceLine.Id);
         }
 
+        /*
         public async Task<IEnumerable<InvoiceLineDTO>> DTOAllAsync(Guid? userId = null)
         {
             var query = RepoDbSet
@@ -238,5 +241,6 @@ namespace DAL.App.EF.Repositories
                     
                 }).FirstOrDefaultAsync();
         }
+        */
     }
 }

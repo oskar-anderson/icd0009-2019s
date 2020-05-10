@@ -1,5 +1,4 @@
 ﻿using System;
-using Domain;
 
 namespace PublicApi.DTO.v1
 {

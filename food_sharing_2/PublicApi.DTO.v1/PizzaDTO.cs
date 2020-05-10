@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Domain;
 
 namespace PublicApi.DTO.v1
 {

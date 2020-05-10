@@ -1,0 +1,29 @@
+stages:
+  - build
+  - deploy
+
+# save node_modules from build to deploy
+cache:
+  paths:
+    - WebApp/node_modules
+
+build:
+  stage: build
+  script:
+    - cd WebApp
+    - npm install
+    - cd ..
+    - dotnet build
+  tags:
+    - default
+
+deploy:
+  stage: deploy
+  script:
+    - /home/com.akaver.sportmap/publish-aspnet.sh
+  environment:
+    name: release
+  only:
+    - master
+  tags:
+    - default

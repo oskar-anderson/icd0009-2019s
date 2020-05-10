@@ -3,34 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
-using DAL.Base.EF.Repositories;
-using Domain;
+using Domain.Base.EF.Repositories;
+using Domain.Base.Mappers;
 using Microsoft.EntityFrameworkCore;
-using PublicApi.DTO.v1;
 
-namespace DAL.App.EF.Repositories
+namespace Domain.Base.App.EF.Repositories
 {
-    public class PaymentMethodRepository :  EFBaseRepository<PaymentMethod, AppDbContext>, IPaymentMethodRepository
+    public class PaymentMethodRepository : EFBaseRepository<AppDbContext, Domain.Identity.AppUser, Domain.PaymentMethod, DTO.PaymentMethod>, 
+        IPaymentMethodRepository
     {
-        public PaymentMethodRepository(AppDbContext dbContext) : base(dbContext)
+        public PaymentMethodRepository(AppDbContext dbContext) : base(dbContext, 
+            new BaseMapper<Domain.PaymentMethod, DTO.PaymentMethod>())
         {
         }
 
-        public async Task<IEnumerable<PaymentMethod>> AllAsync(Guid? userId = null)
+        public async Task<IEnumerable<DTO.PaymentMethod>> GetAllAsync(Guid id, Guid? userId = null, bool noTracking = true)
         {
             var query = RepoDbSet
                 .AsQueryable();
             
-            return await query.ToListAsync();
+            return (await query.ToListAsync()).
+                Select(domainEntity => Mapper.Map(domainEntity));
         }
 
-        public async Task<PaymentMethod> FirstOrDefaultAsync(Guid id, Guid? userId = null)
+        public async Task<DTO.PaymentMethod> FirstOrDefaultAsync(Guid id, Guid? userId = null)
         {
             var query = RepoDbSet
                 .Where(cm => cm.Id == id)
                 .AsQueryable();
             
-            return await query.FirstOrDefaultAsync();
+            return Mapper.Map(await query.FirstOrDefaultAsync());
         }
 
         public async Task<bool> ExistsAsync(Guid id, Guid? userId = null)
@@ -41,9 +43,10 @@ namespace DAL.App.EF.Repositories
         public async Task DeleteAsync(Guid id, Guid? userId = null)
         {
             var paymentMethod = await FirstOrDefaultAsync(id, userId);
-            base.Remove(paymentMethod);
+            await base.RemoveAsync(paymentMethod.Id);
         }
 
+        /*
         public async Task<IEnumerable<PaymentMethodDTO>> DTOAllAsync(Guid? userId = null)
         {
             var query = RepoDbSet.AsQueryable();
@@ -75,5 +78,6 @@ namespace DAL.App.EF.Repositories
             
             return cartMealDTO;
         }
+        */
     }
 }

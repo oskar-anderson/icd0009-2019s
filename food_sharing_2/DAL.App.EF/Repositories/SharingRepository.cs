@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
-using DAL.Base.EF.Repositories;
-using Domain;
+using Domain.Base.EF.Repositories;
+using Domain.Base.Mappers;
 using Microsoft.EntityFrameworkCore;
-using PublicApi.DTO.v1;
 
-namespace DAL.App.EF.Repositories
+namespace Domain.Base.App.EF.Repositories
 {
-    public class SharingRepository :  EFBaseRepository<Sharing, AppDbContext>, ISharingRepository
+    public class SharingRepository : EFBaseRepository<AppDbContext, Domain.Identity.AppUser, Domain.Sharing, DTO.Sharing>, 
+        ISharingRepository
     {
-        public SharingRepository(AppDbContext dbContext) : base(dbContext)
+        public SharingRepository(AppDbContext dbContext) : base(dbContext, 
+            new BaseMapper<Domain.Sharing, DTO.Sharing>())
         {
         }
 
-        public async Task<IEnumerable<Sharing>> AllAsync(Guid? userId = null)
+        public async Task<IEnumerable<DTO.Sharing>> GetAllAsync(Guid id, Guid? userId = null, bool noTracking = true)
         {
             var query = RepoDbSet
                 .AsQueryable();
@@ -26,10 +27,11 @@ namespace DAL.App.EF.Repositories
                 query = query.Where(s => s.AppUserId == userId);
             }
 
-            return await query.ToListAsync();
+            return (await query.ToListAsync()).
+                Select(domainEntity => Mapper.Map(domainEntity));
         }
 
-        public async Task<Sharing> FirstOrDefaultAsync(Guid id, Guid? userId = null)
+        public async Task<DTO.Sharing> FirstOrDefaultAsync(Guid id, Guid? userId = null)
         {
             var query = RepoDbSet
                 .Where(s => s.Id == id)
@@ -40,7 +42,7 @@ namespace DAL.App.EF.Repositories
                 query = query.Where(s => s.AppUserId == userId);
             }
 
-            return await query.FirstOrDefaultAsync();
+            return Mapper.Map(await query.FirstOrDefaultAsync());
         }
 
         public async Task<bool> ExistsAsync(Guid id, Guid? userId = null)
@@ -57,9 +59,10 @@ namespace DAL.App.EF.Repositories
         public async Task DeleteAsync(Guid id, Guid? userId = null)
         {
             var sharing = await FirstOrDefaultAsync(id, userId);
-            base.Remove(sharing);
+            await base.RemoveAsync(sharing.Id);
         }
-
+        
+        /*
         public async Task<IEnumerable<SharingDTO>> DTOAllAsync(Guid? userId = null)
         {
             var query = RepoDbSet.AsQueryable();
@@ -89,5 +92,6 @@ namespace DAL.App.EF.Repositories
             
             return sharingDTO;
         }
+        */
     }
 }

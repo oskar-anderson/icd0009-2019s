@@ -3,36 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
-using DAL.Base.EF.Repositories;
-using Domain;
+using Domain.Base.EF.Repositories;
+using Domain.Base.Mappers;
 using Microsoft.EntityFrameworkCore;
-using PublicApi.DTO.v1;
 
-namespace DAL.App.EF.Repositories
+namespace Domain.Base.App.EF.Repositories
 {
-    public class PizzaRepository :  EFBaseRepository<Pizza, AppDbContext>, IPizzaRepository
+    public class PizzaRepository : EFBaseRepository<AppDbContext, Domain.Identity.AppUser, Domain.Pizza, DTO.Pizza>, 
+        IPizzaRepository
     {
-        public PizzaRepository(AppDbContext dbContext) : base(dbContext)
+        public PizzaRepository(AppDbContext dbContext) : base(dbContext, 
+            new BaseMapper<Domain.Pizza, DTO.Pizza>())
         {
         }
 
-        public async Task<IEnumerable<Pizza>> AllAsync(Guid? userId = null)
+        public async Task<IEnumerable<DTO.Pizza>> GetAllAsync(Guid id, Guid? userId = null, bool noTracking = true)
         {
             var query = RepoDbSet
                 .Include(p => p.Size)
                 .Include(p => p.PizzaTemplate)
                 .AsQueryable();
-            return await query.ToListAsync();
+            return (await query.ToListAsync()).
+                Select(domainEntity => Mapper.Map(domainEntity));
         }
 
-        public async Task<Pizza> FirstOrDefaultAsync(Guid id, Guid? userId = null)
+        public async Task<DTO.Pizza> FirstOrDefaultAsync(Guid id, Guid? userId = null)
         {
             var query = RepoDbSet
                 .Include(p => p.Size)
                 .Include(p => p.PizzaTemplate)
                 .Where(p => p.Id == id)
                 .AsQueryable();
-            return await query.FirstOrDefaultAsync();
+            return Mapper.Map(await query.FirstOrDefaultAsync());
         }
 
         public async Task<bool> ExistsAsync(Guid id, Guid? userId = null)
@@ -44,9 +46,10 @@ namespace DAL.App.EF.Repositories
         public async Task DeleteAsync(Guid id, Guid? userId = null)
         {
             var pizza = await FirstOrDefaultAsync(id, userId);
-            base.Remove(pizza);
+            await base.RemoveAsync(pizza.Id);
         }
 
+        /*
         public async Task<IEnumerable<PizzaDTO>> DTOAllAsync(Guid? userId = null)
         {
             var query = RepoDbSet.AsQueryable();
@@ -116,5 +119,6 @@ namespace DAL.App.EF.Repositories
             
             return pizzaDTO;
         }
+        */
     }
 }

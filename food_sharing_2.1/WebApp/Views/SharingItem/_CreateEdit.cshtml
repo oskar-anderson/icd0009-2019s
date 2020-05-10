@@ -1,0 +1,50 @@
+﻿@model BLL.App.DTO.SharingItem
+
+<div class="form-group">
+    <label asp-for="SharingId" class="control-label"></label>
+    <select asp-for="SharingId" class ="form-control" asp-items="ViewBag.SharingId"></select>
+</div>
+<div class="form-group">
+    <label asp-for="ItemId" class="control-label"></label>
+    <select asp-for="ItemId" class ="form-control" asp-items="ViewBag.ItemId"></select>
+</div>
+<div class="form-group">
+    <label asp-for="FriendName" class="control-label"></label>
+    <input asp-for="FriendName" class="form-control" />
+    <span asp-validation-for="FriendName" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Percent" class="control-label"></label>
+    <input asp-for="Percent" class="form-control" />
+    <span asp-validation-for="Percent" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="FriendOwns" class="control-label"></label>
+    <input asp-for="FriendOwns" class="form-control" />
+    <span asp-validation-for="FriendOwns" class="text-danger"></span>
+</div>
+
+
+
+@*
+<div class="form-group">
+    <label asp-for="CreatedBy" class="control-label"></label>
+    <input asp-for="CreatedBy" class="form-control" />
+    <span asp-validation-for="CreatedBy" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="CreatedAt" class="control-label"></label>
+    <input asp-for="CreatedAt" class="form-control" />
+    <span asp-validation-for="CreatedAt" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ChangedBy" class="control-label"></label>
+    <input asp-for="ChangedBy" class="form-control" />
+    <span asp-validation-for="ChangedBy" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ChangedAt" class="control-label"></label>
+    <input asp-for="ChangedAt" class="form-control" />
+    <span asp-validation-for="ChangedAt" class="text-danger"></span>
+</div>
+*@

@@ -2,31 +2,33 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Contracts.DAL.Base;
+using Contracts.DAL.Base.Repositories;
+using DAL.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Base.EF
+namespace Domain.Base.EF
 {
-    public class EFBaseUnitOfWork<TDbContext> : BaseUnitOfWork, IBaseUnitOfWork
-    where TDbContext : DbContext
+    public class EFBaseUnitOfWork<TKey, TDbContext> : BaseUnitOfWork<TKey>
+        where TDbContext : DbContext 
+        where TKey : IEquatable<TKey>
+
     {
-        protected TDbContext UOWDbContext;
+        protected readonly TDbContext UOWDbContext;
+        
 
         public EFBaseUnitOfWork(TDbContext uowDbContext)
         {
             UOWDbContext = uowDbContext;
         }
-        
-        public int SaveChanges()
-        {
-            return UOWDbContext.SaveChanges();
-        }
 
-        public async Task<int> SaveChangesAsync()
+        public override async Task<int> SaveChangesAsync()
         {
             // calls DAL.App.EF/AppDbContext/SaveChangesAsynch which generates metadata
-            return await UOWDbContext.SaveChangesAsync();
+            var result =  await UOWDbContext.SaveChangesAsync();
+            
+            UpdateTrackedEntities();
+             
+            return result;
         }
-        
-
     }
 }

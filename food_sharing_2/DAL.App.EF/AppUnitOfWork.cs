@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using Contracts.DAL.App;
 using Contracts.DAL.App.Repositories;
 using Contracts.DAL.Base;
-using DAL.App.EF.Repositories;
-using DAL.Base.EF;
+using Domain.Base.App.EF.Repositories;
+using Domain.Base.EF;
 
-namespace DAL.App.EF
+namespace Domain.Base.App.EF
 {
-    public class AppUnitOfWork : EFBaseUnitOfWork<AppDbContext>, IAppUnitOfWork
+    public class AppUnitOfWork : EFBaseUnitOfWork<Guid, AppDbContext>, IAppUnitOfWork
     {
         public AppUnitOfWork(AppDbContext uowDbContext) : base(uowDbContext)
         {

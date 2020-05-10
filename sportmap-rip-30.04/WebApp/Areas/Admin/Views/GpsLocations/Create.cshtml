@@ -1,0 +1,94 @@
+@model Domain.App.GpsLocation
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>GpsLocation</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RecordedAt" class="control-label"></label>
+                <input asp-for="RecordedAt" class="form-control" />
+                <span asp-validation-for="RecordedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Latitude" class="control-label"></label>
+                <input asp-for="Latitude" class="form-control" />
+                <span asp-validation-for="Latitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Longitude" class="control-label"></label>
+                <input asp-for="Longitude" class="form-control" />
+                <span asp-validation-for="Longitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Accuracy" class="control-label"></label>
+                <input asp-for="Accuracy" class="form-control" />
+                <span asp-validation-for="Accuracy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Altitude" class="control-label"></label>
+                <input asp-for="Altitude" class="form-control" />
+                <span asp-validation-for="Altitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VerticalAccuracy" class="control-label"></label>
+                <input asp-for="VerticalAccuracy" class="form-control" />
+                <span asp-validation-for="VerticalAccuracy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GpsSessionId" class="control-label"></label>
+                <select asp-for="GpsSessionId" class ="form-control" asp-items="ViewBag.GpsSessionId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="GpsLocationTypeId" class="control-label"></label>
+                <select asp-for="GpsLocationTypeId" class ="form-control" asp-items="ViewBag.GpsLocationTypeId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="TrackPointId" class="control-label"></label>
+                <select asp-for="TrackPointId" class ="form-control" asp-items="ViewBag.TrackPointId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppUserId" class="control-label"></label>
+                <select asp-for="AppUserId" class ="form-control" asp-items="ViewBag.AppUserId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedBy" class="control-label"></label>
+                <input asp-for="CreatedBy" class="form-control" />
+                <span asp-validation-for="CreatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedAt" class="control-label"></label>
+                <input asp-for="CreatedAt" class="form-control" />
+                <span asp-validation-for="CreatedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ChangedBy" class="control-label"></label>
+                <input asp-for="ChangedBy" class="form-control" />
+                <span asp-validation-for="ChangedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ChangedAt" class="control-label"></label>
+                <input asp-for="ChangedAt" class="form-control" />
+                <span asp-validation-for="ChangedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -3,34 +3,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
-using DAL.Base.EF.Repositories;
-using Domain;
+using Domain.Base.App.DTO;
+using Domain.Base.EF.Repositories;
+using Domain.Base.Mappers;
 using Microsoft.EntityFrameworkCore;
-using PublicApi.DTO.v1;
 
-namespace DAL.App.EF.Repositories
+namespace Domain.Base.App.EF.Repositories
 {
-    public class PizzaTemplateRepository :  EFBaseRepository<PizzaTemplate, AppDbContext>, IPizzaTemplateRepository
+    public class PizzaTemplateRepository : EFBaseRepository<AppDbContext, Domain.Identity.AppUser, Domain.PizzaTemplate, DTO.PizzaTemplate>, 
+        IPizzaTemplateRepository
     {
-        public PizzaTemplateRepository(AppDbContext dbContext) : base(dbContext)
+        public PizzaTemplateRepository(AppDbContext dbContext) : base(dbContext, 
+            new BaseMapper<Domain.PizzaTemplate, DTO.PizzaTemplate>())
+        //new DAL.Base.Mappers.BaseMapper<Domain.App.PizzaTemplate, DAL.App.DTO.PizzaTemplate>())
         {
         }
 
-        public async Task<IEnumerable<PizzaTemplate>> AllAsync(Guid? userId = null)
+        public override async Task<IEnumerable<DTO.PizzaTemplate>> GetAllAsyncBase(object userId = null, bool noTracking = true)
         {
             var query = RepoDbSet
                 .Include(p => p.Category)
                 .AsQueryable();
-            return await query.ToListAsync();
+            return (await query.ToListAsync())
+                .Select(domainEntity => Mapper.Map(domainEntity));
         }
 
-        public async Task<PizzaTemplate> FirstOrDefaultAsync(Guid id, Guid? userId = null)
+        public virtual async Task<IEnumerable<DTO.PizzaTemplate>> GetAllAsyncSpecific_DALAppEF_BLLBase(Guid id, Guid? userId = null, bool noTracking = true)
+        {
+            var query = RepoDbSet
+                .Include(p => p.Category)
+                .AsQueryable();
+            return (await query.ToListAsync()).
+                Select(domainEntity => Mapper.Map(domainEntity));
+        }
+
+        public async Task<DTO.PizzaTemplate> FirstOrDefaultAsync(Guid id, Guid? userId = null)
         {
             var query = RepoDbSet
                 .Include(p => p.Category)
                 .Where(p => p.Id == id)
                 .AsQueryable();
-            return await query.FirstOrDefaultAsync();
+            return Mapper.Map(await query.FirstOrDefaultAsync());
         }
 
         public async Task<bool> ExistsAsync(Guid id, Guid? userId = null)
@@ -42,9 +55,9 @@ namespace DAL.App.EF.Repositories
         public async Task DeleteAsync(Guid id, Guid? userId = null)
         {
             var pizzaTemplate = await FirstOrDefaultAsync(id, userId);
-            base.Remove(pizzaTemplate);
+            await base.RemoveAsync(pizzaTemplate.Id);
         }
-
+        /*
         public async Task<IEnumerable<PizzaTemplateDTO>> DTOAllAsync(Guid? userId = null)
         {
             var query = RepoDbSet.AsQueryable();
@@ -90,5 +103,6 @@ namespace DAL.App.EF.Repositories
             
             return pizzaTemplateDTO;
         }
+        */
     }
 }

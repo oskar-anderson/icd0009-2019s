@@ -1,0 +1,35 @@
+@model BLL.App.DTO.Owner
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Owner</h4>
+<hr/>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            @*
+            uses the same model that we have here already
+            <partial name="_CreateEdit"/> and <partial name="_CreateEdit" model="Model"/> are the same thing.
+            *@
+            <partial name="_CreateEdit"/>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

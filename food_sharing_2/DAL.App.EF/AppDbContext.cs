@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,9 +9,9 @@ using Domain.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.App.EF
+namespace Domain.Base.App.EF
 {
-    public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
+    public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>, IBaseEntityTracker
     {
         public DbSet<Cart> Carts { get; set; } = default!;
         public DbSet<CartMeal> CartMeals { get; set; } = default!;
@@ -43,6 +44,13 @@ namespace DAL.App.EF
             _userNameProvider = userNameProvider;
         }
 
+        private readonly Dictionary<IDomainEntityId<Guid>, IDomainEntityId<Guid>> _entityTracker =
+            new Dictionary<IDomainEntityId<Guid>, IDomainEntityId<Guid>>();
+
+        public void AddToEntityTracker(IDomainEntityId<Guid> internalEntity, IDomainEntityId<Guid> externalEntity)
+        {
+            _entityTracker.Add(internalEntity, externalEntity);
+        }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -84,17 +92,29 @@ namespace DAL.App.EF
                 entityEntry.Property(nameof(entityWithMetaData.CreatedBy)).IsModified = false;
             }
         }
+        
+        private void UpdateTrackedEntities()
+        {
+            foreach (var (key, value) in _entityTracker)
+            {
+                value.Id = key.Id;
+            }
+        }
 
         public override int SaveChanges()
         {
             SaveChangesMetadataUpdate();
-            return base.SaveChanges();
+            var result = base.SaveChanges();
+            UpdateTrackedEntities();
+            return result;
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             SaveChangesMetadataUpdate();
-            return base.SaveChangesAsync(cancellationToken);
+            var result = base.SaveChangesAsync(cancellationToken);
+            UpdateTrackedEntities();
+            return result;
         }
     }
 }

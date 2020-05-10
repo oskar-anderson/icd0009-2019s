@@ -7,7 +7,7 @@ using Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.App.EF.Helpers
+namespace Domain.Base.App.EF.Helpers
 {
     public class DataInitializers
     {
@@ -48,12 +48,14 @@ namespace DAL.App.EF.Helpers
             var user = userManager.FindByNameAsync(userName).Result;
             if (user == null)
             {
-                user = new AppUser();
-                user.Email = userName;
-                user.UserName = userName;
-                user.FirstName = firstName;
-                user.LastName = lastName;
-                user.Phone = phone;
+                user = new AppUser
+                {
+                    Email = userName,
+                    UserName = userName,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Phone = phone
+                };
                 var result = userManager.CreateAsync(user, passWord).Result;
                 if (! result.Succeeded)
                 {

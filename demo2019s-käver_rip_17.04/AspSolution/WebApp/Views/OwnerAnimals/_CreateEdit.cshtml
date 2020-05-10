@@ -1,0 +1,17 @@
+@model WebApp.ViewModels.OwnerAnimalCreateEditVM
+
+<div class="form-group">
+    <label asp-for="OwnerAnimal.OwnerId" class="control-label"></label>
+    <select asp-for="OwnerAnimal.OwnerId" class ="form-control" asp-items="Model.OwnerSelectList"></select>
+</div>
+            
+<div class="form-group">
+    <label asp-for="OwnerAnimal.AnimalId" class="control-label"></label>
+    <select asp-for="OwnerAnimal.AnimalId" class ="form-control" asp-items="Model.AnimalSelectList"></select>
+</div>
+            
+<div class="form-group">
+    <label asp-for="OwnerAnimal.OwnedPercentage" class="control-label"></label>
+    <input asp-for="OwnerAnimal.OwnedPercentage" class="form-control" />
+    <span asp-validation-for="OwnerAnimal.OwnedPercentage" class="text-danger"></span>
+</div>

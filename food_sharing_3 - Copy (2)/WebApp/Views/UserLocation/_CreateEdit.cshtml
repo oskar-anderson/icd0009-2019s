@@ -1,0 +1,50 @@
+﻿@model BLL.App.DTO.UserLocation
+
+<div class="form-group">
+    <label asp-for="AppUserId" class="control-label"></label>
+    <select asp-for="AppUserId" class ="form-control" asp-items="ViewBag.AppUserId"></select>
+</div>
+<div class="form-group">
+    <label asp-for="District" class="control-label"></label>
+    <input asp-for="District" class="form-control" />
+    <span asp-validation-for="District" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="StreetName" class="control-label"></label>
+    <input asp-for="StreetName" class="form-control" />
+    <span asp-validation-for="StreetName" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="BuildingNumber" class="control-label"></label>
+    <input asp-for="BuildingNumber" class="form-control" />
+    <span asp-validation-for="BuildingNumber" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ApartmentNumber" class="control-label"></label>
+    <input asp-for="ApartmentNumber" class="form-control" />
+    <span asp-validation-for="ApartmentNumber" class="text-danger"></span>
+</div>
+
+
+@*
+<div class="form-group">
+    <label asp-for="CreatedBy" class="control-label"></label>
+    <input asp-for="CreatedBy" class="form-control" />
+    <span asp-validation-for="CreatedBy" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="CreatedAt" class="control-label"></label>
+    <input asp-for="CreatedAt" class="form-control" />
+    <span asp-validation-for="CreatedAt" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ChangedBy" class="control-label"></label>
+    <input asp-for="ChangedBy" class="form-control" />
+    <span asp-validation-for="ChangedBy" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ChangedAt" class="control-label"></label>
+    <input asp-for="ChangedAt" class="form-control" />
+    <span asp-validation-for="ChangedAt" class="text-danger"></span>
+</div>
+*@

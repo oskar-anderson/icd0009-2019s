@@ -1,0 +1,54 @@
+﻿@model BLL.App.DTO.PizzaTemplate
+
+<div class="form-group">
+    <label asp-for="CategoryId" class="control-label"></label>
+    <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.CategoryId"></select>
+</div>
+<div class="form-group">
+    <label asp-for="Name" class="control-label"></label>
+    <input asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Picture" class="control-label"></label>
+    <input asp-for="Picture" class="form-control" />
+    <span asp-validation-for="Picture" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Modifications" class="control-label"></label>
+    <input asp-for="Modifications" class="form-control" />
+    <span asp-validation-for="Modifications" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Extras" class="control-label"></label>
+    <input asp-for="Extras" class="form-control" />
+    <span asp-validation-for="Extras" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Description" class="control-label"></label>
+    <input asp-for="Description" class="form-control" />
+    <span asp-validation-for="Description" class="text-danger"></span>
+</div>
+
+@*
+<div class="form-group">
+    <label asp-for="CreatedBy" class="control-label"></label>
+    <input asp-for="CreatedBy" class="form-control" />
+    <span asp-validation-for="CreatedBy" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="CreatedAt" class="control-label"></label>
+    <input asp-for="CreatedAt" class="form-control" />
+    <span asp-validation-for="CreatedAt" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ChangedBy" class="control-label"></label>
+    <input asp-for="ChangedBy" class="form-control" />
+    <span asp-validation-for="ChangedBy" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ChangedAt" class="control-label"></label>
+    <input asp-for="ChangedAt" class="form-control" />
+    <span asp-validation-for="ChangedAt" class="text-danger"></span>
+</div>
+*@

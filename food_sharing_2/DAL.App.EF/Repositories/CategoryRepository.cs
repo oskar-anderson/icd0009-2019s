@@ -3,33 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
-using DAL.Base.EF.Repositories;
-using Domain;
+using Domain.Base.App.DTO;
+using Domain.Base.EF.Repositories;
+using Domain.Base.Mappers;
 using Microsoft.EntityFrameworkCore;
-using PublicApi.DTO.v1;
 
-namespace DAL.App.EF.Repositories
+namespace Domain.Base.App.EF.Repositories
 {
-    public class CategoryRepository : EFBaseRepository<Category, AppDbContext>, ICategoryRepository
+    public class CategoryRepository : EFBaseRepository<AppDbContext, Domain.Identity.AppUser, Domain.Category, DTO.Category>, 
+        ICategoryRepository
     {
-        public CategoryRepository(AppDbContext dbContext) : base(dbContext)
+        public CategoryRepository(AppDbContext dbContext) : base(dbContext, 
+            new BaseMapper<Domain.Category, DTO.Category>())
         {
 
         }
 
-        public async Task<IEnumerable<Category>> AllAsync(Guid? userId = null)
+        public async Task<IEnumerable<DTO.Category>> GetAllAsync(Guid id, Guid? userId = null, bool noTracking = true)
         {
             var query = RepoDbSet
                 .AsQueryable();
-            return await query.ToListAsync();
+            return (await query.ToListAsync()).
+                Select(domainEntity => Mapper.Map(domainEntity));
         }
 
-        public async Task<Category> FirstOrDefaultAsync(Guid id, Guid? userId = null)
+        public async Task<DTO.Category> FirstOrDefaultAsync(Guid id, Guid? userId = null)
         {
             var query = RepoDbSet
                 .Where(a => a.Id == id)
                 .AsQueryable();
-            return await query.FirstOrDefaultAsync();
+            return Mapper.Map(await query.FirstOrDefaultAsync());
         }
 
         public async Task<bool> ExistsAsync(Guid id, Guid? userId = null)
@@ -39,10 +42,10 @@ namespace DAL.App.EF.Repositories
 
         public async Task DeleteAsync(Guid id, Guid? userId = null)
         {
-            var delivery = await FirstOrDefaultAsync(id, userId);
-            base.Remove(delivery);
+            var category = await FirstOrDefaultAsync(id, userId);
+            await base.RemoveAsync(category.Id);
         }
-
+        /*
         public async Task<IEnumerable<CategoryDTO>> DTOAllAsync(Guid? userId = null)
         {
             var query = RepoDbSet
@@ -69,5 +72,6 @@ namespace DAL.App.EF.Repositories
                 .FirstOrDefaultAsync();
             return await categoryDTO;
         }
+        */
     }
 }

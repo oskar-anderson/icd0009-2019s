@@ -3,22 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
-using DAL.Base.EF.Repositories;
-using Domain;
+using Domain.Base.App.DTO;
+using Domain.Base.EF.Repositories;
+using Domain.Base.Mappers;
 using Microsoft.EntityFrameworkCore;
-using PublicApi.DTO.v1;
 
-namespace DAL.App.EF.Repositories
+
+namespace Domain.Base.App.EF.Repositories
 {
-    public class CartMealRepository : EFBaseRepository<CartMeal, AppDbContext>, ICartMealRepository
+    public class CartMealRepository : EFBaseRepository<AppDbContext, Domain.Identity.AppUser, Domain.CartMeal, DTO.CartMeal>, 
+        ICartMealRepository
     {
-        public CartMealRepository(AppDbContext dbContext) : base(dbContext)
+        public CartMealRepository(AppDbContext repoDbContext) : base(repoDbContext, 
+            new BaseMapper<Domain.CartMeal, DTO.CartMeal>())
         {
         }
         
         // methods go here
-
-        public async Task<IEnumerable<CartMeal>> AllAsync(Guid? userId = null)
+        
+        public async Task<IEnumerable<DTO.CartMeal>> GetAllAsync(Guid id, Guid? userId = null, bool noTracking = true)
         {
             var query = RepoDbSet
                 .Include(cm => cm.PizzaFinal)
@@ -31,10 +34,11 @@ namespace DAL.App.EF.Repositories
                 query = query.Where(cd => cd.Cart.AppUser.Id == userId);
             }
 
-            return await query.ToListAsync();
+            return (await query.ToListAsync()).
+                Select(domainEntity => Mapper.Map(domainEntity));
         }
 
-        public async Task<CartMeal> FirstOrDefaultAsync(Guid id, Guid? userId = null)
+        public async Task<DTO.CartMeal> FirstOrDefaultAsync(Guid id, Guid? userId = null)
         {
             var query = RepoDbSet
                 .Include(cm => cm.PizzaFinal)
@@ -48,7 +52,7 @@ namespace DAL.App.EF.Repositories
                 query = query.Where(cm => cm.Cart.AppUser.Id == userId);
             }
 
-            return await query.FirstOrDefaultAsync();
+            return Mapper.Map(await query.FirstOrDefaultAsync());
         }
 
         public async Task<bool> ExistsAsync(Guid id, Guid? userId = null)
@@ -64,10 +68,13 @@ namespace DAL.App.EF.Repositories
 
         public async Task DeleteAsync(Guid id, Guid? userId = null)
         {
-            var cartMeal = await FirstOrDefaultAsync(id, userId);
-            base.Remove(cartMeal);
-        }
+            var query = RepoDbSet.Where(cm => cm.Id == id).AsNoTracking().AsQueryable();
 
+            
+            var cartMeal = await query.FirstOrDefaultAsync();
+            await base.RemoveAsync(cartMeal.Id);
+        }
+        /*
         public async Task<IEnumerable<CartMealDTO>> DTOAllAsync(Guid? userId = null)
         {
             var query = RepoDbSet.AsQueryable();
@@ -262,5 +269,7 @@ namespace DAL.App.EF.Repositories
             
             return cartMealDTO;
         }
+        */
+
     }
 }

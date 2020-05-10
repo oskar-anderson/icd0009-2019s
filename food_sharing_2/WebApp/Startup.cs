@@ -4,22 +4,28 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BLL.App;
+using Contracts.BLL.App;
 using Contracts.DAL.App;
 using Contracts.DAL.App.Repositories;
 using Contracts.DAL.Base;
-using DAL.App.EF;
-using DAL.App.EF.Repositories;
+using Domain.Base.App.EF;
+using Domain.Base.App.EF.Repositories;
 using Domain.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using WebApp.Helpers;
 
 namespace WebApp
@@ -62,9 +68,10 @@ namespace WebApp
             // add a scoped dependency
             services.AddScoped<IUserNameProvider, UserNameProvider>();
             services.AddScoped<IAppUnitOfWork, AppUnitOfWork>();
+            services.AddScoped<IAppBLL, AppBLL>();
 
             
-            services.AddIdentity<AppUser, AppRole>()
+            services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false) 
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
@@ -104,10 +111,22 @@ namespace WebApp
                         ClockSkew = TimeSpan.Zero // remove delay of token when expire
                     };
                 });
+            services.AddApiVersioning(options =>
+            {
+                options.ReportApiVersions = true;
+                // options.DefaultApiVersion = new ApiVersion(1, 0);
+                // options.AssumeDefaultVersionWhenUnspecified
+            });
+            
+            services.AddApiVersioning(options => { options.ReportApiVersions = true; });
+
+            services.AddVersionedApiExplorer(options => options.GroupNameFormat = "'v'VVV");
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
         {
             UpdateDatabase(app, env, Configuration);
             
@@ -130,6 +149,19 @@ namespace WebApp
             
             app.UseRouting();
 
+            app.UseSwagger();
+            app.UseSwaggerUI(
+                options =>
+                {
+                    foreach ( var description in provider.ApiVersionDescriptions )
+                    {
+                        options.SwaggerEndpoint(
+                            $"/swagger/{description.GroupName}/swagger.json",
+                            description.GroupName.ToUpperInvariant() );
+                    }
+                } );
+            
+            
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -157,25 +189,25 @@ namespace WebApp
             if (Configuration["AppDataInitialization:DropDatabase"] == "True")
             {
                 Console.WriteLine("DropDatabase");
-                DAL.App.EF.Helpers.DataInitializers.DeleteDatabase(ctx);
+                Domain.Base.App.EF.Helpers.DataInitializers.DeleteDatabase(ctx);
             }
             
             if (Configuration["AppDataInitialization:MigrateDatabase"] == "True")
             {
                 Console.WriteLine("MigrateDatabase");
-                DAL.App.EF.Helpers.DataInitializers.MigrateDatabase(ctx);
+                Domain.Base.App.EF.Helpers.DataInitializers.MigrateDatabase(ctx);
             }
             
             if (Configuration["AppDataInitialization:SeedIdentity"] == "True")
             {
                 Console.WriteLine("SeedIdentity");
-                DAL.App.EF.Helpers.DataInitializers.SeedIdentity(userManager, roleManager);
+                Domain.Base.App.EF.Helpers.DataInitializers.SeedIdentity(userManager, roleManager);
             }
             
             if (Configuration.GetValue<bool>("AppDataInitialization:SeedData"))
             {
                 Console.WriteLine("SeedData");
-                DAL.App.EF.Helpers.DataInitializers.SeedData(ctx);
+                Domain.Base.App.EF.Helpers.DataInitializers.SeedData(ctx);
             }
             
             ctx.Database.Migrate();

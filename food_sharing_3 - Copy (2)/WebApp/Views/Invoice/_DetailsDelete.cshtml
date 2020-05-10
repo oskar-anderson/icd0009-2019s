@@ -1,0 +1,38 @@
+﻿@model BLL.App.DTO.Invoice
+
+<dt class = "col-sm-2">
+    @Html.DisplayNameFor(model => model.Person)
+</dt>
+<dd class = "col-sm-10">
+    @Html.DisplayFor(model => model.Person.FirstName)
+</dd>
+<dt class = "col-sm-2">
+    @Html.DisplayNameFor(model => model.Restaurant)
+</dt>
+<dd class = "col-sm-10">
+    @Html.DisplayFor(model => model.Restaurant.Location)
+</dd>
+<dt class = "col-sm-2">
+    @Html.DisplayNameFor(model => model.PaymentMethod)
+</dt>
+<dd class = "col-sm-10">
+    @Html.DisplayFor(model => model.PaymentMethod.Name)
+</dd>
+<dt class = "col-sm-2">
+    @Html.DisplayNameFor(model => model.TotalNet)
+</dt>
+<dd class = "col-sm-10">
+    @Html.DisplayFor(model => model.TotalNet)
+</dd>
+<dt class = "col-sm-2">
+    @Html.DisplayNameFor(model => model.TotalTax)
+</dt>
+<dd class = "col-sm-10">
+    @Html.DisplayFor(model => model.TotalTax)
+</dd>
+<dt class = "col-sm-2">
+    @Html.DisplayNameFor(model => model.TotalGross)
+</dt>
+<dd class = "col-sm-10">
+    @Html.DisplayFor(model => model.TotalGross)
+</dd>

@@ -3,37 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
-using DAL.Base.EF.Repositories;
-using Domain;
+using Domain.Base.EF.Repositories;
+using Domain.Base.Mappers;
 using Microsoft.EntityFrameworkCore;
-using PublicApi.DTO.v1;
 
-namespace DAL.App.EF.Repositories
+namespace Domain.Base.App.EF.Repositories
 {
-    public class RestaurantFoodRepository :  EFBaseRepository<RestaurantFood, AppDbContext>, IRestaurantFoodRepository
+    public class RestaurantFoodRepository : EFBaseRepository<AppDbContext, Domain.Identity.AppUser, Domain.RestaurantFood, DTO.RestaurantFood>, 
+        IRestaurantFoodRepository
     {
-        public RestaurantFoodRepository(AppDbContext dbContext) : base(dbContext)
+        public RestaurantFoodRepository(AppDbContext dbContext) : base(dbContext, 
+            new BaseMapper<Domain.RestaurantFood, DTO.RestaurantFood>())
         {
         }
 
-        public async Task<IEnumerable<RestaurantFood>> AllAsync(Guid? userId = null)
+        public async Task<IEnumerable<DTO.RestaurantFood>> GetAllAsync(Guid id, Guid? userId = null, bool noTracking = true)
         {
             var query = RepoDbSet
                 .Include(rf => rf.Restaurant)
                 .Include(rf => rf.Meal)
                 .Include(rf => rf.Pizza)
                 .AsQueryable();
-            return await query.ToListAsync();
+            return (await query.ToListAsync()).
+                Select(domainEntity => Mapper.Map(domainEntity));
         }
 
-        public async Task<RestaurantFood> FirstOrDefaultAsync(Guid id, Guid? userId = null)
+        public async Task<DTO.RestaurantFood> FirstOrDefaultAsync(Guid id, Guid? userId = null)
         {
             var query = RepoDbSet
                 .Include(rf => rf.Restaurant)
                 .Include(rf => rf.Meal)
                 .Include(rf => rf.Pizza)
                 .AsQueryable();
-            return await query.FirstOrDefaultAsync();
+            return Mapper.Map(await query.FirstOrDefaultAsync());
         }
 
         public async Task<bool> ExistsAsync(Guid id, Guid? userId = null)
@@ -44,9 +46,10 @@ namespace DAL.App.EF.Repositories
         public async Task DeleteAsync(Guid id, Guid? userId = null)
         {
             var restaurantFood = await FirstOrDefaultAsync(id, userId);
-            base.Remove(restaurantFood);
+            await base.RemoveAsync(restaurantFood.Id);
         }
 
+        /*
         public async Task<IEnumerable<RestaurantFoodDTO>> DTOAllAsync(Guid? userId = null)
         {
             var query = RepoDbSet
@@ -193,5 +196,6 @@ namespace DAL.App.EF.Repositories
             
             return restaurantFoodDTO;
         }
+        */
     }
 }

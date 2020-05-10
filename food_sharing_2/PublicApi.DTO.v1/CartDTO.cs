@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using Domain;
-using Domain.Identity;
+using PublicApi.DTO.v1.Identity;
 
 namespace PublicApi.DTO.v1
 {
     public class CartDTO
     {
         public Guid Id { get; set; }
-        
+
         public Guid AppUserId { get; set; } = default!;
         public AppUser? AppUser { get; set; }
         
