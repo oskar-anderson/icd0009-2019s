@@ -2,12 +2,25 @@ import { AppState } from './state/app-state';
 import { autoinject, PLATFORM } from 'aurelia-framework';
 import { RouterConfiguration, Router } from 'aurelia-router'
 
+import { AlertType } from './types/AlertType';
+import { IAlertData } from 'types/IAlertData';
+
+import { IRestaurant } from './domain/IRestaurant';
+import { RestaurantService } from 'service/restaurant-service';
+
+import { alertHandler, SOURCE } from 'service/alert-service';
+
 @autoinject
 export class App {
     public message: string = 'Hello World!';
     router?: Router;
 
-    constructor(private appState: AppState) {
+    private _alert: IAlertData | null = null;
+
+    private: IAlertData | null = null;
+    private _restaurants: IRestaurant[] = [];
+
+    constructor(private appState: AppState, private restaurantService: RestaurantService) {
 
     }
 
@@ -24,19 +37,47 @@ export class App {
             
             {route: ['cart', 'cart/index'], name: 'cart', moduleId: PLATFORM.moduleName('views/cart/index'), nav: true, title: 'cart' },
             {route: ['cartMeal', 'cartMeal/index'], name: 'cartMeal', moduleId: PLATFORM.moduleName('views/cartMeal/index'), nav: true, title: 'cartMeal' },
-            {route: ['category', 'category/index'], name: 'category', moduleId: PLATFORM.moduleName('views/category/index'), nav: true, title: 'category' },
-            {route: ['component', 'component/index'], name: 'component', moduleId: PLATFORM.moduleName('views/component/index'), nav: true, title: 'component' },
-            {route: ['componentPrice', 'componentPrice/index'], name: 'componentPrice', moduleId: PLATFORM.moduleName('views/componentPrice/index'), nav: true, title: 'componentPrice' },
-            {route: ['invoice', 'invoice/index'], name: 'invoice', moduleId: PLATFORM.moduleName('views/invoice/index'), nav: true, title: 'invoice' },
-            {route: ['invoiceLine', 'invoiceLine/index'], name: 'invoiceLine', moduleId: PLATFORM.moduleName('views/invoiceLine/index'), nav: true, title: 'invoiceLine' },
+            
+            {route: ['category', 'category/index'], name: 'category-index', moduleId: PLATFORM.moduleName('views/category/index'), nav: true, title: 'category' },
+            {route: ['category/create'], name: 'category-create', moduleId: PLATFORM.moduleName('views/category/create'), nav: false},
+            {route: ['category/details/:id?'], name: 'category-details', moduleId: PLATFORM.moduleName('views/category/details'), nav: false },
+            {route: ['category/edit/:id?'], name: 'category-edit', moduleId: PLATFORM.moduleName('views/category/edit'), nav: false },
+            {route: ['category/delete/:id?'], name: 'category-delete', moduleId: PLATFORM.moduleName('views/category/delete'), nav: false },
+            
+            
+            
+            {route: ['component', 'component/index'], name: 'component-index', moduleId: PLATFORM.moduleName('views/component/index'), nav: true, title: 'component' },
+            {route: ['component/create'], name: 'component-create', moduleId: PLATFORM.moduleName('views/component/create'), nav: false},
+            {route: ['component/edit/:id?'], name: 'component-edit', moduleId: PLATFORM.moduleName('views/component/edit'), nav: false },
+            {route: ['component/delete/:id?'], name: 'component-delete', moduleId: PLATFORM.moduleName('views/component/delete'), nav: false },  
+
+            
+            {route: ['componentPizzaTPL', 'componentPizzaTPL/index'], name: 'componentPizzaTPL', moduleId: PLATFORM.moduleName('views/componentPizzaTPL/index'), nav: true, title: 'componentPizzaTPL' },
+            {route: ['componentPizzaUser', 'componentPizzaUser/index'], name: 'componentPizzaUser', moduleId: PLATFORM.moduleName('views/componentPizzaUser/index'), nav: true, title: 'componentPizzaUser' },
             {route: ['item', 'item/index'], name: 'item', moduleId: PLATFORM.moduleName('views/item/index'), nav: true, title: 'item' },
-            {route: ['meal', 'meal/index'], name: 'meal', moduleId: PLATFORM.moduleName('views/meal/index'), nav: true, title: 'meal' },
-            {route: ['paymentMethod', 'paymentMethod/index'], name: 'paymentMethod', moduleId: PLATFORM.moduleName('views/paymentMethod/index'), nav: true, title: 'paymentMethod' },
-            {route: ['person', 'person/index'], name: 'person', moduleId: PLATFORM.moduleName('views/person/index'), nav: true, title: 'person' },
-            {route: ['pizzaComponent', 'pizzaComponent/index'], name: 'pizzaComponent', moduleId: PLATFORM.moduleName('views/pizzaComponent/index'), nav: true, title: 'pizzaComponent' },
-            {route: ['pizza', 'pizza/index'], name: 'pizza', moduleId: PLATFORM.moduleName('views/pizza/index'), nav: true, title: 'pizza' },
-            {route: ['pizzaFinal', 'pizzaFinal/index'], name: 'pizzaFinal', moduleId: PLATFORM.moduleName('views/pizzaFinal/index'), nav: true, title: 'pizzaFinal' },
-            {route: ['pizzaTemplate', 'pizzaTemplate/index'], name: 'pizzaTemplate', moduleId: PLATFORM.moduleName('views/pizzaTemplate/index'), nav: true, title: 'pizzaTemplate' },
+            
+            {route: ['meal', 'meal/index'], name: 'meal-index', moduleId: PLATFORM.moduleName('views/meal/index'), nav: true, title: 'meal' },
+            {route: ['meal/create'], name: 'meal-create', moduleId: PLATFORM.moduleName('views/meal/create'), nav: false },
+            {route: ['meal/details/:id?'], name: 'meal-details', moduleId: PLATFORM.moduleName('views/meal/details'), nav: false},
+            {route: ['meal/edit/:id?'], name: 'meal-edit', moduleId: PLATFORM.moduleName('views/meal/edit'), nav: false },
+            {route: ['meal/delete/:id?'], name: 'meal-delete', moduleId: PLATFORM.moduleName('views/meal/delete'), nav: false },
+            
+            
+            
+            
+            {route: ['pizza', 'pizza/index'], name: 'pizza-index', moduleId: PLATFORM.moduleName('views/pizza/index'), nav: true, title: 'pizza' },
+            {route: ['pizza/create'], name: 'pizza-create', moduleId: PLATFORM.moduleName('views/pizza/create'), nav: false},
+            {route: ['pizza/details/:id?'], name: 'pizza-details', moduleId: PLATFORM.moduleName('views/pizza/details'), nav: false },
+            {route: ['pizza/edit/:id?'], name: 'pizza-edit', moduleId: PLATFORM.moduleName('views/pizza/edit'), nav: false },
+            {route: ['pizza/delete/:id?'], name: 'pizza-delete', moduleId: PLATFORM.moduleName('views/pizza/delete'), nav: false },  
+            
+            {route: ['pizzaUser', 'pizzaUser/index'], name: 'pizzaUser', moduleId: PLATFORM.moduleName('views/pizzaUser/index'), nav: true, title: 'pizzaUser' },
+            
+            {route: ['pizzaTemplate', 'pizzaTemplate/index'], name: 'pizzaTemplate-index', moduleId: PLATFORM.moduleName('views/pizzaTemplate/index'), nav: true, title: 'pizzaTemplate' },
+            {route: ['pizzaTemplate/create'], name: 'pizzaTemplate-create', moduleId: PLATFORM.moduleName('views/pizzaTemplate/create'), nav: false },
+            {route: ['pizzaTemplate/details/:id?'], name: 'pizzaTemplate-details', moduleId: PLATFORM.moduleName('views/pizzaTemplate/details'), nav: false},
+            {route: ['pizzaTemplate/edit/:id?'], name: 'pizzaTemplate-edit', moduleId: PLATFORM.moduleName('views/pizzaTemplate/edit'), nav: false },
+            {route: ['pizzaTemplate/delete/:id?'], name: 'pizzaTemplate-delete', moduleId: PLATFORM.moduleName('views/pizzaTemplate/delete'), nav: false },
             
             {route: ['restaurant', 'restaurant/index'], name: 'restaurant-index', moduleId: PLATFORM.moduleName('views/restaurant/index'), nav: true, title: 'restaurant' },
             {route: ['restaurant/create'], name: 'restaurant-create', moduleId: PLATFORM.moduleName('views/restaurant/create'), nav: false},
@@ -50,7 +91,6 @@ export class App {
             {route: ['restaurantFood', 'restaurantFood/index'], name: 'restaurantFood', moduleId: PLATFORM.moduleName('views/restaurantFood/index'), nav: true, title: 'restaurantFood' },
             {route: ['sharing', 'sharing/index'], name: 'sharing', moduleId: PLATFORM.moduleName('views/sharing/index'), nav: true, title: 'sharing' },
             {route: ['sharingItem', 'sharingItem/index'], name: 'sharingItem', moduleId: PLATFORM.moduleName('views/sharingItem/index'), nav: true, title: 'sharingItem' },
-            {route: ['size', 'size/index'], name: 'size', moduleId: PLATFORM.moduleName('views/size/index'), nav: true, title: 'size' },
             {route: ['userLocation', 'userLocation/index'], name: 'userLocation', moduleId: PLATFORM.moduleName('views/userLocation/index'), nav: true, title: 'userLocation' },
 
         ]
@@ -62,5 +102,15 @@ export class App {
     logoutOnClick(){
         this.appState.jwt = null;
         this.router!.navigateToRoute('account-login');
+    }
+    attached() {
+        this.restaurantService.getRestaurants().then(
+            response => {
+                this._alert = alertHandler(SOURCE.APP, response.statusCode, response.errorMessage);
+                if (response.statusCode >= 200 && response.statusCode < 300) {
+                    this._restaurants = response.data!;
+                }
+            }
+        );
     }
 }

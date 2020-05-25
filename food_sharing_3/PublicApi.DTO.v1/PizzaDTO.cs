@@ -9,11 +9,12 @@ namespace PublicApi.DTO.v1
         
         public Guid PizzaTemplateId { get; set; } = default!;
         public PizzaTemplateDTO? PizzaTemplate { get; set; }
-        
-        public Guid SizeId { get; set; } = default!;
-        public SizeDTO? Size { get; set; }
+
+        [Range(0, 6)] public int SizeNumber { get; set; } = default!;
+        [MinLength(1)] [MaxLength(64)] public string SizeName { get; set; } = default!;
 
         [MinLength(4), MaxLength(128)] public string Name { get; set; } = default!;
+
 
     }
 }

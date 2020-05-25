@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Contracts.BLL.App;
+using DAL.App.EF;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Extensions;
@@ -12,17 +14,19 @@ namespace WebApp.Controllers
     [Authorize]
     public class UserLocationController : Controller
     {
+        private readonly AppDbContext _context;
         private readonly IAppBLL _bll;
 
-        public UserLocationController(IAppBLL bll)
+        public UserLocationController(AppDbContext context, IAppBLL bll)
         {
+            _context = context;
             _bll = bll;
         }
 
         // GET: UserLocation
         public async Task<IActionResult> Index()
         {
-            var userLocations = await _bll.UserLocations.GetAllAsyncBase(User.UserId());
+            var userLocations = await _bll.UserLocations.GetAllForViewAsync(User.UserId());
             return View(userLocations);
         }
 
@@ -34,7 +38,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var userLocation = await _bll.UserLocations.FirstOrDefaultAsync(id.Value, User.UserId());
+            var userLocation = await _bll.UserLocations.FirstOrDefaultViewAsync(id.Value, User.UserId());
 
             if (userLocation == null)
             {
@@ -47,7 +51,7 @@ namespace WebApp.Controllers
         // GET: UserLocation/Create
         public async Task<IActionResult> Create()
         {
-            ViewData["AppUserId"] = new SelectList(await _bll.UserLocations.GetAllAsyncBase(User.UserId()), "Id", "FirstName");
+            ViewData["AppUserId"] = new SelectList(_context.Users.Where(user => user.Id == User.UserId()), "Id", "FirstName");
             return View();
         }
 
@@ -64,7 +68,7 @@ namespace WebApp.Controllers
                 await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(await _bll.UserLocations.GetAllAsyncBase(User.UserId()), "Id", "FirstName", userLocation.AppUserId);
+            ViewData["AppUserId"] = new SelectList(_context.Users.Where(user => user.Id == User.UserId()), "Id", "FirstName");
             return View(userLocation);
         }
 
@@ -76,13 +80,13 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var userLocation = await _bll.UserLocations.FirstOrDefaultAsync(id.Value, User.UserId());
+            var userLocation = await _bll.UserLocations.FirstOrDefaultViewAsync(id.Value, User.UserId());
 
             if (userLocation == null)
             {
                 return NotFound();
             }
-            ViewData["AppUserId"] = new SelectList(await _bll.UserLocations.GetAllAsyncBase(User.UserId()), "Id", "FirstName", userLocation.AppUserId);
+            ViewData["AppUserId"] = new SelectList(_context.Users.Where(user => user.Id == User.UserId()), "Id", "FirstName");
             return View(userLocation);
         }
 
@@ -104,7 +108,7 @@ namespace WebApp.Controllers
                 await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(await _bll.UserLocations.GetAllAsyncBase(User.UserId()), "Id", "FirstName", userLocation.AppUserId);
+            ViewData["AppUserId"] = new SelectList(_context.Users.Where(user => user.Id == User.UserId()), "Id", "FirstName");
             return View(userLocation);
         }
 
@@ -116,7 +120,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var userLocation = await _bll.UserLocations.FirstOrDefaultAsync(id.Value, User.UserId());
+            var userLocation = await _bll.UserLocations.FirstOrDefaultViewAsync(id.Value, User.UserId());
             
             if (userLocation == null)
             {

@@ -1,0 +1,34 @@
+﻿@model BLL.App.DTO.ComponentPizzaTemplate
+
+<div class="form-group">
+    <label asp-for="ComponentId" class="control-label"></label>
+    <select asp-for="ComponentId" class ="form-control" asp-items="ViewBag.ComponentId"></select>
+</div>
+<div class="form-group">
+    <label asp-for="PizzaTemplateId" class="control-label"></label>
+    <select asp-for="PizzaTemplateId" class ="form-control" asp-items="ViewBag.PizzaTemplateId"></select>
+</div>
+
+
+@*
+<div class="form-group">
+    <label asp-for="CreatedBy" class="control-label"></label>
+    <input asp-for="CreatedBy" class="form-control" />
+    <span asp-validation-for="CreatedBy" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="CreatedAt" class="control-label"></label>
+    <input asp-for="CreatedAt" class="form-control" />
+    <span asp-validation-for="CreatedAt" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ChangedBy" class="control-label"></label>
+    <input asp-for="ChangedBy" class="form-control" />
+    <span asp-validation-for="ChangedBy" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ChangedAt" class="control-label"></label>
+    <input asp-for="ChangedAt" class="form-control" />
+    <span asp-validation-for="ChangedAt" class="text-danger"></span>
+</div>
+*@

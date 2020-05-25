@@ -23,7 +23,7 @@ namespace WebApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var restaurantFoods = await _bll.RestaurantFoods.GetAllAsyncBase();
+            var restaurantFoods = await _bll.RestaurantFoods.GetAllForViewAsync();
             return View(restaurantFoods);
         }
 
@@ -36,7 +36,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var restaurantFood = await _bll.RestaurantFoods.FirstOrDefaultAsync(id.Value);
+            var restaurantFood = await _bll.RestaurantFoods.FirstOrDefaultViewAsync(id.Value);
 
             if (restaurantFood == null)
             {
@@ -68,6 +68,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(BLL.App.DTO.RestaurantFood restaurantFood)
         {
+            if (Request.Form["FoodSelection"] == "Meal")
+            {
+                restaurantFood.PizzaId = null;
+            }
+            else
+            {
+                restaurantFood.MealId = null;
+            }
+            
             if (ModelState.IsValid)
             {
                 restaurantFood.Id = Guid.NewGuid();
@@ -98,7 +107,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var restaurantFood = await _bll.RestaurantFoods.FirstOrDefaultAsync(id.Value);
+            var restaurantFood = await _bll.RestaurantFoods.FirstOrDefaultViewAsync(id.Value);
             if (restaurantFood == null)
             {
                 return NotFound();
@@ -125,6 +134,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, BLL.App.DTO.RestaurantFood restaurantFood)
         {
+            if (Request.Form["FoodSelection"] == "Meal")
+            {
+                restaurantFood.PizzaId = null;
+            }
+            else
+            {
+                restaurantFood.MealId = null;
+            }
+            
             if (id != restaurantFood.Id)
             {
                 return NotFound();
@@ -159,7 +177,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var restaurantFood = await _bll.RestaurantFoods.FirstOrDefaultAsync(id.Value);
+            var restaurantFood = await _bll.RestaurantFoods.FirstOrDefaultViewAsync(id.Value);
             if (restaurantFood == null)
             {
                 return NotFound();

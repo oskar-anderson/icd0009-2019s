@@ -9,11 +9,6 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<ul class="navbar-nav flex-grow-1">
-    <li class="nav-item">
-         <a class="nav-link" asp-area="" asp-controller="Size" asp-action="Index">Size index</a>
-    </li>
-</ul>
 <table class="table">
     <thead>
         <tr>
@@ -21,7 +16,10 @@
                 @Html.DisplayNameFor(model => model.PizzaTemplate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Size)
+                @Html.DisplayNameFor(model => model.SizeNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SizeName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
@@ -37,7 +35,10 @@
                 @Html.DisplayFor(modelItem => item.PizzaTemplate.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Size.Name)
+                @Html.DisplayFor(modelItem => item.SizeNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SizeName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)

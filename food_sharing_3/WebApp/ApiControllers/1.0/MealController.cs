@@ -35,7 +35,7 @@ namespace WebApp.ApiControllers._1._0
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<V1DTO.MealDTO>>> GetMeals()
         {
-            return Ok(await _bll.Meals.GetAllAsyncBase());
+            return Ok(await _bll.Meals.GetAllForApiAsync());
         }
 
         // GET: api/Meal/5
@@ -43,7 +43,7 @@ namespace WebApp.ApiControllers._1._0
         [AllowAnonymous]
         public async Task<ActionResult<V1DTO.MealDTO>> GetMeal(Guid id)
         {
-            var meal = await _bll.Meals.FirstOrDefaultAsync(id);
+            var meal = await _bll.Meals.FirstOrDefaultApiAsync(id);
             
             if (meal == null)
             {
@@ -59,6 +59,7 @@ namespace WebApp.ApiControllers._1._0
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMeal(Guid id, MealDTO meal)
         {
+            meal.Category = null;
             if (id != meal.Id)
             {
                 return BadRequest(new V1DTO.MessageDTO("id and meal.id do not match"));
@@ -93,7 +94,7 @@ namespace WebApp.ApiControllers._1._0
             {
                 return NotFound();
             }
-
+            
             await _bll.Meals.RemoveAsync(meal);
             await _bll.SaveChangesAsync();
 

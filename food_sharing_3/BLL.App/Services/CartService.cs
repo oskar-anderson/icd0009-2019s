@@ -23,9 +23,24 @@ namespace BLL.App.Services
         {
         }
 
-        public virtual async Task<IEnumerable<Cart>> GetAllForViewAsync()
+        public virtual async Task<IEnumerable<Cart>> GetAllForViewAsync(Guid userId)
         {
-            return (await Repository.GetAllForViewAsync()).Select(e => Mapper.MapCartView(e));
+            return (await Repository.GetAllForViewAsync(userId)).Select(e => Mapper.MapCartView(e));
+        }
+
+        public virtual async Task<Cart> FirstOrDefaultViewAsync(Guid id, Guid? userId = null)
+        {
+            return Mapper.MapCartView(await Repository.FirstOrDefaultViewAsync(id, userId));
+        }
+
+        public virtual async Task<IEnumerable<Cart>> GetAllForApiAsync(Guid userId)
+        {
+            return (await Repository.GetAllForApiAsync(userId)).Select(e => Mapper.MapCartView(e));
+        }
+
+        public virtual async Task<Cart> FirstOrDefaultApiAsync(Guid id, Guid? userId = null)
+        {
+            return Mapper.MapCartView(await Repository.FirstOrDefaultApiAsync(id, userId));
         }
     }
 }

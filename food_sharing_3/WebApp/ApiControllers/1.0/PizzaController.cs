@@ -35,7 +35,7 @@ namespace WebApp.ApiControllers._1._0
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<V1DTO.PizzaDTO>>> GetPizzas()
         {
-            return Ok(await _bll.Pizzas.GetAllAsyncBase());
+            return Ok(await _bll.Pizzas.GetAllForApiAsync());
         }
 
         // GET: api/Pizza/5
@@ -43,7 +43,7 @@ namespace WebApp.ApiControllers._1._0
         [AllowAnonymous]
         public async Task<ActionResult<V1DTO.PizzaDTO>> GetPizza(Guid id)
         {
-            var pizza = await _bll.Pizzas.FirstOrDefaultAsync(id);
+            var pizza = await _bll.Pizzas.FirstOrDefaultApiAsync(id);
             
             if (pizza == null)
             {
@@ -88,7 +88,7 @@ namespace WebApp.ApiControllers._1._0
         [HttpDelete("{id}")]
         public async Task<ActionResult<V1DTO.PizzaDTO>> DeletePizza(Guid id)
         {
-            var pizza = await _bll.Pizzas.FirstOrDefaultAsync(id);
+            var pizza = await _bll.Pizzas.FirstOrDefaultApiAsync(id);
             if (pizza == null)
             {
                 return NotFound();

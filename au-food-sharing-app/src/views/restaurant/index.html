@@ -12,6 +12,9 @@
     <table class="table">
         <thead>
             <tr>
+                <th class="table-column-sm">
+                    ID
+                </th>
                 <th>
                     Name
                 </th>
@@ -27,10 +30,18 @@
                 <th>
                     OpenNote
                 </th>
+                <th>
+                    Actions
+                </th>
             </tr>
         </thead>
         <tbody>
             <tr repeat.for="restaurant of _restaurants">
+                <td class="table-column-sm">
+                    <button disabled type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="${restaurant.id}">
+                        i
+                    </button>
+                </td>
                 <td>
                     ${restaurant.name}
                 </td>
@@ -44,13 +55,12 @@
                     ${restaurant.openTime}
                 </td>
                 <td>
-                    ${restaurant.openNote}
+                    ${restaurant.openNotification}
                 </td>
 
                 <td>
-                    <a route-href="route: restaurant-edit; params.bind: { id: restaurant.id }">Edit</a> |
-                    <a route-href="route: restaurant-details; params.bind: { id: restaurant.id }">Details</a> |
-                    <a route-href="route: restaurant-delete; params.bind: { id: restaurant.id }">Delete</a>
+                    <a route-href="route: restaurant-edit; params.bind: { id: restaurant.id }"><i class="fa fa-color-a fa-2x fa-pencil-square"></i></a>
+                    <a route-href="route: restaurant-delete; params.bind: { id: restaurant.id }"><i class="fa fa-color-a fa-2x fa-trash"></i></a>
                 </td>
     
             </tr>

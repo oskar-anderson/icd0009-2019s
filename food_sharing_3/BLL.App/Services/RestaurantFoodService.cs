@@ -27,5 +27,20 @@ namespace BLL.App.Services
         {
             return (await Repository.GetAllForViewAsync()).Select(e => Mapper.MapRestaurantFoodView(e));
         }
+
+        public virtual async Task<RestaurantFood> FirstOrDefaultViewAsync(Guid id, Guid? userId = null)
+        {
+            return Mapper.MapRestaurantFoodView(await Repository.FirstOrDefaultViewAsync(id, userId));
+        }
+
+        public virtual async Task<IEnumerable<RestaurantFood>> GetAllForApiAsync()
+        {
+            return (await Repository.GetAllForApiAsync()).Select(e => Mapper.MapRestaurantFoodView(e));
+        }
+
+        public virtual async Task<RestaurantFood> FirstOrDefaultApiAsync(Guid id, Guid? userId = null)
+        {
+            return Mapper.MapRestaurantFoodView(await Repository.FirstOrDefaultApiAsync(id, userId));
+        }
     }
 }

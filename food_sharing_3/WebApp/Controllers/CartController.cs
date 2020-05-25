@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Contracts.BLL.App;
+using DAL.App.EF;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Extensions;
@@ -12,17 +14,28 @@ namespace WebApp.Controllers
     [Authorize]
     public class CartController : Controller
     {
+        private readonly AppDbContext _context;
         private readonly IAppBLL _bll;
-
-        public CartController(IAppBLL bll)
+        private readonly Object[] _paymentMethods = {
+            new { Name = "Swedbank"},
+            new { Name = "SEB"},
+            new { Name = "LHV pank"},
+            new { Name = "Pocopay"},
+            new { Name = "Nordea"},
+            new { Name = "Coop"},
+            new { Name = "Danske"},
+        };
+        
+        public CartController(AppDbContext context, IAppBLL bll)
         {
+            _context = context;
             _bll = bll;
         }
 
         // GET: Cart
         public async Task<IActionResult> Index()
         {
-            var carts = await _bll.Carts.GetAllAsyncBase(User.UserId());
+            var carts = await _bll.Carts.GetAllForViewAsync(User.UserId());
             return View(carts);
         }
 
@@ -34,7 +47,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var cart = await _bll.Carts.FirstOrDefaultAsync(id.Value, User.UserId());
+            var cart = await _bll.Carts.FirstOrDefaultViewAsync(id.Value, User.UserId());
 
             if (cart == null)
             {
@@ -47,8 +60,10 @@ namespace WebApp.Controllers
         // GET: Cart/Create
         public async Task<IActionResult> Create()
         {
+            ViewData["PaymentMethod"] = new SelectList(_paymentMethods, "Name", "Name");
             ViewData["RestaurantId"] = new SelectList(await _bll.Restaurants.GetAllAsyncBase(User.UserId()), "Id", "Location");
-            ViewData["UserLocationId"] = new SelectList(await _bll.UserLocations.GetAllAsyncBase(User.UserId()), "Id", "BuildingNumber");
+            ViewData["UserLocationId"] = new SelectList(await _bll.UserLocations.GetAllAsyncBase(User.UserId()), "Id", "FullName");
+            ViewData["AppUserId"] = new SelectList(_context.Users.Where(user => user.Id == User.UserId()), "Id", "FirstName");
             return View();
         }
 
@@ -65,8 +80,10 @@ namespace WebApp.Controllers
                 await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["PaymentMethod"] = new SelectList(_paymentMethods, "Name", "Name");
             ViewData["RestaurantId"] = new SelectList(await _bll.Restaurants.GetAllAsyncBase(User.UserId()), "Id", "Location", cart.RestaurantId);
-            ViewData["UserLocationId"] = new SelectList(await _bll.UserLocations.GetAllAsyncBase(User.UserId()), "Id", "BuildingNumber", cart.UserLocationId);
+            ViewData["UserLocationId"] = new SelectList(await _bll.UserLocations.GetAllAsyncBase(User.UserId()), "Id", "FullName", cart.UserLocationId);
+            ViewData["AppUserId"] = new SelectList(_context.Users.Where(user => user.Id == User.UserId()), "Id", "FirstName");
             return View(cart);
         }
 
@@ -78,14 +95,16 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var cart = await _bll.Carts.FirstOrDefaultAsync(id.Value, User.UserId());
+            var cart = await _bll.Carts.FirstOrDefaultViewAsync(id.Value, User.UserId());
 
             if (cart == null)
             {
                 return NotFound();
             }
+            ViewData["PaymentMethod"] = new SelectList(_paymentMethods, "Name", "Name");
             ViewData["RestaurantId"] = new SelectList(await _bll.Restaurants.GetAllAsyncBase(User.UserId()), "Id", "Location", cart.RestaurantId);
-            ViewData["UserLocationId"] = new SelectList(await _bll.UserLocations.GetAllAsyncBase(User.UserId()), "Id", "BuildingNumber", cart.UserLocationId);
+            ViewData["UserLocationId"] = new SelectList(await _bll.UserLocations.GetAllAsyncBase(User.UserId()), "Id", "FullName", cart.UserLocationId);
+            ViewData["AppUserId"] = new SelectList(_context.Users.Where(user => user.Id == User.UserId()), "Id", "FirstName");
             return View(cart);
         }
 
@@ -107,8 +126,10 @@ namespace WebApp.Controllers
                 await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["PaymentMethod"] = new SelectList(_paymentMethods, "Name", "Name");
             ViewData["RestaurantId"] = new SelectList(await _bll.Restaurants.GetAllAsyncBase(User.UserId()), "Id", "Location", cart.RestaurantId);
-            ViewData["UserLocationId"] = new SelectList(await _bll.UserLocations.GetAllAsyncBase(User.UserId()), "Id", "BuildingNumber", cart.UserLocationId);
+            ViewData["UserLocationId"] = new SelectList(await _bll.UserLocations.GetAllAsyncBase(User.UserId()), "Id", "FullName", cart.UserLocationId);
+            ViewData["AppUserId"] = new SelectList(_context.Users.Where(user => user.Id == User.UserId()), "Id", "FirstName");
             return View(cart);
         }
 
@@ -120,7 +141,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var cart = await _bll.Carts.FirstOrDefaultAsync(id.Value, User.UserId());
+            var cart = await _bll.Carts.FirstOrDefaultViewAsync(id.Value, User.UserId());
 
             if (cart == null)
             {

@@ -13,6 +13,7 @@ namespace BLL.App.Mappers
         {
             MapperConfigurationExpression.CreateMap<Cart, BLLAppDTO.Cart>();
             MapperConfigurationExpression.CreateMap<Restaurant, BLLAppDTO.Restaurant>();
+            MapperConfigurationExpression.CreateMap<UserLocation, BLLAppDTO.UserLocation>();
             MapperConfigurationExpression.CreateMap<AppUser, BLLAppDTO.Identity.AppUser>();
             // add more mappings
 

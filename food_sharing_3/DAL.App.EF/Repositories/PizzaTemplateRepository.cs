@@ -20,7 +20,8 @@ namespace DAL.App.EF.Repositories
         //new DAL.Base.Mappers.BaseMapper<Domain.App.PizzaTemplate, DAL.App.DTO.PizzaTemplate>())
         {
         }
-
+        
+        /*
         public override async Task<IEnumerable<PizzaTemplate>> GetAllAsyncBase(object? userId = null, bool noTracking = true)
         {
             var query = PrepareQuery(userId, noTracking);
@@ -60,72 +61,93 @@ namespace DAL.App.EF.Repositories
             var pizzaTemplate = await FirstOrDefaultAsync(id, userId);
             await base.RemoveAsync(pizzaTemplate.Id);
         }
-        /*
-        public async Task<IEnumerable<PizzaTemplateDTO>> DTOAllAsync(Guid? userId = null)
-        {
-            var query = RepoDbSet.AsQueryable();
-            return await query
-                .Select(p => new PizzaTemplateDTO()
-                {
-                    Id = p.Id,
-                    CategoryId = p.CategoryId,
-                    Category = new CategoryDTO()
-                    {
-                        Id = p.Category.Id,
-                        Name = p.Category.Name,
-                    },
-                    Name = p.Name,
-                    Picture = p.Picture,
-                    Modifications = p.Modifications,
-                    Extras = p.Extras,
-                    Description = p.Description,
-                })
-                .ToListAsync();
-        }
+        
 
-        public async Task<PizzaTemplateDTO> DTOFirstOrDefaultAsync(Guid id, Guid? userId = null)
-        {
-            var query = RepoDbSet.AsQueryable();
-            PizzaTemplateDTO pizzaTemplateDTO = await query
-                .Select(p => new PizzaTemplateDTO()
-                {
-                    Id = p.Id,
-                    CategoryId = p.CategoryId,
-                    Category = new CategoryDTO()
-                    {
-                        Id = p.Category.Id,
-                        Name = p.Category.Name,
-                    },
-                    Name = p.Name,
-                    Picture = p.Picture,
-                    Modifications = p.Modifications,
-                    Extras = p.Extras,
-                    Description = p.Description,
-                })
-                .FirstOrDefaultAsync();
-            
-            return pizzaTemplateDTO;
-        }
         */
         public virtual async Task<IEnumerable<PizzaTemplate>> GetAllForViewAsync()
         {
             return await RepoDbSet
-                .Include(a => a.Category)
-                .Select(p => new PizzaTemplate()
+                .Select(pt => new PizzaTemplate()
                 {
-                    Id = p.Id,
-                    CategoryId = p.CategoryId,
+                    Id = pt.Id,
+                    CategoryId = pt.CategoryId,
                     Category = new Category()
                     {
-                        Id = p.Category.Id,
-                        Name = p.Category.Name,
+                        Name = pt.Category.Name,
                     },
-                    Name = p.Name,
-                    Picture = p.Picture,
-                    Modifications = p.Modifications,
-                    Extras = p.Extras,
-                    Description = p.Description,
+                    Name = pt.Name,
+                    Picture = pt.Picture,
+                    Modifications = pt.Modifications,
+                    Extras = pt.Extras,
+                    Description = pt.Description,
                 }).ToListAsync();
+        }
+        
+        public async Task<PizzaTemplate> FirstOrDefaultViewAsync(Guid id, Guid? userId = null)
+        {
+            var query = RepoDbSet.Where(pt => pt.Id == id).AsQueryable();
+            
+            return await query
+                .Select(pt => new PizzaTemplate()
+                {
+                    Id = pt.Id,
+                    CategoryId = pt.CategoryId,
+                    Category = new Category()
+                    {
+                        Name = pt.Category.Name,
+                    },
+                    Name = pt.Name,
+                    Picture = pt.Picture,
+                    Modifications = pt.Modifications,
+                    Extras = pt.Extras,
+                    Description = pt.Description,
+                }).FirstOrDefaultAsync();
+        }
+        
+        public virtual async Task<IEnumerable<PizzaTemplate>> GetAllForApiAsync()
+        {
+            return await RepoDbSet
+                .Select(pt => new PizzaTemplate()
+                {
+                    Id = pt.Id,
+                    CategoryId = pt.CategoryId,
+                    Category = new Category()
+                    {
+                        Id = pt.Category.Id,
+                        Name = pt.Category.Name,
+                        ForMeal = pt.Category.ForMeal,
+                        ForPizzaTemplate = pt.Category.ForPizzaTemplate,
+                    },
+                    Name = pt.Name,
+                    Picture = pt.Picture,
+                    Modifications = pt.Modifications,
+                    Extras = pt.Extras,
+                    Description = pt.Description,
+                }).ToListAsync();
+        }
+        
+        public async Task<PizzaTemplate> FirstOrDefaultApiAsync(Guid id, Guid? userId = null)
+        {
+            var query = RepoDbSet.Where(pt => pt.Id == id).AsQueryable();
+            
+            return await query
+                .Select(pt => new PizzaTemplate()
+                {
+                    Id = pt.Id,
+                    CategoryId = pt.CategoryId,
+                    Category = new Category()
+                    {
+                        Id = pt.Category.Id,
+                        Name = pt.Category.Name,
+                        ForMeal = pt.Category.ForMeal,
+                        ForPizzaTemplate = pt.Category.ForPizzaTemplate,
+                    },
+                    Name = pt.Name,
+                    Picture = pt.Picture,
+                    Modifications = pt.Modifications,
+                    Extras = pt.Extras,
+                    Description = pt.Description,
+                }).FirstOrDefaultAsync();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace DAL.App.EF.Repositories
         {
 
         }
-
+        /*
         public async Task<IEnumerable<Category>> GetAllAsync(Guid id, Guid? userId = null, bool noTracking = true)
         {
             var query = RepoDbSet
@@ -48,33 +48,7 @@ namespace DAL.App.EF.Repositories
             var category = await FirstOrDefaultAsync(id, userId);
             await base.RemoveAsync(category.Id);
         }
-        /*
-        public async Task<IEnumerable<CategoryDTO>> DTOAllAsync(Guid? userId = null)
-        {
-            var query = RepoDbSet
-                .AsQueryable();
-            return await query
-                .Select(c => new CategoryDTO()
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                })
-                .ToListAsync();
-        }
-
-        public async Task<CategoryDTO> DTOFirstOrDefaultAsync(Guid id, Guid? userId = null)
-        {
-            var query = RepoDbSet
-                .AsQueryable();
-            var categoryDTO = query
-                .Select(c => new CategoryDTO()
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                })
-                .FirstOrDefaultAsync();
-            return await categoryDTO;
-        }
+        
         */
     }
 }

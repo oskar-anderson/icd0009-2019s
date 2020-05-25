@@ -20,6 +20,7 @@ namespace DAL.App.EF.Repositories
         {
         }
 
+         /*
         public async Task<IEnumerable<RestaurantFood>> GetAllAsync(Guid id, Guid? userId = null, bool noTracking = true)
         {
             var query = RepoDbSet
@@ -51,160 +52,78 @@ namespace DAL.App.EF.Repositories
             var restaurantFood = await FirstOrDefaultAsync(id, userId);
             await base.RemoveAsync(restaurantFood.Id);
         }
-
-        /*
-        public async Task<IEnumerable<RestaurantFoodDTO>> DTOAllAsync(Guid? userId = null)
+        
+        */
+        public virtual async Task<IEnumerable<RestaurantFood>> GetAllForViewAsync()
         {
-            var query = RepoDbSet
-                .AsQueryable();
-            return await query
-                .Select(rf => new RestaurantFoodDTO()
+            return await RepoDbSet
+                .Select(rf => new RestaurantFood()
                 {
                     Id = rf.Id,
                     MealId = rf.MealId,
                     Meal = rf.Meal == null
                         ? null
-                        : new MealDTO()
+                        : new Meal()
                         {
-                            Id = rf.Meal.Id,
-                            CategoryId = rf.Meal.CategoryId,
-                            Category = new CategoryDTO()
-                            {
-                                Id = rf.Meal.Category.Id,
-                                Name = rf.Meal.Category.Name
-                            },
                             Name = rf.Meal.Name,
-                            Picture = rf.Meal.Picture,
-                            Description = rf.Meal.Description,
                         },
                     PizzaId = rf.PizzaId,
                     Pizza = rf.Pizza == null
                         ? null
-                        : new PizzaDTO()
+                        : new Pizza()
                         {
-                            Id = rf.Pizza.Id,
-                            PizzaTemplateId = rf.Pizza.PizzaTemplateId,
-                            PizzaTemplate = new PizzaTemplateDTO()
-                            {
-                                Id = rf.Pizza.PizzaTemplate.Id,
-                                CategoryId = rf.Pizza.PizzaTemplate.CategoryId,
-                                Category = new CategoryDTO()
-                                {
-                                    Id = rf.Pizza.PizzaTemplate.Category.Id,
-                                    Name = rf.Pizza.PizzaTemplate.Category.Name,
-                                },
-                                Name = rf.Pizza.PizzaTemplate.Name,
-                                Picture = rf.Pizza.PizzaTemplate.Picture,
-                                Modifications = rf.Pizza.PizzaTemplate.Modifications,
-                                Extras = rf.Pizza.PizzaTemplate.Extras,
-                                Description = rf.Pizza.PizzaTemplate.Description,
-                            },
-                            SizeId = rf.Pizza.SizeId,
-                            Size = new SizeDTO()
-                            {
-                                Id = rf.Pizza.Size.Id,
-                                Name = rf.Pizza.Size.Name
-                            },
                             Name = rf.Pizza.Name,
                         },
                     RestaurantId = rf.RestaurantId,
-                    Restaurant = new RestaurantDTO()
+                    Restaurant = new Restaurant()
                     {
-                        Id = rf.Restaurant.Id,
                         Name = rf.Restaurant.Name,
-                        Location = rf.Restaurant.Location,
-                        Telephone = rf.Restaurant.Telephone,
-                        OpenTime = rf.Restaurant.OpenTime,
-                        OpenNotification = rf.Restaurant.OpenNotification
                     },
-                    Name = rf.Name,
-                    Tax = rf.Tax,
                     Gross = rf.Gross,
                     Since = rf.Since,
                     Until = rf.Until
                 })
                 .ToListAsync();
+        
         }
 
-        public async Task<RestaurantFoodDTO> DTOFirstOrDefaultAsync(Guid id, Guid? userId = null)
+        public virtual async Task<RestaurantFood> FirstOrDefaultViewAsync(Guid id, Guid? userId = null)
         {
-            var query = RepoDbSet.AsQueryable();
-            RestaurantFoodDTO restaurantFoodDTO = await query
-                .Select(rf => new RestaurantFoodDTO()
+            var query = RepoDbSet.Where(rf => rf.Id == id).AsQueryable();
+
+            return await query
+                .Select(rf => new RestaurantFood()
                 {
                     Id = rf.Id,
                     MealId = rf.MealId,
                     Meal = rf.Meal == null
                         ? null
-                        : new MealDTO()
+                        : new Meal()
                         {
-                            Id = rf.Meal.Id,
-                            CategoryId = rf.Meal.CategoryId,
-                            Category = new CategoryDTO()
-                            {
-                                Id = rf.Meal.Category.Id,
-                                Name = rf.Meal.Category.Name
-                            },
                             Name = rf.Meal.Name,
-                            Picture = rf.Meal.Picture,
-                            Description = rf.Meal.Description,
                         },
                     PizzaId = rf.PizzaId,
                     Pizza = rf.Pizza == null
                         ? null
-                        : new PizzaDTO()
+                        : new Pizza()
                         {
-                            Id = rf.Pizza.Id,
-                            PizzaTemplateId = rf.Pizza.PizzaTemplateId,
-                            PizzaTemplate = new PizzaTemplateDTO()
-                            {
-                                Id = rf.Pizza.PizzaTemplate.Id,
-                                CategoryId = rf.Pizza.PizzaTemplate.CategoryId,
-                                Category = new CategoryDTO()
-                                {
-                                    Id = rf.Pizza.PizzaTemplate.Category.Id,
-                                    Name = rf.Pizza.PizzaTemplate.Category.Name,
-                                },
-                                Name = rf.Pizza.PizzaTemplate.Name,
-                                Picture = rf.Pizza.PizzaTemplate.Picture,
-                                Modifications = rf.Pizza.PizzaTemplate.Modifications,
-                                Extras = rf.Pizza.PizzaTemplate.Extras,
-                                Description = rf.Pizza.PizzaTemplate.Description,
-                            },
-                            SizeId = rf.Pizza.SizeId,
-                            Size = new SizeDTO()
-                            {
-                                Id = rf.Pizza.Size.Id,
-                                Name = rf.Pizza.Size.Name
-                            },
                             Name = rf.Pizza.Name,
                         },
                     RestaurantId = rf.RestaurantId,
-                    Restaurant = new RestaurantDTO()
+                    Restaurant = new Restaurant()
                     {
-                        Id = rf.Restaurant.Id,
                         Name = rf.Restaurant.Name,
-                        Location = rf.Restaurant.Location,
-                        Telephone = rf.Restaurant.Telephone,
-                        OpenTime = rf.Restaurant.OpenTime,
-                        OpenNotification = rf.Restaurant.OpenNotification
                     },
-                    Name = rf.Name,
-                    Tax = rf.Tax,
                     Gross = rf.Gross,
                     Since = rf.Since,
                     Until = rf.Until
                 })
                 .FirstOrDefaultAsync();
-            
-            return restaurantFoodDTO;
         }
-        */
-        public virtual async Task<IEnumerable<RestaurantFood>> GetAllForViewAsync()
-        {
-            var query = RepoDbSet.AsQueryable();
 
-            return await query
+        public virtual async Task<IEnumerable<RestaurantFood>> GetAllForApiAsync()
+        {
+            return await RepoDbSet
                 .Select(rf => new RestaurantFood()
                 {
                     Id = rf.Id,
@@ -218,7 +137,9 @@ namespace DAL.App.EF.Repositories
                             Category = new Category()
                             {
                                 Id = rf.Meal.Category.Id,
-                                Name = rf.Meal.Category.Name
+                                Name = rf.Meal.Category.Name,
+                                ForMeal = rf.Meal.Category.ForMeal,
+                                ForPizzaTemplate = rf.Meal.Category.ForPizzaTemplate,
                             },
                             Name = rf.Meal.Name,
                             Picture = rf.Meal.Picture,
@@ -239,6 +160,8 @@ namespace DAL.App.EF.Repositories
                                 {
                                     Id = rf.Pizza.PizzaTemplate.Category.Id,
                                     Name = rf.Pizza.PizzaTemplate.Category.Name,
+                                    ForMeal = rf.Pizza.PizzaTemplate.Category.ForMeal,
+                                    ForPizzaTemplate = rf.Pizza.PizzaTemplate.Category.ForPizzaTemplate,
                                 },
                                 Name = rf.Pizza.PizzaTemplate.Name,
                                 Picture = rf.Pizza.PizzaTemplate.Picture,
@@ -246,12 +169,8 @@ namespace DAL.App.EF.Repositories
                                 Extras = rf.Pizza.PizzaTemplate.Extras,
                                 Description = rf.Pizza.PizzaTemplate.Description,
                             },
-                            SizeId = rf.Pizza.SizeId,
-                            Size = new Size()
-                            {
-                                Id = rf.Pizza.Size.Id,
-                                Name = rf.Pizza.Size.Name
-                            },
+                            SizeNumber = rf.Pizza.SizeNumber,
+                            SizeName = rf.Pizza.SizeName,
                             Name = rf.Pizza.Name,
                         },
                     RestaurantId = rf.RestaurantId,
@@ -264,14 +183,82 @@ namespace DAL.App.EF.Repositories
                         OpenTime = rf.Restaurant.OpenTime,
                         OpenNotification = rf.Restaurant.OpenNotification
                     },
-                    Name = rf.Name,
-                    Tax = rf.Tax,
                     Gross = rf.Gross,
                     Since = rf.Since,
                     Until = rf.Until
                 })
                 .ToListAsync();
-        
+        }
+
+        public virtual async Task<RestaurantFood> FirstOrDefaultApiAsync(Guid id, Guid? userId = null)
+        {
+            var query = RepoDbSet.Where(rf => rf.Id == id).AsQueryable();
+            
+            return await query
+                .Select(rf => new RestaurantFood()
+                {
+                    Id = rf.Id,
+                    MealId = rf.MealId,
+                    Meal = rf.Meal == null
+                        ? null
+                        : new Meal()
+                        {
+                            Id = rf.Meal.Id,
+                            CategoryId = rf.Meal.CategoryId,
+                            Category = new Category()
+                            {
+                                Id = rf.Meal.Category.Id,
+                                Name = rf.Meal.Category.Name,
+                                ForMeal = rf.Meal.Category.ForMeal,
+                                ForPizzaTemplate = rf.Meal.Category.ForPizzaTemplate,
+                            },
+                            Name = rf.Meal.Name,
+                            Picture = rf.Meal.Picture,
+                            Description = rf.Meal.Description,
+                        },
+                    PizzaId = rf.PizzaId,
+                    Pizza = rf.Pizza == null
+                        ? null
+                        : new Pizza()
+                        {
+                            Id = rf.Pizza.Id,
+                            PizzaTemplateId = rf.Pizza.PizzaTemplateId,
+                            PizzaTemplate = new PizzaTemplate()
+                            {
+                                Id = rf.Pizza.PizzaTemplate.Id,
+                                CategoryId = rf.Pizza.PizzaTemplate.CategoryId,
+                                Category = new Category()
+                                {
+                                    Id = rf.Pizza.PizzaTemplate.Category.Id,
+                                    Name = rf.Pizza.PizzaTemplate.Category.Name,
+                                    ForMeal = rf.Pizza.PizzaTemplate.Category.ForMeal,
+                                    ForPizzaTemplate = rf.Pizza.PizzaTemplate.Category.ForPizzaTemplate,
+                                },
+                                Name = rf.Pizza.PizzaTemplate.Name,
+                                Picture = rf.Pizza.PizzaTemplate.Picture,
+                                Modifications = rf.Pizza.PizzaTemplate.Modifications,
+                                Extras = rf.Pizza.PizzaTemplate.Extras,
+                                Description = rf.Pizza.PizzaTemplate.Description,
+                            },
+                            SizeNumber = rf.Pizza.SizeNumber,
+                            SizeName = rf.Pizza.SizeName,
+                            Name = rf.Pizza.Name,
+                        },
+                    RestaurantId = rf.RestaurantId,
+                    Restaurant = new Restaurant()
+                    {
+                        Id = rf.Restaurant.Id,
+                        Name = rf.Restaurant.Name,
+                        Location = rf.Restaurant.Location,
+                        Telephone = rf.Restaurant.Telephone,
+                        OpenTime = rf.Restaurant.OpenTime,
+                        OpenNotification = rf.Restaurant.OpenNotification
+                    },
+                    Gross = rf.Gross,
+                    Since = rf.Since,
+                    Until = rf.Until
+                })
+                .FirstOrDefaultAsync();
         }
     }
 }

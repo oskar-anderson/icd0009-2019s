@@ -12,6 +12,9 @@ namespace Contracts.DAL.App.Repositories
     public interface IPizzaRepositoryCustom<TPizza>
     {
         Task<IEnumerable<TPizza>> GetAllForViewAsync();
+        Task<TPizza> FirstOrDefaultViewAsync(Guid id, Guid? userId = null);
+        Task<IEnumerable<TPizza>> GetAllForApiAsync();
+        Task<TPizza> FirstOrDefaultApiAsync(Guid id, Guid? userId = null);
     }
 
     

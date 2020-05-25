@@ -38,7 +38,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var pizzaTemplate = await _bll.PizzaTemplates.FirstOrDefaultAsync(id.Value);
+            //var pizzaTemplate = await _bll.PizzaTemplates.FirstOrDefaultAsync(id.Value);
+            var pizzaTemplate = await _bll.PizzaTemplates.FirstOrDefaultViewAsync(id.Value);
             
             if (pizzaTemplate == null)
             {
@@ -135,7 +136,8 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var pizzaTemplate = await _bll.PizzaTemplates.FirstOrDefaultAsync(id.Value, User.UserId());
+            //var pizzaTemplate = await _bll.PizzaTemplates.FirstOrDefaultAsync(id.Value, User.UserId());
+            var pizzaTemplate = await _bll.PizzaTemplates.FirstOrDefaultViewAsync(id.Value, User.UserId());
             
             if (pizzaTemplate == null)
             {

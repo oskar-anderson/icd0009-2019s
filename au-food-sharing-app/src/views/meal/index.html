@@ -12,7 +12,10 @@
     <table class="table">
         <thead>
             <tr>
-                <th>
+                <th class="table-column-sm">
+                    ID
+                </th>
+                <th >
                     Category
                 </th>
                 <th>
@@ -24,30 +27,34 @@
                 <th>
                     Description
                 </th>
+                <th>
+                    Actions
+                </th>
             </tr>
         </thead>
         <tbody>
             <tr repeat.for="meal of _meals">
+                <td class="table-column-sm">
+                    <button disabled type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="${meal.id}">
+                        i
+                    </button>
+                </td>
+                <td>
+                    ${meal.category.name}
+                </td>
                 <td>
                     ${meal.name}
                 </td>
                 <td>
-                    ${meal.location}
+                    <img src=${meal.picture} alt="Meal picture" width="200" height="200">
                 </td>
                 <td>
-                    ${meal.telephone}
-                </td>
-                <td>
-                    ${meal.telephone}
-                </td>
-                <td>
-                    ${meal.openTime}
+                    ${meal.description}
                 </td>
 
                 <td>
-                    <a route-href="route: meal-edit; params.bind: { id: meal.id }">Edit</a> |
-                    <a route-href="route: meal-details; params.bind: { id: meal.id }">Details</a> |
-                    <a route-href="route: meal-delete; params.bind: { id: meal.id }">Delete</a>
+                    <a route-href="route: meal-edit; params.bind: { id: meal.id }"><i class="fa fa-color-a fa-2x fa-pencil-square"></i></a>
+                    <a route-href="route: meal-delete; params.bind: { id: meal.id }"><i class="fa fa-color-a fa-2x fa-trash"></i></a>
                 </td>
     
             </tr>

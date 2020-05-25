@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using BLL.App.DTO;
 using Contracts.BLL.App;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -22,7 +24,7 @@ namespace WebApp.Controllers
         // GET: CartMeal
         public async Task<IActionResult> Index()
         {
-            var cartMeals = await _bll.CartMeals.GetAllAsyncBase();
+            var cartMeals = await _bll.CartMeals.GetAllForViewAsync();
             return View(cartMeals);
         }
 
@@ -34,7 +36,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var cartMeal = await _bll.CartMeals.FirstOrDefaultAsync(id.Value);
+            var cartMeal = await _bll.CartMeals.FirstOrDefaultViewAsync(id.Value);
 
             if (cartMeal == null)
             {
@@ -49,7 +51,7 @@ namespace WebApp.Controllers
         {
             ViewData["CartId"] = new SelectList(await _bll.Carts.GetAllAsyncBase(), "Id", "Id");
             ViewData["MealId"] = new SelectList(await _bll.Meals.GetAllAsyncBase(), "Id", "Name");
-            ViewData["PizzaFinalId"] = new SelectList(await _bll.PizzaFinals.GetAllAsyncBase(), "Id", "Changes");
+            ViewData["PizzaUserId"] = new SelectList(await _bll.PizzaUsers.GetAllAsyncBase(), "Id", "Changes");
             return View();
         }
 
@@ -60,6 +62,15 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(BLL.App.DTO.CartMeal cartMeal)
         {
+            if (Request.Form["FoodSelection"] == "Meal")
+            {
+                cartMeal.PizzaUserId = null;
+            }
+            else
+            {
+                cartMeal.MealId = null;
+            }
+            
             if (ModelState.IsValid)
             {
                 _bll.CartMeals.Add(cartMeal);
@@ -68,7 +79,7 @@ namespace WebApp.Controllers
             }
             ViewData["CartId"] = new SelectList(await _bll.Carts.GetAllAsyncBase(), "Id", "Id", cartMeal.CartId);
             ViewData["MealId"] = new SelectList(await _bll.Meals.GetAllAsyncBase(), "Id", "Name", cartMeal.MealId);
-            ViewData["PizzaFinalId"] = new SelectList(await _bll.PizzaFinals.GetAllAsyncBase(), "Id", "Changes", cartMeal.PizzaFinalId);
+            ViewData["PizzaUserId"] = new SelectList(await _bll.PizzaUsers.GetAllAsyncBase(), "Id", "Id", cartMeal.PizzaUserId);
             return View(cartMeal);
         }
 
@@ -80,7 +91,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var cartMeal = await _bll.CartMeals.FirstOrDefaultAsync(id.Value);
+            var cartMeal = await _bll.CartMeals.FirstOrDefaultViewAsync(id.Value);
 
             if (cartMeal == null)
             {
@@ -88,7 +99,7 @@ namespace WebApp.Controllers
             }
             ViewData["CartId"] = new SelectList(await _bll.Carts.GetAllAsyncBase(), "Id", "Id", cartMeal.CartId);
             ViewData["MealId"] = new SelectList(await _bll.Meals.GetAllAsyncBase(), "Id", "Name", cartMeal.MealId);
-            ViewData["PizzaFinalId"] = new SelectList(await _bll.PizzaFinals.GetAllAsyncBase(), "Id", "Changes", cartMeal.PizzaFinalId);
+            ViewData["PizzaUserId"] = new SelectList(await _bll.PizzaUsers.GetAllAsyncBase(), "Id", "Id", cartMeal.PizzaUserId);
             return View(cartMeal);
         }
 
@@ -103,6 +114,15 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
+            
+            if (Request.Form["FoodSelection"] == "Meal")
+            {
+                cartMeal.PizzaUserId = null;
+            }
+            else
+            {
+                cartMeal.MealId = null;
+            }
 
             if (ModelState.IsValid)
             {
@@ -112,7 +132,7 @@ namespace WebApp.Controllers
             }
             ViewData["CartId"] = new SelectList(await _bll.Carts.GetAllAsyncBase(), "Id", "Id", cartMeal.CartId);
             ViewData["MealId"] = new SelectList(await _bll.Meals.GetAllAsyncBase(), "Id", "Name", cartMeal.MealId);
-            ViewData["PizzaFinalId"] = new SelectList(await _bll.PizzaFinals.GetAllAsyncBase(), "Id", "Changes", cartMeal.PizzaFinalId);
+            ViewData["PizzaUserId"] = new SelectList(await _bll.PizzaUsers.GetAllAsyncBase(), "Id", "Changes", cartMeal.PizzaUserId);
             return View(cartMeal);
         }
 
@@ -124,7 +144,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var cartMeal = await _bll.CartMeals.FirstOrDefaultAsync(id.Value);
+            var cartMeal = await _bll.CartMeals.FirstOrDefaultViewAsync(id.Value);
 
             if (cartMeal == null)
             {

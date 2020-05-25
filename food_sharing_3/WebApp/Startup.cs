@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,7 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
@@ -115,6 +117,25 @@ namespace WebApp
                         ClockSkew = TimeSpan.Zero // remove delay of token when expire
                     };
                 });
+            /*
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                // TODO: Move to configuration
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("en-GB"),
+                    new CultureInfo("et-EE"),
+                    new CultureInfo("ru-RU"),
+                };
+                // datetime and currency support
+                options.SupportedCultures = supportedCultures;
+                // UI translated strings
+                options.SupportedUICultures = supportedCultures;
+                // if nothing is found, use this
+                options.DefaultRequestCulture = new RequestCulture("en-GB","en-GB");
+            });
+            */
+            
             services.AddApiVersioning(options =>
             {
                 options.ReportApiVersions = true;
@@ -145,7 +166,17 @@ namespace WebApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            
+            var defaultCulture = new CultureInfo("en-GB");
+            var localizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(defaultCulture),
+                SupportedCultures = new List<CultureInfo> { defaultCulture },
+                SupportedUICultures = new List<CultureInfo> { defaultCulture }
+            };
+            app.UseRequestLocalization(localizationOptions);
+            
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             

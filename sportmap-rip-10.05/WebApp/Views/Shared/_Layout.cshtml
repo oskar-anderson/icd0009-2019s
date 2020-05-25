@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - WebApp</title>
+    
+    @*
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    *@
+    
+    <link rel="stylesheet" href="~/dist/site.css"/>
+    <link rel="stylesheet" href="~/css/site.css"/>
+    
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebApp</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <partial name="_LoginPartial"/>
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@Resources.Views.Shared._Layout.Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@Resources.Views.Shared._Layout.Privacy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="GpsSessions" asp-action="Index">@Resources.Views.Shared._Layout.GpsSessions</a>
+                    </li>
+
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("admin"))
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdownAdmin" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @Resources.Views.Shared._Layout.Admin
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
+                                <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="GpsSessions" asp-action="Index">GpsSessions</a>
+                                <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="GpsSessionTypes" asp-action="Index">GpsSessionTypes</a>
+                                <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="GpsLocations" asp-action="Index">GpsLocations</a>
+                                <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="GpsLocationTypes" asp-action="Index">GpsLocationTypes</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="Tracks" asp-action="Index">Tracks</a>
+                                <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="TrackPoints" asp-action="Index">TrackPoints</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="LangStrs" asp-action="Index">LangStrs</a>
+                                <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="LangStrTranslations" asp-action="Index">LangStrTranslations</a>
+                            </div>
+                        </li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+<footer class="border-top footer text-muted">
+    <div class="container">
+        &copy; 2020 - WebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> Culture: @Thread.CurrentThread.CurrentCulture.Name UICulture: @Thread.CurrentThread.CurrentUICulture.Name
+    </div>
+</footer>
+@*
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+*@
+
+
+<script src="~/dist/site.js" asp-append-version="true"></script>
+<script src="~/dist/jquery.validate.globalize.js" asp-append-version="true"></script>
+
+@RenderSection("Scripts", required: false)
+
+@{    
+	var currentCultureCode = Thread.CurrentThread.CurrentCulture.Name.Split('-')[0];
+
+    // map .net datetime format strings to flatpick/momentjs format
+    
+    // https://flatpickr.js.org/formatting/
+    // d - day of month,2 digits
+    // j - day of month, no leading zero
+    // m - month, 2 digits
+    // n - mont, no leading zero
+    // y - 2 digit year, Y - 4 digit year
+    
+    // https://docs.microsoft.com/en-us/dotnet/api/system.globalization.datetimeformatinfo?view=netcore-3.1
+    // dd.MM.yyyy or dd/MM/yyyy
+    
+    var datePattern = Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern;
+    datePattern = datePattern
+        .Replace("dd", "d")
+        .Replace("MM", "m")
+        .Replace("yyyy", "Y");
+
+    // LongTimePattern and ShortTimePattern HH:mm for 23:59,  h:mm tt for 11:59 PM
+    var timePattern = Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortTimePattern;
+    var clock24H = timePattern.Contains("tt") == false;
+    timePattern = timePattern
+        .Replace("HH", "H")
+        .Replace("mm", "i")
+        .Replace("ss", "S")
+        .Replace("tt", "K");
+    var dateTimePattern = timePattern + " " + datePattern;
+}
+<script>
+    // https://github.com/globalizejs/globalize#installation
+    $.when(
+        $.get("/dist/cldr-core/supplemental/likelySubtags.json"),
+        $.get("/dist/cldr-core/supplemental/numberingSystems.json"),
+        $.get("/dist/cldr-core/supplemental/timeData.json"),
+        $.get("/dist/cldr-core/supplemental/weekData.json"),
+        
+        $.get("/dist/cldr-numbers-modern/main/@currentCultureCode/numbers.json"),
+        $.get("/dist/cldr-numbers-modern/main/@currentCultureCode/currencies.json"),
+        
+        $.get("/dist/cldr-dates-modern/main/@currentCultureCode/ca-generic.json"),
+        $.get("/dist/cldr-dates-modern/main/@currentCultureCode/ca-gregorian.json"),
+        $.get("/dist/cldr-dates-modern/main/@currentCultureCode/dateFields.json"),
+        $.get("/dist/cldr-dates-modern/main/@currentCultureCode/timeZoneNames.json")
+    ).then(function () {
+        // Normalize $.get results, we only need the JSON, not the request statuses.
+        return [].slice.apply(arguments, [0]).map(function (result) {
+            return result[0];
+        });
+    }).then(
+        Globalize.load
+    ).then(function () {
+        // Initialise Globalize to the current culture
+        Globalize.locale('@currentCultureCode');
+    });
+    
+    $(function () {
+        $('[type="datetime-local"]').each(function (index, value) {
+            $(value).attr('type', 'text');
+            $(value).val(value.defaultValue);
+		    $(value).flatpickr({
+		        locale: "@currentCultureCode",
+		        enableTime: true,
+	    	    altFormat: "@dateTimePattern",
+	    	    altInput: true,
+	    	    dateFormat: "Z", // iso format
+	    	    disableMobile: true,
+	    	    time_24hr: @(clock24H.ToString().ToLower()),
+		    });
+        });
+
+        $('[type="time"]').each(function (index, value) {
+            $(value).attr('type', 'text');
+            $(value).val(value.defaultValue);
+		    $(value).flatpickr({
+	    	    locale: "@currentCultureCode",
+	    	    enableTime: true,
+	    	    noCalendar: true,
+
+	    	    altFormat: "@timePattern",
+	    	    altInput: true,
+	    	    dateFormat: "H:i", // 24h HH:mm
+	    	    disableMobile: true,
+
+	    	    time_24hr: @(clock24H.ToString().ToLower()),
+		    });
+        });
+
+        $('[type="date"]').each(function (index, value) {
+		    $(value).attr('type', 'text');
+		    $(value).val(value.defaultValue);
+		    $(value).flatpickr({
+    		    locale: "@currentCultureCode",
+	    	    altFormat: "@datePattern",
+	    	    altInput: true,
+                disableMobile: true,
+	    	    dateFormat: "Y-m-d", // YYYY-MM-DD
+		    });
+        });
+    });
+</script>
+</body>
+</html>

@@ -33,14 +33,14 @@ namespace WebApp.ApiControllers._1._0
         [HttpGet]
         public async Task<ActionResult<IEnumerable<V1DTO.SharingDTO>>> GetSharings()
         {
-            return Ok(await _bll.Sharings.GetAllAsyncBase(User.UserId()));
+            return Ok(await _bll.Sharings.GetAllForApiAsync(User.UserId()));
         }
 
         // GET: api/Sharing/5
         [HttpGet("{id}")]
         public async Task<ActionResult<V1DTO.SharingDTO>> GetSharing(Guid id)
         {
-            var sharing = await _bll.Sharings.FirstOrDefaultAsync(id, User.UserId());
+            var sharing = await _bll.Sharings.FirstOrDefaultApiAsync(id, User.UserId());
             
             if (sharing == null)
             {
@@ -87,7 +87,7 @@ namespace WebApp.ApiControllers._1._0
         [HttpDelete("{id}")]
         public async Task<ActionResult<V1DTO.SharingDTO>> DeleteSharing(Guid id)
         {
-            var sharing = await _bll.Sharings.FirstOrDefaultAsync(id, User.UserId());
+            var sharing = await _bll.Sharings.FirstOrDefaultApiAsync(id, User.UserId());
             if (sharing == null)
             {
                 return NotFound();

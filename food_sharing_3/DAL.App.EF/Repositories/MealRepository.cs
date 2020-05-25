@@ -21,6 +21,7 @@ namespace DAL.App.EF.Repositories
         {
         }
 
+        /*
         public async Task<IEnumerable<Meal>> GetAllAsync(Guid id, Guid? userId = null, bool noTracking = true)
         {
             var query = RepoDbSet
@@ -51,18 +52,16 @@ namespace DAL.App.EF.Repositories
             await base.RemoveAsync(meal.Id);
         }
         
-        /*
-        public async Task<IEnumerable<MealDTO>> DTOAllAsync(Guid? userId = null)
+        */
+        public virtual async Task<IEnumerable<Meal>> GetAllForViewAsync()
         {
-            var query = RepoDbSet.AsQueryable();
-            return await query
-                .Select(m => new MealDTO()
+            return await RepoDbSet
+                .Select(m => new Meal()
                 {
                     Id = m.Id,
                     CategoryId = m.CategoryId,
-                    Category = new CategoryDTO()
+                    Category = new Category()
                     {
-                        Id = m.Category.Id,
                         Name = m.Category.Name,
                     },
                     Name = m.Name,
@@ -72,29 +71,50 @@ namespace DAL.App.EF.Repositories
                 .ToListAsync();
         }
 
-        public async Task<MealDTO> DTOFirstOrDefaultAsync(Guid id, Guid? userId = null)
+        public virtual async Task<Meal> FirstOrDefaultViewAsync(Guid id, Guid? userId = null)
         {
             var query = RepoDbSet.Where(m => m.Id == id).AsQueryable();
-            MealDTO mealDTO = await query.Select(m => new MealDTO()
-            {
-                Id = m.Id,
-                CategoryId = m.CategoryId,
-                Category = new CategoryDTO()
+            
+            return await query
+                .Select(m => new Meal()
                 {
-                    Id = m.Category.Id,
-                    Name = m.Category.Name,
-                },
-                Name = m.Name,
-                Picture = m.Picture,
-                Description = m.Description
-            }).FirstOrDefaultAsync();
-
-            return mealDTO;
+                    Id = m.Id,
+                    CategoryId = m.CategoryId,
+                    Category = new Category()
+                    {
+                        Name = m.Category.Name,
+                    },
+                    Name = m.Name,
+                    Picture = m.Picture,
+                    Description = m.Description
+                })
+                .FirstOrDefaultAsync();
         }
-        */
-        public virtual async Task<IEnumerable<Meal>> GetAllForViewAsync()
+
+        public virtual async Task<IEnumerable<Meal>> GetAllForApiAsync()
         {
-            var query = RepoDbSet.AsQueryable();
+            return await RepoDbSet
+                .Select(m => new Meal()
+                {
+                    Id = m.Id,
+                    CategoryId = m.CategoryId,
+                    Category = new Category()
+                    {
+                        Id = m.Category.Id,
+                        Name = m.Category.Name,
+                        ForMeal = m.Category.ForMeal,
+                        ForPizzaTemplate = m.Category.ForPizzaTemplate,
+                    },
+                    Name = m.Name,
+                    Picture = m.Picture,
+                    Description = m.Description
+                })
+                .ToListAsync();
+        }
+
+        public virtual async Task<Meal> FirstOrDefaultApiAsync(Guid id, Guid? userId = null)
+        {
+            var query = RepoDbSet.Where(m => m.Id == id).AsQueryable();
             
             return await query
                 .Select(m => new Meal()
@@ -105,12 +125,14 @@ namespace DAL.App.EF.Repositories
                     {
                         Id = m.Category.Id,
                         Name = m.Category.Name,
+                        ForMeal = m.Category.ForMeal,
+                        ForPizzaTemplate = m.Category.ForPizzaTemplate,
                     },
                     Name = m.Name,
                     Picture = m.Picture,
                     Description = m.Description
                 })
-                .ToListAsync();
+                .FirstOrDefaultAsync();
         }
     }
 }

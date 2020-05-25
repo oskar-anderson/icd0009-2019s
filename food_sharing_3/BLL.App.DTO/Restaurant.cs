@@ -18,10 +18,7 @@ namespace BLL.App.DTO
 
         public string OpenNotification { get; set; } = default!;
 
-        public ICollection<Cart>? Carts { get; set; } 
-        public ICollection<Invoice>? Invoices { get; set; } 
-        public ICollection<RestaurantFood>? RestaurantFoods { get; set; } 
-        public ICollection<ComponentPrice>? ComponentPrices { get; set; }
-
+        public ICollection<Cart>? Carts { get; set; }
+        public ICollection<RestaurantFood>? RestaurantFoods { get; set; }
     }
 }

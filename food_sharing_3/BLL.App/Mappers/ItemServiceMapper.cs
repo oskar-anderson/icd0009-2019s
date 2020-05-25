@@ -1,8 +1,9 @@
-﻿using AutoMapper;
+﻿﻿using AutoMapper;
 using BLL.Base.Mappers;
 using Contracts.BLL.App.Mappers;
 using DAL.App.DTO;
-using BLLAppDTO=BLL.App.DTO;
+ using DAL.App.DTO.Identity;
+ using BLLAppDTO=BLL.App.DTO;
 
 namespace BLL.App.Mappers
 {
@@ -11,8 +12,8 @@ namespace BLL.App.Mappers
         public ItemServiceMapper():base()
         {
             MapperConfigurationExpression.CreateMap<Item, BLLAppDTO.Item>();
-            MapperConfigurationExpression.CreateMap<InvoiceLine, BLLAppDTO.InvoiceLine>();
             MapperConfigurationExpression.CreateMap<Sharing, BLLAppDTO.Sharing>();
+            MapperConfigurationExpression.CreateMap<AppUser, BLLAppDTO.Identity.AppUser>();
             // add more mappings
 
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));

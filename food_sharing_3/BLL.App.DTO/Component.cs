@@ -10,9 +10,11 @@ namespace BLL.App.DTO
         public Guid Id { get; set; }
         
         public string Name { get; set; } = default!;
+        
+        public decimal Gross { get; set; } = default!;
 
-        public ICollection<ComponentPrice>? ComponentPrices { get; set; }
-        public ICollection<PizzaComponent>? PizzaComponents { get; set; }
+        public ICollection<ComponentPizzaTemplate>? ComponentPizzaTemplate { get; set; }
+        public ICollection<ComponentPizzaUser>? ComponentPizzaUser { get; set; }
 
     }
 }

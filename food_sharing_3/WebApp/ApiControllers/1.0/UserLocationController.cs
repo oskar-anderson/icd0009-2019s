@@ -33,14 +33,14 @@ namespace WebApp.ApiControllers._1._0
         [HttpGet]
         public async Task<ActionResult<IEnumerable<V1DTO.UserLocationDTO>>> GetUserLocations()
         {
-            return Ok(await _bll.UserLocations.GetAllAsyncBase(User.UserId()));
+            return Ok(await _bll.UserLocations.GetAllForApiAsync(User.UserId()));
         }
 
         // GET: api/UserLocation/5
         [HttpGet("{id}")]
         public async Task<ActionResult<V1DTO.UserLocationDTO>> GetUserLocation(Guid id)
         {
-            var userLocation = await _bll.UserLocations.FirstOrDefaultAsync(id, User.UserId());
+            var userLocation = await _bll.UserLocations.FirstOrDefaultApiAsync(id, User.UserId());
             
             if (userLocation == null)
             {
@@ -87,7 +87,7 @@ namespace WebApp.ApiControllers._1._0
         [HttpDelete("{id}")]
         public async Task<ActionResult<V1DTO.UserLocationDTO>> DeleteUserLocation(Guid id)
         {
-            var userLocation = await _bll.UserLocations.FirstOrDefaultAsync(id, User.UserId());
+            var userLocation = await _bll.UserLocations.FirstOrDefaultApiAsync(id, User.UserId());
             if (userLocation == null)
             {
                 return NotFound();

@@ -1,0 +1,132 @@
+@model IEnumerable<BLL.App.DTO.GpsSession>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>GPS Sessions</h1>
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("admin"))
+{
+    <p>
+        <a asp-action="Create">Manually create a new GPS Session</a>
+    </p>
+}
+
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-12 col-md-6 col-xl-4">
+            <div class="card">
+                <div class="card-header">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Description)</h5>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.GpsSessionType) - @(item.GpsSessionType!.Name!)</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.RecordedAt) - @Html.DisplayFor(model => item.RecordedAt)</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Duration) - @Html.DisplayFor(model => item.Duration)</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Distance) - @((item.Distance / 1000.0).ToString("N3"))</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Climb) - @Html.DisplayFor(model => item.Climb)</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Descent) - @Html.DisplayFor(model => item.Descent)</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Speed) - @Html.DisplayFor(model => item.Speed)</p>
+                    <a href="#" class="btn btn-primary">View on map</a>
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("admin"))
+                    {
+                        <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.Id">Edit</a>
+                        <a asp-action="Delete" class="btn btn-primary" asp-route-id="@item.Id">Delete</a>
+                    }
+                </div>
+            </div>
+
+        </div>
+    }
+</div>
+
+@*
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RecordedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Duration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Speed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Distance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Climb)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PaceMin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PaceMax)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GpsSessionType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppUser)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecordedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Duration)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Speed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Distance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Climb)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaceMin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaceMax)
+            </td>
+            <td>
+                @(item.GpsSessionType!.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppUser!.FirstLastName)
+            </td>
+ 
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+*@

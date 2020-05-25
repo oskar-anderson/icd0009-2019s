@@ -2,6 +2,7 @@
 using BLL.Base.Mappers;
 using Contracts.BLL.App.Mappers;
 using DAL.App.DTO;
+using DAL.App.DTO.Identity;
 using BLLAppDTO=BLL.App.DTO;
 
 namespace BLL.App.Mappers
@@ -12,7 +13,13 @@ namespace BLL.App.Mappers
         {
             MapperConfigurationExpression.CreateMap<CartMeal, BLLAppDTO.CartMeal>();
             MapperConfigurationExpression.CreateMap<Cart, BLLAppDTO.Cart>();
-            MapperConfigurationExpression.CreateMap<PizzaFinal, BLLAppDTO.PizzaFinal>();
+            MapperConfigurationExpression.CreateMap<UserLocation, BLLAppDTO.UserLocation>();
+            MapperConfigurationExpression.CreateMap<AppUser, BLLAppDTO.Identity.AppUser>();
+            MapperConfigurationExpression.CreateMap<Restaurant, BLLAppDTO.Restaurant>();
+            MapperConfigurationExpression.CreateMap<PizzaUser, BLLAppDTO.PizzaUser>();
+            MapperConfigurationExpression.CreateMap<Pizza, BLLAppDTO.Pizza>();
+            MapperConfigurationExpression.CreateMap<PizzaTemplate, BLLAppDTO.PizzaTemplate>();
+            MapperConfigurationExpression.CreateMap<Category, BLLAppDTO.Category>();
             MapperConfigurationExpression.CreateMap<Meal, BLLAppDTO.Meal>();
             // add more mappings
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));

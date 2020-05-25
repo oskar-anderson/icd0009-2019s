@@ -9,7 +9,7 @@ export class CartService{
 
     }
 
-    private readonly _baseUrl = 'https://localhost:5001/api/Cart';
+    private readonly _baseUrl = 'https://localhost:5001/api/v1.0/Cart';
 
     getCarts(): Promise<ICart[]> {
         let x: RequestInit;

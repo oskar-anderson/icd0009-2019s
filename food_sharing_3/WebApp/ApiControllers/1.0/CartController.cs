@@ -32,14 +32,14 @@ namespace WebApp.ApiControllers._1._0
         [HttpGet]
         public async Task<ActionResult<IEnumerable<V1DTO.CartDTO>>> GetCarts()
         {
-            return Ok(await _bll.Carts.GetAllAsyncBase(User.UserId()));
+            return Ok(await _bll.Carts.GetAllForApiAsync(User.UserId()));
         }
 
         // GET: api/Cart/5
         [HttpGet("{id}")]
         public async Task<ActionResult<V1DTO.CartDTO>> GetCart(Guid id)
         {
-            var cart = await _bll.Carts.FirstOrDefaultAsync(id, User.UserId());
+            var cart = await _bll.Carts.FirstOrDefaultApiAsync(id, User.UserId());
             
             if (cart == null)
             {
@@ -86,7 +86,7 @@ namespace WebApp.ApiControllers._1._0
         [HttpDelete("{id}")]
         public async Task<ActionResult<V1DTO.CartDTO>> DeleteCart(Guid id)
         {
-            var cart = await _bll.Carts.FirstOrDefaultAsync(id, User.UserId());
+            var cart = await _bll.Carts.FirstOrDefaultApiAsync(id, User.UserId());
             if (cart == null)
             {
                 return NotFound();

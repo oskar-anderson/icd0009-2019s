@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Contracts.BLL.App;
+using DAL.App.EF;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Extensions;
@@ -12,17 +14,19 @@ namespace WebApp.Controllers
     [Authorize]
     public class SharingController : Controller
     {
+        private readonly AppDbContext _context;
         private readonly IAppBLL _bll;
 
-        public SharingController(IAppBLL bll)
+        public SharingController(AppDbContext context, IAppBLL bll)
         {
+            _context = context;
             _bll = bll;
         }
 
         // GET: Sharing
         public async Task<IActionResult> Index()
         {
-            var sharings = await _bll.Sharings.GetAllAsyncBase(User.UserId());
+            var sharings = await _bll.Sharings.GetAllForViewAsync(User.UserId());
             return View(sharings);
         }
 
@@ -34,7 +38,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var sharing = await _bll.Sharings.FirstOrDefaultAsync(id.Value, User.UserId());
+            var sharing = await _bll.Sharings.FirstOrDefaultViewAsync(id.Value, User.UserId());
                 
             if (sharing == null)
             {
@@ -47,7 +51,7 @@ namespace WebApp.Controllers
         // GET: Sharing/Create
         public IActionResult Create()
         {
-            
+            ViewData["AppUserId"] = new SelectList(_context.Users.Where(user => user.Id == User.UserId()), "Id", "FirstName");
             return View();
         }
 
@@ -65,7 +69,7 @@ namespace WebApp.Controllers
                 await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            
+            ViewData["AppUserId"] = new SelectList(_context.Users.Where(user => user.Id == User.UserId()), "Id", "FirstName");
             return View(sharing);
         }
 
@@ -77,13 +81,13 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var sharing = await _bll.Sharings.FirstOrDefaultAsync(id.Value, User.UserId());
+            var sharing = await _bll.Sharings.FirstOrDefaultViewAsync(id.Value, User.UserId());
             
             if (sharing == null)
             {
                 return NotFound();
             }
-            
+            ViewData["AppUserId"] = new SelectList(_context.Users.Where(user => user.Id == User.UserId()), "Id", "FirstName");
             return View(sharing);
         }
 
@@ -108,6 +112,7 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             
+            ViewData["AppUserId"] = new SelectList(_context.Users.Where(user => user.Id == User.UserId()), "Id", "FirstName");
             return View(sharing);
         }
 
@@ -119,8 +124,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var sharing = await _bll.Sharings
-                .FirstOrDefaultAsync(id.Value, User.UserId());
+            var sharing = await _bll.Sharings.FirstOrDefaultViewAsync(id.Value, User.UserId());
             if (sharing == null)
             {
                 return NotFound();

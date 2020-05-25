@@ -16,24 +16,19 @@ namespace DAL.App.EF
     {
         public DbSet<Cart> Carts { get; set; } = default!;
         public DbSet<CartMeal> CartMeals { get; set; } = default!;
-        public DbSet<Category> Categories { get; set; } = default!;
+        public DbSet<Category> Categorys { get; set; } = default!;
         public DbSet<Component> Components { get; set; } = default!;
-        public DbSet<ComponentPrice> ComponentPrices { get; set; } = default!;
-        public DbSet<Invoice> Invoices { get; set; } = default!;
-        public DbSet<InvoiceLine> InvoiceLines { get; set; } = default!;
+        public DbSet<ComponentPizzaTemplate> ComponentPizzaTPLs { get; set; } = default!;
+        public DbSet<ComponentPizzaUser> ComponentPizzaUsers { get; set; } = default!;
         public DbSet<Item> Items { get; set; } = default!;
         public DbSet<Meal> Meals { get; set; } = default!;
-        public DbSet<PaymentMethod> PaymentMethods { get; set; } = default!;
-        public DbSet<Person> Persons { get; set; } = default!;
         public DbSet<Pizza> Pizzas { get; set; } = default!;
-        public DbSet<PizzaComponent> PizzaComponents { get; set; } = default!;
-        public DbSet<PizzaFinal> PizzaFinals { get; set; } = default!;
+        public DbSet<PizzaUser> PizzaUsers { get; set; } = default!;
         public DbSet<PizzaTemplate> PizzaTemplates { get; set; } = default!;
         public DbSet<Restaurant> Restaurants { get; set; } = default!;
         public DbSet<RestaurantFood> RestaurantFoods { get; set; } = default!;
         public DbSet<Sharing> Sharings { get; set; } = default!;
         public DbSet<SharingItem> SharingItems { get; set; } = default!;
-        public DbSet<Size> Sizes { get; set; } = default!;
         public DbSet<UserLocation> UserLocations { get; set; } = default!;
         
         

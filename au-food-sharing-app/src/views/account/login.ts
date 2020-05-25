@@ -16,6 +16,7 @@ export class AccountLogin {
 
     onSubmit(event: Event) {
         console.log(this._email, this._password);
+        console.log(this.accountService)
         event.preventDefault();
 
         this.accountService.login(this._email, this._password).then(

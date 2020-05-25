@@ -18,7 +18,7 @@ namespace DAL.App.DTO.Identity
         // public virtual ICollection<Sharing>? Sharings { get; set; }
         // public virtual ICollection<UserLocation>? UserLocations { get; set; }
         // public virtual ICollection<Cart>? Carts { get; set; }
-        // public virtual ICollection<Person>? Persons { get; set; }
+        // public virtual ICollection<PizzaUser>? PizzaUser { get; set; }
 
     }
 }

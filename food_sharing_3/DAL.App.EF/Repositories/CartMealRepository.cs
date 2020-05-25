@@ -20,11 +20,11 @@ namespace DAL.App.EF.Repositories
         }
         
         // methods go here
-        
+        /*
         public async Task<IEnumerable<CartMeal>> GetAllAsync(Guid id, Guid? userId = null, bool noTracking = true)
         {
             var query = RepoDbSet
-                .Include(cm => cm.PizzaFinal)
+                .Include(cm => cm.PizzaUser)
                 .Include(cm => cm.Meal)
                 .Include(cm => cm.Cart)
                 .AsQueryable();
@@ -41,7 +41,7 @@ namespace DAL.App.EF.Repositories
         public async Task<CartMeal> FirstOrDefaultAsync(Guid id, Guid? userId = null)
         {
             var query = RepoDbSet
-                .Include(cm => cm.PizzaFinal)
+                .Include(cm => cm.PizzaUser)
                 .Include(cm => cm.Meal)
                 .Include(cm => cm.Cart)
                 .Where(cm => cm.Id == id)
@@ -74,291 +74,55 @@ namespace DAL.App.EF.Repositories
             var cartMeal = await query.FirstOrDefaultAsync();
             await base.RemoveAsync(cartMeal.Id);
         }
-        /*
-        public async Task<IEnumerable<CartMealDTO>> DTOAllAsync(Guid? userId = null)
-        {
-            var query = RepoDbSet.AsQueryable();
-            
-            return await query
-                .Select(cm => new CartMealDTO()
-                {
-                    Id = cm.Id,
-                    MealId = cm.MealId,
-                    Meal = cm.Meal == null
-                        ? null
-                        : new MealDTO()
-                        {
-                            Id = cm.Meal.Id,
-                            CategoryId = cm.Meal.CategoryId,
-                            Category = new CategoryDTO()
-                            {
-                                Id = cm.Meal.Category.Id,
-                                Name = cm.Meal.Category.Name
-                            },
-                            Name = cm.Meal.Name,
-                            Picture = cm.Meal.Picture,
-                            Description = cm.Meal.Description,
-                        },
-                    PizzaFinalId = cm.PizzaFinalId,
-                    PizzaFinal = cm.PizzaFinal == null
-                        ? null
-                        : new PizzaFinalDTO()
-                        {
-                            Id = cm.PizzaFinal.Id,
-                            PizzaId = cm.PizzaFinal.Pizza.Id,
-                            Pizza = new PizzaDTO()
-                            {
-                                Id = cm.PizzaFinal.Pizza.Id,
-                                PizzaTemplateId = cm.PizzaFinal.Pizza.PizzaTemplateId,
-                                PizzaTemplate = new PizzaTemplateDTO()
-                                {
-                                    Id = cm.PizzaFinal.Pizza.PizzaTemplate.Id,
-                                    CategoryId = cm.PizzaFinal.Pizza.PizzaTemplate.CategoryId,
-                                    Category = new CategoryDTO()
-                                    {
-                                        Id = cm.PizzaFinal.Pizza.PizzaTemplate.Category.Id,
-                                        Name = cm.PizzaFinal.Pizza.PizzaTemplate.Category.Name,
-                                    },
-                                    Name = cm.PizzaFinal.Pizza.PizzaTemplate.Name,
-                                    Picture = cm.PizzaFinal.Pizza.PizzaTemplate.Picture,
-                                    Modifications = cm.PizzaFinal.Pizza.PizzaTemplate.Modifications,
-                                    Extras = cm.PizzaFinal.Pizza.PizzaTemplate.Extras,
-                                    Description = cm.PizzaFinal.Pizza.PizzaTemplate.Description,
-                                },
-                                SizeId = cm.PizzaFinal.Pizza.SizeId,
-                                Size = new SizeDTO()
-                                {
-                                    Id = cm.PizzaFinal.Pizza.Size.Id,
-                                    Name = cm.PizzaFinal.Pizza.Size.Name
-                                },
-                                Name = cm.PizzaFinal.Pizza.Name,
-                            },
-                            Changes = cm.PizzaFinal.Changes,
-                            Tax = cm.PizzaFinal.Tax,
-                            Gross = cm.PizzaFinal.Gross
-                        },
-                    CartId = cm.Cart.Id,
-                    Cart = new CartDTO()
-                    {
-                        Id = cm.Cart.Id,
-                        AppUserId = cm.Cart.AppUser.Id,    // appUser
-                        AsDelivery = cm.Cart.AsDelivery,
-                        UserLocationId = cm.Cart.UserLocationId,
-                        UserLocation = cm.Cart.UserLocation == null
-                            ? null
-                            : new UserLocationDTO()
-                        {
-                            Id = cm.Cart.UserLocation.Id,
-                            AppUserId = cm.Cart.UserLocation.AppUser.Id,
-                            District = cm.Cart.UserLocation.District,
-                            StreetName = cm.Cart.UserLocation.StreetName,
-                            BuildingNumber = cm.Cart.UserLocation.BuildingNumber,
-                            ApartmentNumber = cm.Cart.UserLocation.ApartmentNumber
-                        },
-                        RestaurantId = cm.Cart.RestaurantId,
-                        Restaurant = new RestaurantDTO()
-                        {
-                            Id = cm.Cart.Restaurant.Id,
-                            Name = cm.Cart.Restaurant.Name,
-                            Location = cm.Cart.Restaurant.Location,
-                            Telephone = cm.Cart.Restaurant.Telephone,
-                            OpenTime = cm.Cart.Restaurant.OpenTime,
-                            OpenNotification = cm.Cart.Restaurant.OpenNotification
-                        },
-                        Total = cm.Cart.Total,
-                        ReadyBy = cm.Cart.ReadyBy
-                    }
-                })
-                .ToListAsync();
-        }
-
-        public async Task<CartMealDTO> DTOFirstOrDefaultAsync(Guid id, Guid? userId = null)
-        {
-            var query = RepoDbSet.AsQueryable();
-            CartMealDTO cartMealDTO = await query
-                .Select(cm => new CartMealDTO()
-                {
-                    Id = cm.Id,
-                    MealId = cm.MealId,
-                    Meal = cm.Meal == null
-                        ? null
-                        : new MealDTO()
-                        {
-                            Id = cm.Meal.Id,
-                            CategoryId = cm.Meal.CategoryId,
-                            Category = new CategoryDTO()
-                            {
-                                Id = cm.Meal.Category.Id,
-                                Name = cm.Meal.Category.Name
-                            },
-                            Name = cm.Meal.Name,
-                            Picture = cm.Meal.Picture,
-                            Description = cm.Meal.Description,
-                        },
-                    PizzaFinalId = cm.PizzaFinalId,
-                    PizzaFinal = cm.PizzaFinal == null
-                        ? null
-                        : new PizzaFinalDTO()
-                        {
-                            Id = cm.PizzaFinal.Id,
-                            PizzaId = cm.PizzaFinal.Pizza.Id,
-                            Pizza = new PizzaDTO()
-                            {
-                                Id = cm.PizzaFinal.Pizza.Id,
-                                PizzaTemplateId = cm.PizzaFinal.Pizza.PizzaTemplateId,
-                                PizzaTemplate = new PizzaTemplateDTO()
-                                {
-                                    Id = cm.PizzaFinal.Pizza.PizzaTemplate.Id,
-                                    CategoryId = cm.PizzaFinal.Pizza.PizzaTemplate.CategoryId,
-                                    Category = new CategoryDTO()
-                                    {
-                                        Id = cm.PizzaFinal.Pizza.PizzaTemplate.Category.Id,
-                                        Name = cm.PizzaFinal.Pizza.PizzaTemplate.Category.Name,
-                                    },
-                                    Name = cm.PizzaFinal.Pizza.PizzaTemplate.Name,
-                                    Picture = cm.PizzaFinal.Pizza.PizzaTemplate.Picture,
-                                    Modifications = cm.PizzaFinal.Pizza.PizzaTemplate.Modifications,
-                                    Extras = cm.PizzaFinal.Pizza.PizzaTemplate.Extras,
-                                    Description = cm.PizzaFinal.Pizza.PizzaTemplate.Description,
-                                },
-                                SizeId = cm.PizzaFinal.Pizza.SizeId,
-                                Size = new SizeDTO()
-                                {
-                                    Id = cm.PizzaFinal.Pizza.Size.Id,
-                                    Name = cm.PizzaFinal.Pizza.Size.Name
-                                },
-                                Name = cm.PizzaFinal.Pizza.Name,
-                            },
-                            Changes = cm.PizzaFinal.Changes,
-                            Tax = cm.PizzaFinal.Tax,
-                            Gross = cm.PizzaFinal.Gross
-                        },
-                    CartId = cm.Cart.Id,
-                    Cart = new CartDTO()
-                    {
-                        Id = cm.Cart.Id,
-                        AppUserId = cm.Cart.AppUser.Id,    // appUser
-                        AsDelivery = cm.Cart.AsDelivery,
-                        UserLocationId = cm.Cart.UserLocationId,
-                        UserLocation = cm.Cart.UserLocation == null
-                            ? null
-                            : new UserLocationDTO()
-                        {
-                            Id = cm.Cart.UserLocation.Id,
-                            AppUserId = cm.Cart.UserLocation.AppUser.Id,
-                            District = cm.Cart.UserLocation.District,
-                            StreetName = cm.Cart.UserLocation.StreetName,
-                            BuildingNumber = cm.Cart.UserLocation.BuildingNumber,
-                            ApartmentNumber = cm.Cart.UserLocation.ApartmentNumber
-                        },
-                        RestaurantId = cm.Cart.RestaurantId,
-                        Restaurant = new RestaurantDTO()
-                        {
-                            Id = cm.Cart.Restaurant.Id,
-                            Name = cm.Cart.Restaurant.Name,
-                            Location = cm.Cart.Restaurant.Location,
-                            Telephone = cm.Cart.Restaurant.Telephone,
-                            OpenTime = cm.Cart.Restaurant.OpenTime,
-                            OpenNotification = cm.Cart.Restaurant.OpenNotification
-                        },
-                        Total = cm.Cart.Total,
-                        ReadyBy = cm.Cart.ReadyBy
-                    }
-                })
-                .FirstOrDefaultAsync();
-            
-            return cartMealDTO;
-        }
+        
         */
 
         public virtual async Task<IEnumerable<CartMeal>> GetAllForViewAsync()
         {
-            return await RepoDbSet
-                .Include(cm => cm.Meal)
-                    .ThenInclude(cm => cm.Category)
-                .Include(cm => cm.PizzaFinal)
-                    .ThenInclude(cm => cm.Pizza)
-                        .ThenInclude(cm => cm.PizzaTemplate)
-                            .ThenInclude(cm => cm.Category)
-                .Include(cm => cm.Cart)
-                    .ThenInclude(cm => cm.UserLocation)
-                .Include(cm => cm.Cart)
-                    .ThenInclude(cm => cm.Restaurant)
+            var cartMeal =  await RepoDbSet
                 .Select(cm => new CartMeal()
                 {
                     Id = cm.Id,
+                    CartId = cm.Cart.Id,
                     MealId = cm.MealId,
-                    Meal = cm.Meal == null
-                        ? null
-                        : new Meal()
-                        {
-                            Id = cm.Meal.Id,
-                            CategoryId = cm.Meal.CategoryId,
-                            Category = new Category()
-                            {
-                                Id = cm.Meal.Category.Id,
-                                Name = cm.Meal.Category.Name
-                            },
-                            Name = cm.Meal.Name,
-                            Picture = cm.Meal.Picture,
-                            Description = cm.Meal.Description,
-                        },
-                    PizzaFinalId = cm.PizzaFinalId,
-                    PizzaFinal = cm.PizzaFinal == null
-                        ? null
-                        : new PizzaFinal()
-                        {
-                            Id = cm.PizzaFinal.Id,
-                            PizzaId = cm.PizzaFinal.Pizza.Id,
-                            Pizza = new Pizza()
-                            {
-                                Id = cm.PizzaFinal.Pizza.Id,
-                                PizzaTemplateId = cm.PizzaFinal.Pizza.PizzaTemplateId,
-                                PizzaTemplate = new PizzaTemplate()
-                                {
-                                    Id = cm.PizzaFinal.Pizza.PizzaTemplate.Id,
-                                    CategoryId = cm.PizzaFinal.Pizza.PizzaTemplate.CategoryId,
-                                    Category = new Category()
-                                    {
-                                        Id = cm.PizzaFinal.Pizza.PizzaTemplate.Category.Id,
-                                        Name = cm.PizzaFinal.Pizza.PizzaTemplate.Category.Name,
-                                    },
-                                    Name = cm.PizzaFinal.Pizza.PizzaTemplate.Name,
-                                    Picture = cm.PizzaFinal.Pizza.PizzaTemplate.Picture,
-                                    Modifications = cm.PizzaFinal.Pizza.PizzaTemplate.Modifications,
-                                    Extras = cm.PizzaFinal.Pizza.PizzaTemplate.Extras,
-                                    Description = cm.PizzaFinal.Pizza.PizzaTemplate.Description,
-                                },
-                                SizeId = cm.PizzaFinal.Pizza.SizeId,
-                                Size = new Size()
-                                {
-                                    Id = cm.PizzaFinal.Pizza.Size.Id,
-                                    Name = cm.PizzaFinal.Pizza.Size.Name
-                                },
-                                Name = cm.PizzaFinal.Pizza.Name,
-                            },
-                            Changes = cm.PizzaFinal.Changes,
-                            Tax = cm.PizzaFinal.Tax,
-                            Gross = cm.PizzaFinal.Gross
-                        },
+                    PizzaUserId = cm.PizzaUserId,
+                    Name = cm.Name,
+                    Gross = cm.Gross,
+                })
+                .ToListAsync();
+            return cartMeal;
+        }
+
+        public virtual async Task<CartMeal> FirstOrDefaultViewAsync(Guid id, Guid? userId = null)
+        {
+            var query = RepoDbSet.Where(cm => cm.Id == id).AsQueryable();
+            
+            var cartMeal = await query
+                .Select(cm => new CartMeal()
+                {
+                    Id = cm.Id,
+                    CartId = cm.Cart.Id,
+                    MealId = cm.MealId,
+                    PizzaUserId = cm.PizzaUserId,
+                    Name = cm.Name,
+                    Gross = cm.Gross,
+                })
+                .FirstOrDefaultAsync();
+            return cartMeal;
+        }
+
+        public virtual async Task<IEnumerable<CartMeal>> GetAllForApiAsync()
+        {
+            return await RepoDbSet
+                .Select(cm => new CartMeal()
+                {
+                    Id = cm.Id,
                     CartId = cm.Cart.Id,
                     Cart = new Cart()
                     {
                         Id = cm.Cart.Id,
+                        State = cm.Cart.State,
                         AppUserId = cm.Cart.AppUser.Id,    // appUser
-                        AsDelivery = cm.Cart.AsDelivery,
-                        UserLocationId = cm.Cart.UserLocationId,
-                        UserLocation = cm.Cart.UserLocation == null
-                            ? null
-                            : new UserLocation()
-                        {
-                            Id = cm.Cart.UserLocation.Id,
-                            AppUserId = cm.Cart.UserLocation.AppUser.Id,
-                            District = cm.Cart.UserLocation.District,
-                            StreetName = cm.Cart.UserLocation.StreetName,
-                            BuildingNumber = cm.Cart.UserLocation.BuildingNumber,
-                            ApartmentNumber = cm.Cart.UserLocation.ApartmentNumber
-                        },
                         RestaurantId = cm.Cart.RestaurantId,
                         Restaurant = new Restaurant()
                         {
@@ -369,11 +133,182 @@ namespace DAL.App.EF.Repositories
                             OpenTime = cm.Cart.Restaurant.OpenTime,
                             OpenNotification = cm.Cart.Restaurant.OpenNotification
                         },
-                        Total = cm.Cart.Total,
+                        AsDelivery = cm.Cart.AsDelivery,
+                        UserLocationId = cm.Cart.UserLocationId,
+                        UserLocation = cm.Cart.UserLocation == null
+                            ? null
+                            : new UserLocation()
+                            {
+                                Id = cm.Cart.UserLocation.Id,
+                                AppUserId = cm.Cart.UserLocation.AppUser.Id,
+                                District = cm.Cart.UserLocation.District,
+                                StreetName = cm.Cart.UserLocation.StreetName,
+                                BuildingNumber = cm.Cart.UserLocation.BuildingNumber,
+                                ApartmentNumber = cm.Cart.UserLocation.ApartmentNumber
+                            },
+                        Gross = cm.Cart.Gross,
+                        PaymentMethod = cm.Cart.PaymentMethod,
+                        FirstName = cm.Cart.FirstName,
+                        LastName = cm.Cart.LastName,
+                        Phone = cm.Cart.Phone,
                         ReadyBy = cm.Cart.ReadyBy
-                    }
+                    },
+                    MealId = cm.MealId,
+                    Meal = cm.Meal == null
+                        ? null
+                        : new Meal()
+                        {
+                            Id = cm.Meal.Id,
+                            CategoryId = cm.Meal.CategoryId,
+                            Category = new Category()
+                            {
+                                Id = cm.Meal.Category.Id,
+                                Name = cm.Meal.Category.Name,
+                                ForMeal = cm.Meal.Category.ForMeal,
+                                ForPizzaTemplate = cm.Meal.Category.ForPizzaTemplate,
+                            },
+                            Name = cm.Meal.Name,
+                            Picture = cm.Meal.Picture,
+                            Description = cm.Meal.Description,
+                        },
+                    PizzaUserId = cm.PizzaUserId,
+                    PizzaUser = cm.PizzaUser == null
+                        ? null
+                        : new PizzaUser()
+                        {
+                            Id = cm.PizzaUser.Id,
+                            PizzaId = cm.PizzaUser.Pizza.Id,
+                            AppUserId = cm.PizzaUser.AppUserId,
+                            Pizza = new Pizza()
+                            {
+                                Id = cm.PizzaUser.Pizza.Id,
+                                PizzaTemplateId = cm.PizzaUser.Pizza.PizzaTemplateId,
+                                PizzaTemplate = new PizzaTemplate()
+                                {
+                                    Id = cm.PizzaUser.Pizza.PizzaTemplate.Id,
+                                    CategoryId = cm.PizzaUser.Pizza.PizzaTemplate.CategoryId,
+                                    Category = new Category()
+                                    {
+                                        Id = cm.Meal.Category.Id,
+                                        Name = cm.Meal.Category.Name,
+                                        ForMeal = cm.Meal.Category.ForMeal,
+                                        ForPizzaTemplate = cm.Meal.Category.ForPizzaTemplate,
+                                    },
+                                    Name = cm.PizzaUser.Pizza.PizzaTemplate.Name,
+                                    Picture = cm.PizzaUser.Pizza.PizzaTemplate.Picture,
+                                    Modifications = cm.PizzaUser.Pizza.PizzaTemplate.Modifications,
+                                    Extras = cm.PizzaUser.Pizza.PizzaTemplate.Extras,
+                                    Description = cm.PizzaUser.Pizza.PizzaTemplate.Description,
+                                },
+                                SizeNumber = cm.PizzaUser.Pizza.SizeNumber,
+                                SizeName = cm.PizzaUser.Pizza.SizeName,
+                                Name = cm.PizzaUser.Pizza.Name,
+                            },
+                            Changes = cm.PizzaUser.Changes,
+                        },
                 })
                 .ToListAsync();
+        }
+
+        public virtual async Task<CartMeal> FirstOrDefaultApiAsync(Guid id, Guid? userId = null)
+        {
+            var query = RepoDbSet.Where(cm => cm.Id == id).AsQueryable();
+            
+            return await query
+                .Select(cm => new CartMeal()
+                {
+                    Id = cm.Id,
+                    CartId = cm.Cart.Id,
+                    Cart = new Cart()
+                    {
+                        Id = cm.Cart.Id,
+                        State = cm.Cart.State,
+                        AppUserId = cm.Cart.AppUser.Id,    // appUser
+                        RestaurantId = cm.Cart.RestaurantId,
+                        Restaurant = new Restaurant()
+                        {
+                            Id = cm.Cart.Restaurant.Id,
+                            Name = cm.Cart.Restaurant.Name,
+                            Location = cm.Cart.Restaurant.Location,
+                            Telephone = cm.Cart.Restaurant.Telephone,
+                            OpenTime = cm.Cart.Restaurant.OpenTime,
+                            OpenNotification = cm.Cart.Restaurant.OpenNotification
+                        },
+                        AsDelivery = cm.Cart.AsDelivery,
+                        UserLocationId = cm.Cart.UserLocationId,
+                        UserLocation = cm.Cart.UserLocation == null
+                            ? null
+                            : new UserLocation()
+                            {
+                                Id = cm.Cart.UserLocation.Id,
+                                AppUserId = cm.Cart.UserLocation.AppUser.Id,
+                                District = cm.Cart.UserLocation.District,
+                                StreetName = cm.Cart.UserLocation.StreetName,
+                                BuildingNumber = cm.Cart.UserLocation.BuildingNumber,
+                                ApartmentNumber = cm.Cart.UserLocation.ApartmentNumber
+                            },
+                        Gross = cm.Cart.Gross,
+                        PaymentMethod = cm.Cart.PaymentMethod,
+                        FirstName = cm.Cart.FirstName,
+                        LastName = cm.Cart.LastName,
+                        Phone = cm.Cart.Phone,
+                        ReadyBy = cm.Cart.ReadyBy
+                    },
+                    MealId = cm.MealId,
+                    Meal = cm.Meal == null
+                        ? null
+                        : new Meal()
+                        {
+                            Id = cm.Meal.Id,
+                            CategoryId = cm.Meal.CategoryId,
+                            Category = new Category()
+                            {
+                                Id = cm.Meal.Category.Id,
+                                Name = cm.Meal.Category.Name,
+                                ForMeal = cm.Meal.Category.ForMeal,
+                                ForPizzaTemplate = cm.Meal.Category.ForPizzaTemplate,
+                            },
+                            Name = cm.Meal.Name,
+                            Picture = cm.Meal.Picture,
+                            Description = cm.Meal.Description,
+                        },
+                    PizzaUserId = cm.PizzaUserId,
+                    PizzaUser = cm.PizzaUser == null
+                        ? null
+                        : new PizzaUser()
+                        {
+                            Id = cm.PizzaUser.Id,
+                            PizzaId = cm.PizzaUser.Pizza.Id,
+                            AppUserId = cm.PizzaUser.AppUserId,
+                            Pizza = new Pizza()
+                            {
+                                Id = cm.PizzaUser.Pizza.Id,
+                                PizzaTemplateId = cm.PizzaUser.Pizza.PizzaTemplateId,
+                                PizzaTemplate = new PizzaTemplate()
+                                {
+                                    Id = cm.PizzaUser.Pizza.PizzaTemplate.Id,
+                                    CategoryId = cm.PizzaUser.Pizza.PizzaTemplate.CategoryId,
+                                    Category = new Category()
+                                    {
+                                        Id = cm.Meal.Category.Id,
+                                        Name = cm.Meal.Category.Name,
+                                        ForMeal = cm.Meal.Category.ForMeal,
+                                        ForPizzaTemplate = cm.Meal.Category.ForPizzaTemplate,
+                                    },
+                                    Name = cm.PizzaUser.Pizza.PizzaTemplate.Name,
+                                    Picture = cm.PizzaUser.Pizza.PizzaTemplate.Picture,
+                                    Modifications = cm.PizzaUser.Pizza.PizzaTemplate.Modifications,
+                                    Extras = cm.PizzaUser.Pizza.PizzaTemplate.Extras,
+                                    Description = cm.PizzaUser.Pizza.PizzaTemplate.Description,
+                                },
+                                SizeNumber = cm.PizzaUser.Pizza.SizeNumber,
+                                SizeName = cm.PizzaUser.Pizza.SizeName,
+                                Name = cm.PizzaUser.Pizza.Name,
+                            },
+                            Changes = cm.PizzaUser.Changes,
+                        },
+                })
+                .FirstOrDefaultAsync();
         }
     }
 }

@@ -22,6 +22,8 @@ namespace DAL.App.EF.Repositories
         {
         }
         
+        /*
+        
         public async Task<IEnumerable<Cart>> GetAllAsync(Guid id, Guid? userId = null, bool noTracking = true)
         {
             var query = RepoDbSet
@@ -72,108 +74,93 @@ namespace DAL.App.EF.Repositories
             var cart = await FirstOrDefaultAsync(id, userId);
             await base.RemoveAsync(cart.Id);
         }
-        /*
-        public async Task<IEnumerable<CartDTO>> DTOAllAsync(Guid? userId = null)
+
+        */
+        public virtual async Task<IEnumerable<DAL.App.DTO.Cart>> GetAllForViewAsync(Guid userId)
         {
-            var query = RepoDbSet.AsQueryable();
+            var query = RepoDbSet.Where(c => c.AppUserId == userId).AsQueryable();
             
             return await query
-                .Select(c => new CartDTO()
+                .Select(c => new DAL.App.DTO.Cart()
                 {
                     Id = c.Id,
+                    State = c.State,
                     AppUserId = c.AppUser.Id,    // appUser
+                    RestaurantId = c.RestaurantId,
+                    Restaurant = new Restaurant()
+                    {
+                        Name = c.Restaurant.Name,
+                    },
                     AsDelivery = c.AsDelivery,
                     UserLocationId = c.UserLocationId,
                     UserLocation = c.UserLocation == null
                         ? null
-                        : new UserLocationDTO()
+                        : new UserLocation()
                         {
-                            Id = c.UserLocation.Id,
-                            AppUserId = c.UserLocation.AppUser.Id,
                             District = c.UserLocation.District,
                             StreetName = c.UserLocation.StreetName,
                             BuildingNumber = c.UserLocation.BuildingNumber,
-                            ApartmentNumber = c.UserLocation.ApartmentNumber
+                            ApartmentNumber = c.UserLocation.ApartmentNumber,
+
                         },
-                    RestaurantId = c.RestaurantId,
-                    Restaurant = new RestaurantDTO()
-                    {
-                        Id = c.Restaurant.Id,
-                        Name = c.Restaurant.Name,
-                        Location = c.Restaurant.Location,
-                        Telephone = c.Restaurant.Telephone,
-                        OpenTime = c.Restaurant.OpenTime,
-                        OpenNotification = c.Restaurant.OpenNotification
-                    },
-                    Total = c.Total,
+                    Gross = c.Gross,
+                    PaymentMethod = c.PaymentMethod,
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
+                    Phone = c.Phone,
                     ReadyBy = c.ReadyBy
                 })
                 .ToListAsync();
         }
 
-        public async Task<CartDTO> DTOFirstOrDefaultAsync(Guid id, Guid? userId = null)
+        public virtual async Task<Cart> FirstOrDefaultViewAsync(Guid id, Guid? userId = null)
         {
-            var query = RepoDbSet.AsQueryable();
-            CartDTO cartMealDTO = await query
-                .Select(c => new CartDTO()
-                {
-                    Id = c.Id,
-                    AppUserId = c.AppUser.Id,    // appUser
-                    AsDelivery = c.AsDelivery,
-                    UserLocationId = c.UserLocationId,
-                    UserLocation = c.UserLocation == null
-                        ? null
-                        : new UserLocationDTO()
-                        {
-                            Id = c.UserLocation.Id,
-                            AppUserId = c.UserLocation.AppUser.Id,
-                            District = c.UserLocation.District,
-                            StreetName = c.UserLocation.StreetName,
-                            BuildingNumber = c.UserLocation.BuildingNumber,
-                            ApartmentNumber = c.UserLocation.ApartmentNumber
-                        },
-                    RestaurantId = c.RestaurantId,
-                    Restaurant = new RestaurantDTO()
-                    {
-                        Id = c.Restaurant.Id,
-                        Name = c.Restaurant.Name,
-                        Location = c.Restaurant.Location,
-                        Telephone = c.Restaurant.Telephone,
-                        OpenTime = c.Restaurant.OpenTime,
-                        OpenNotification = c.Restaurant.OpenNotification
-                    },
-                    Total = c.Total,
-                    ReadyBy = c.ReadyBy
-                })
-                .FirstOrDefaultAsync();
+            var query = RepoDbSet.Where(c => c.Id == id).AsQueryable();
             
-            return cartMealDTO;
-        }
-        */
-        public virtual async Task<IEnumerable<DAL.App.DTO.Cart>> GetAllForViewAsync()
-        {
-            return await RepoDbSet
-                .Include(c => c.UserLocation)
-                .Include(c => c.Restaurant)
+            return await query
                 .Select(c => new DAL.App.DTO.Cart()
                 {
                     Id = c.Id,
+                    State = c.State,
                     AppUserId = c.AppUser.Id,    // appUser
+                    RestaurantId = c.RestaurantId,
+                    Restaurant = new Restaurant()
+                    {
+                        Name = c.Restaurant.Name,
+                    },
                     AsDelivery = c.AsDelivery,
                     UserLocationId = c.UserLocationId,
                     UserLocation = c.UserLocation == null
                         ? null
-                        : new DAL.App.DTO.UserLocation()
+                        : new UserLocation()
                         {
-                            Id = c.UserLocation.Id,
-                            AppUserId = c.UserLocation.AppUser.Id,
                             District = c.UserLocation.District,
                             StreetName = c.UserLocation.StreetName,
                             BuildingNumber = c.UserLocation.BuildingNumber,
                             ApartmentNumber = c.UserLocation.ApartmentNumber
                         },
+                    Gross = c.Gross,
+                    PaymentMethod = c.PaymentMethod,
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
+                    Phone = c.Phone,
+                    ReadyBy = c.ReadyBy
+                })
+                .FirstOrDefaultAsync();
+        }
+
+        public virtual async Task<IEnumerable<Cart>> GetAllForApiAsync(Guid userId)
+        {
+            var query = RepoDbSet.Where(c => c.AppUserId == userId).AsQueryable();
+            
+            return await query
+                .Select(c => new DAL.App.DTO.Cart()
+                {
+                    Id = c.Id,
+                    State = c.State,
+                    AppUserId = c.AppUser.Id,    // appUser
                     RestaurantId = c.RestaurantId,
-                    Restaurant = new DAL.App.DTO.Restaurant()
+                    Restaurant = new Restaurant()
                     {
                         Id = c.Restaurant.Id,
                         Name = c.Restaurant.Name,
@@ -182,10 +169,70 @@ namespace DAL.App.EF.Repositories
                         OpenTime = c.Restaurant.OpenTime,
                         OpenNotification = c.Restaurant.OpenNotification
                     },
-                    Total = c.Total,
+                    AsDelivery = c.AsDelivery,
+                    UserLocationId = c.UserLocationId,
+                    UserLocation = c.UserLocation == null
+                        ? null
+                        : new UserLocation()
+                        {
+                            Id = c.UserLocation.Id,
+                            AppUserId = c.UserLocation.AppUser.Id,
+                            District = c.UserLocation.District,
+                            StreetName = c.UserLocation.StreetName,
+                            BuildingNumber = c.UserLocation.BuildingNumber,
+                            ApartmentNumber = c.UserLocation.ApartmentNumber
+                        },
+                    Gross = c.Gross,
+                    PaymentMethod = c.PaymentMethod,
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
+                    Phone = c.Phone,
                     ReadyBy = c.ReadyBy
                 })
                 .ToListAsync();
+        }
+
+        public virtual async Task<Cart> FirstOrDefaultApiAsync(Guid id, Guid? userId = null)
+        {
+            var query = RepoDbSet.Where(c => c.Id == id).AsQueryable();
+            
+            return await query
+                .Select(c => new DAL.App.DTO.Cart()
+                {
+                    Id = c.Id,
+                    State = c.State,
+                    AppUserId = c.AppUser.Id,    // appUser
+                    RestaurantId = c.RestaurantId,
+                    Restaurant = new Restaurant()
+                    {
+                        Id = c.Restaurant.Id,
+                        Name = c.Restaurant.Name,
+                        Location = c.Restaurant.Location,
+                        Telephone = c.Restaurant.Telephone,
+                        OpenTime = c.Restaurant.OpenTime,
+                        OpenNotification = c.Restaurant.OpenNotification
+                    },
+                    AsDelivery = c.AsDelivery,
+                    UserLocationId = c.UserLocationId,
+                    UserLocation = c.UserLocation == null
+                        ? null
+                        : new UserLocation()
+                        {
+                            Id = c.UserLocation.Id,
+                            AppUserId = c.UserLocation.AppUser.Id,
+                            District = c.UserLocation.District,
+                            StreetName = c.UserLocation.StreetName,
+                            BuildingNumber = c.UserLocation.BuildingNumber,
+                            ApartmentNumber = c.UserLocation.ApartmentNumber
+                        },
+                    Gross = c.Gross,
+                    PaymentMethod = c.PaymentMethod,
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
+                    Phone = c.Phone,
+                    ReadyBy = c.ReadyBy
+                })
+                .FirstOrDefaultAsync();
         }
     }
 }

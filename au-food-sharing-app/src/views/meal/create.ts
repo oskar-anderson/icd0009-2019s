@@ -1,24 +1,32 @@
 import { autoinject } from 'aurelia-framework';
 import { RouteConfig, NavigationInstruction, Router } from 'aurelia-router';
+
 import { MealService} from 'service/meal-service';
 import { IMeal } from 'domain/IMeal';
+
+import { CategoryService} from 'service/category-service';
+import { ICategory } from 'domain/ICategory';
+
 import { IAlertData } from 'types/IAlertData';
 import { AlertType } from 'types/AlertType';
+
+import { alertHandler, SOURCE } from 'service/alert-service';
 
 @autoinject
 export class MealCreate {
     private _alert: IAlertData | null = null;
 
+    private _categorys?: ICategory[];
 
     private _meal: IMeal = {
         id: '',
-        category: '',
+        categoryId: '',
         name: '',
         picture: '',
         description: "",
     };
 
-    constructor(private mealService: MealService, private router: Router) {
+    constructor(private mealService: MealService, private categoryService: CategoryService, private router: Router) {
 
     }
 
@@ -27,30 +35,32 @@ export class MealCreate {
     }
 
     activate(params: any, routeConfig: RouteConfig, navigationInstruction: NavigationInstruction) {
-
+        this.categoryService.getCategorys().then(
+            response => {
+                this._alert = alertHandler(SOURCE.MEAL, response.statusCode, response.errorMessage);
+                if (response.statusCode >= 200 && response.statusCode < 300) {
+                    this._categorys = response.data!.filter(function (x) {
+                        return x.forMeal;
+                    })
+                }
+            }
+        );
     }
 
     onSubmit(event: Event) {
-        console.log(event);
         this.mealService
             .createMeal({
-                category: this._meal.category,
+                categoryId: this._meal.categoryId,
+                category: null,
                 name: this._meal.name,
                 picture: this._meal.picture,
                 description: this._meal.description,
                 })
             .then(
                 response => {
+                    this._alert = alertHandler(SOURCE.MEAL, response.statusCode, response.errorMessage);
                     if (response.statusCode >= 200 && response.statusCode < 300) {
-                        this._alert = null;
                         this.router.navigateToRoute('meal-index', {});
-                    } else {
-                        // show error message
-                        this._alert = {
-                            message: response.statusCode.toString() + ' - ' + response.errorMessage,
-                            type: AlertType.Danger,
-                            dismissable: true,
-                        }
                     }
                 }   
             );

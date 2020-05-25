@@ -23,9 +23,24 @@ namespace BLL.App.Services
         }
 
 
-        public virtual async Task<IEnumerable<UserLocation>> GetAllForViewAsync()
+        public virtual async Task<IEnumerable<UserLocation>> GetAllForViewAsync(Guid userId)
         {
-            return (await Repository.GetAllForViewAsync()).Select(e => Mapper.MapUserLocationView(e));
+            return (await Repository.GetAllForViewAsync(userId)).Select(e => Mapper.MapUserLocationView(e));
+        }
+
+        public virtual async Task<UserLocation> FirstOrDefaultViewAsync(Guid id, Guid? userId = null)
+        {
+            return Mapper.MapUserLocationView(await Repository.FirstOrDefaultViewAsync(id, userId));
+        }
+
+        public virtual async Task<IEnumerable<UserLocation>> GetAllForApiAsync(Guid userId)
+        {
+            return (await Repository.GetAllForViewAsync(userId)).Select(e => Mapper.MapUserLocationView(e));
+        }
+
+        public virtual async Task<UserLocation> FirstOrDefaultApiAsync(Guid id, Guid? userId = null)
+        {
+            return Mapper.MapUserLocationView(await Repository.FirstOrDefaultApiAsync(id, userId));
         }
     }
 }

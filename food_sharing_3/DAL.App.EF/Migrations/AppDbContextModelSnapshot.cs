@@ -45,14 +45,33 @@ namespace Domain.Base.App.EF.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
-                    b.Property<DateTime>("ReadyBy")
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
+
+                    b.Property<decimal?>("Gross")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
+
+                    b.Property<string>("PaymentMethod")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(16)")
+                        .HasMaxLength(16);
+
+                    b.Property<DateTime?>("ReadyBy")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("RestaurantId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18, 2)");
+                    b.Property<int>("State")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("UserLocationId")
                         .HasColumnType("uniqueidentifier");
@@ -91,10 +110,18 @@ namespace Domain.Base.App.EF.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
+                    b.Property<decimal>("Gross")
+                        .HasColumnType("decimal(18, 2)");
+
                     b.Property<Guid?>("MealId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("PizzaFinalId")
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
+
+                    b.Property<Guid?>("PizzaUserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -103,7 +130,7 @@ namespace Domain.Base.App.EF.Migrations
 
                     b.HasIndex("MealId");
 
-                    b.HasIndex("PizzaFinalId");
+                    b.HasIndex("PizzaUserId");
 
                     b.ToTable("CartMeals");
                 });
@@ -128,6 +155,12 @@ namespace Domain.Base.App.EF.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
+                    b.Property<bool>("ForMeal")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ForPizzaTemplate")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(64)")
@@ -135,7 +168,7 @@ namespace Domain.Base.App.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categorys");
                 });
 
             modelBuilder.Entity("Domain.App.Component", b =>
@@ -158,6 +191,9 @@ namespace Domain.Base.App.EF.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
+                    b.Property<decimal>("Gross")
+                        .HasColumnType("decimal(18, 2)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(32)")
@@ -168,7 +204,7 @@ namespace Domain.Base.App.EF.Migrations
                     b.ToTable("Components");
                 });
 
-            modelBuilder.Entity("Domain.App.ComponentPrice", b =>
+            modelBuilder.Entity("Domain.App.ComponentPizzaTemplate", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -191,28 +227,51 @@ namespace Domain.Base.App.EF.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
-                    b.Property<decimal>("Gross")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<Guid>("RestaurantId")
+                    b.Property<Guid>("PizzaTemplateId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Since")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Tax")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<DateTime>("Until")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ComponentId");
 
-                    b.HasIndex("RestaurantId");
+                    b.HasIndex("PizzaTemplateId");
 
-                    b.ToTable("ComponentPrices");
+                    b.ToTable("ComponentPizzaTPLs");
+                });
+
+            modelBuilder.Entity("Domain.App.ComponentPizzaUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ChangedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ChangedBy")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<Guid>("ComponentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<Guid>("PizzaUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ComponentId");
+
+                    b.HasIndex("PizzaUserId");
+
+                    b.ToTable("ComponentPizzaUsers");
                 });
 
             modelBuilder.Entity("Domain.App.Identity.AppRole", b =>
@@ -329,107 +388,6 @@ namespace Domain.Base.App.EF.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Domain.App.Invoice", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("ChangedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ChangedBy")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<Guid>("PaymentMethodId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PersonId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("RestaurantId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("TotalGross")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<decimal>("TotalNet")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<decimal>("TotalTax")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PaymentMethodId");
-
-                    b.HasIndex("PersonId");
-
-                    b.HasIndex("RestaurantId");
-
-                    b.ToTable("Invoices");
-                });
-
-            modelBuilder.Entity("Domain.App.InvoiceLine", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CartId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("ChangedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ChangedBy")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<decimal>("Gross")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<Guid>("InvoiceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(32)")
-                        .HasMaxLength(32);
-
-                    b.Property<decimal>("Net")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Tax")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CartId");
-
-                    b.HasIndex("InvoiceId");
-
-                    b.ToTable("InvoiceLines");
-                });
-
             modelBuilder.Entity("Domain.App.Item", b =>
                 {
                     b.Property<Guid>("Id")
@@ -453,26 +411,15 @@ namespace Domain.Base.App.EF.Migrations
                     b.Property<decimal>("Gross")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<Guid>("InvoiceLineId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(64)")
                         .HasMaxLength(64);
 
-                    b.Property<decimal>("Net")
-                        .HasColumnType("decimal(18, 2)");
-
                     b.Property<Guid>("SharingId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Tax")
-                        .HasColumnType("decimal(18, 2)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("InvoiceLineId");
 
                     b.HasIndex("SharingId");
 
@@ -522,100 +469,6 @@ namespace Domain.Base.App.EF.Migrations
                     b.ToTable("Meals");
                 });
 
-            modelBuilder.Entity("Domain.App.PaymentMethod", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("ChangedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ChangedBy")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
-
-                    b.Property<DateTime>("Since")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Until")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PaymentMethods");
-                });
-
-            modelBuilder.Entity("Domain.App.Person", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AppUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("ChangedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ChangedBy")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
-
-                    b.Property<string>("NationalIdentificationNumber")
-                        .HasColumnType("nvarchar(32)")
-                        .HasMaxLength(32);
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(16)")
-                        .HasMaxLength(16);
-
-                    b.Property<DateTime?>("Since")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("ThisIsMe")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("Until")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.ToTable("Persons");
-                });
-
             modelBuilder.Entity("Domain.App.Pizza", b =>
                 {
                     b.Property<Guid>("Id")
@@ -644,97 +497,19 @@ namespace Domain.Base.App.EF.Migrations
                     b.Property<Guid>("PizzaTemplateId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("SizeId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("SizeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<int>("SizeNumber")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PizzaTemplateId");
-
-                    b.HasIndex("SizeId");
 
                     b.ToTable("Pizzas");
-                });
-
-            modelBuilder.Entity("Domain.App.PizzaComponent", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("ChangedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ChangedBy")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<Guid>("ComponentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<Guid?>("PizzaFinalId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("PizzaTemplateId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ComponentId");
-
-                    b.HasIndex("PizzaFinalId");
-
-                    b.HasIndex("PizzaTemplateId");
-
-                    b.ToTable("PizzaComponents");
-                });
-
-            modelBuilder.Entity("Domain.App.PizzaFinal", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("ChangedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ChangedBy")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("Changes")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<decimal>("Gross")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<Guid>("PizzaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Tax")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PizzaId");
-
-                    b.ToTable("PizzaFinals");
                 });
 
             modelBuilder.Entity("Domain.App.PizzaTemplate", b =>
@@ -784,6 +559,46 @@ namespace Domain.Base.App.EF.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("PizzaTemplates");
+                });
+
+            modelBuilder.Entity("Domain.App.PizzaUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ChangedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ChangedBy")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("Changes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<Guid>("PizzaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("PizzaId");
+
+                    b.ToTable("PizzaUsers");
                 });
 
             modelBuilder.Entity("Domain.App.Restaurant", b =>
@@ -862,11 +677,6 @@ namespace Domain.Base.App.EF.Migrations
                     b.Property<Guid?>("MealId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
-
                     b.Property<Guid?>("PizzaId")
                         .HasColumnType("uniqueidentifier");
 
@@ -875,9 +685,6 @@ namespace Domain.Base.App.EF.Migrations
 
                     b.Property<DateTime>("Since")
                         .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Tax")
-                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<DateTime>("Until")
                         .HasColumnType("datetime2");
@@ -972,36 +779,6 @@ namespace Domain.Base.App.EF.Migrations
                     b.HasIndex("SharingId");
 
                     b.ToTable("SharingItems");
-                });
-
-            modelBuilder.Entity("Domain.App.Size", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("ChangedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ChangedBy")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(32)")
-                        .HasMaxLength(32);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sizes");
                 });
 
             modelBuilder.Entity("Domain.App.UserLocation", b =>
@@ -1187,71 +964,44 @@ namespace Domain.Base.App.EF.Migrations
                         .HasForeignKey("MealId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Domain.App.PizzaFinal", "PizzaFinal")
+                    b.HasOne("Domain.App.PizzaUser", "PizzaUser")
                         .WithMany("CartMeals")
-                        .HasForeignKey("PizzaFinalId")
+                        .HasForeignKey("PizzaUserId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("Domain.App.ComponentPrice", b =>
+            modelBuilder.Entity("Domain.App.ComponentPizzaTemplate", b =>
                 {
                     b.HasOne("Domain.App.Component", "Component")
-                        .WithMany("ComponentPrices")
+                        .WithMany("ComponentPizzaTemplate")
                         .HasForeignKey("ComponentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Domain.App.Restaurant", "Restaurant")
-                        .WithMany("ComponentPrices")
-                        .HasForeignKey("RestaurantId")
+                    b.HasOne("Domain.App.PizzaTemplate", "PizzaTemplate")
+                        .WithMany("ComponentPizzaTemplates")
+                        .HasForeignKey("PizzaTemplateId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.App.Invoice", b =>
+            modelBuilder.Entity("Domain.App.ComponentPizzaUser", b =>
                 {
-                    b.HasOne("Domain.App.PaymentMethod", "PaymentMethod")
-                        .WithMany("Invoices")
-                        .HasForeignKey("PaymentMethodId")
+                    b.HasOne("Domain.App.Component", "Component")
+                        .WithMany("ComponentPizzaUser")
+                        .HasForeignKey("ComponentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Domain.App.Person", "Person")
-                        .WithMany("Invoices")
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.App.Restaurant", "Restaurant")
-                        .WithMany("Invoices")
-                        .HasForeignKey("RestaurantId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.App.InvoiceLine", b =>
-                {
-                    b.HasOne("Domain.App.Cart", "Cart")
-                        .WithMany("InvoiceLines")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.App.Invoice", "Invoice")
-                        .WithMany("InvoiceLines")
-                        .HasForeignKey("InvoiceId")
+                    b.HasOne("Domain.App.PizzaUser", "PizzaUser")
+                        .WithMany("ComponentPizzaUser")
+                        .HasForeignKey("PizzaUserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.App.Item", b =>
                 {
-                    b.HasOne("Domain.App.InvoiceLine", "InvoiceLine")
-                        .WithMany("Items")
-                        .HasForeignKey("InvoiceLineId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Domain.App.Sharing", "Sharing")
                         .WithMany("Items")
                         .HasForeignKey("SharingId")
@@ -1268,54 +1018,11 @@ namespace Domain.Base.App.EF.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.App.Person", b =>
-                {
-                    b.HasOne("Domain.App.Identity.AppUser", "AppUser")
-                        .WithMany("Persons")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Domain.App.Pizza", b =>
                 {
                     b.HasOne("Domain.App.PizzaTemplate", "PizzaTemplate")
                         .WithMany()
                         .HasForeignKey("PizzaTemplateId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.App.Size", "Size")
-                        .WithMany("Pizzas")
-                        .HasForeignKey("SizeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.App.PizzaComponent", b =>
-                {
-                    b.HasOne("Domain.App.Component", "Component")
-                        .WithMany("PizzaComponents")
-                        .HasForeignKey("ComponentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.App.PizzaFinal", "PizzaFinal")
-                        .WithMany("PizzaComponents")
-                        .HasForeignKey("PizzaFinalId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Domain.App.PizzaTemplate", "PizzaTemplate")
-                        .WithMany("PizzaComponents")
-                        .HasForeignKey("PizzaTemplateId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("Domain.App.PizzaFinal", b =>
-                {
-                    b.HasOne("Domain.App.Pizza", "Pizza")
-                        .WithMany("PizzaFinals")
-                        .HasForeignKey("PizzaId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
@@ -1325,6 +1032,21 @@ namespace Domain.Base.App.EF.Migrations
                     b.HasOne("Domain.App.Category", "Category")
                         .WithMany("PizzaTemplates")
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.App.PizzaUser", b =>
+                {
+                    b.HasOne("Domain.App.Identity.AppUser", "AppUser")
+                        .WithMany("PizzaUser")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Domain.App.Pizza", "Pizza")
+                        .WithMany("PizzaUsers")
+                        .HasForeignKey("PizzaId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

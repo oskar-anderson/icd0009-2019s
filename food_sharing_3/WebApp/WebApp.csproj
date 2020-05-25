@@ -244,6 +244,20 @@
       <_ContentIncludedByDefault Remove="Views\RestaurantFood\Details.cshtml" />
       <_ContentIncludedByDefault Remove="Views\RestaurantFood\Edit.cshtml" />
       <_ContentIncludedByDefault Remove="Views\RestaurantFood\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Size\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Size\_DetailsDelete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\PaymentMethod\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\PaymentMethod\_DetailsDelete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Person\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Person\_DetailsDelete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\InvoiceLine\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\InvoiceLine\_DetailsDelete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Invoice\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Invoice\_DetailsDelete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ComponentPrice\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ComponentPrice\_DetailsDelete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\PizzaComponent\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\PizzaComponent\_DetailsDelete.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
@@ -847,6 +861,41 @@
       <UpToDateCheckInput Remove="Views\Component\Details.cshtml" />
       <UpToDateCheckInput Remove="Views\Component\Edit.cshtml" />
       <UpToDateCheckInput Remove="Views\Component\Index.cshtml" />
+      <UpToDateCheckInput Remove="Views\Size\Create.cshtml" />
+      <UpToDateCheckInput Remove="Views\Size\Delete.cshtml" />
+      <UpToDateCheckInput Remove="Views\Size\Details.cshtml" />
+      <UpToDateCheckInput Remove="Views\Size\Edit.cshtml" />
+      <UpToDateCheckInput Remove="Views\Size\Index.cshtml" />
+      <UpToDateCheckInput Remove="Views\PaymentMethod\Create.cshtml" />
+      <UpToDateCheckInput Remove="Views\PaymentMethod\Delete.cshtml" />
+      <UpToDateCheckInput Remove="Views\PaymentMethod\Details.cshtml" />
+      <UpToDateCheckInput Remove="Views\PaymentMethod\Edit.cshtml" />
+      <UpToDateCheckInput Remove="Views\PaymentMethod\Index.cshtml" />
+      <UpToDateCheckInput Remove="Views\Person\Create.cshtml" />
+      <UpToDateCheckInput Remove="Views\Person\Delete.cshtml" />
+      <UpToDateCheckInput Remove="Views\Person\Details.cshtml" />
+      <UpToDateCheckInput Remove="Views\Person\Edit.cshtml" />
+      <UpToDateCheckInput Remove="Views\Person\Index.cshtml" />
+      <UpToDateCheckInput Remove="Views\InvoiceLine\Create.cshtml" />
+      <UpToDateCheckInput Remove="Views\InvoiceLine\Delete.cshtml" />
+      <UpToDateCheckInput Remove="Views\InvoiceLine\Details.cshtml" />
+      <UpToDateCheckInput Remove="Views\InvoiceLine\Edit.cshtml" />
+      <UpToDateCheckInput Remove="Views\InvoiceLine\Index.cshtml" />
+      <UpToDateCheckInput Remove="Views\Invoice\Create.cshtml" />
+      <UpToDateCheckInput Remove="Views\Invoice\Delete.cshtml" />
+      <UpToDateCheckInput Remove="Views\Invoice\Details.cshtml" />
+      <UpToDateCheckInput Remove="Views\Invoice\Edit.cshtml" />
+      <UpToDateCheckInput Remove="Views\Invoice\Index.cshtml" />
+      <UpToDateCheckInput Remove="Views\ComponentPrice\Create.cshtml" />
+      <UpToDateCheckInput Remove="Views\ComponentPrice\Delete.cshtml" />
+      <UpToDateCheckInput Remove="Views\ComponentPrice\Details.cshtml" />
+      <UpToDateCheckInput Remove="Views\ComponentPrice\Edit.cshtml" />
+      <UpToDateCheckInput Remove="Views\ComponentPrice\Index.cshtml" />
+      <UpToDateCheckInput Remove="Views\PizzaComponent\Create.cshtml" />
+      <UpToDateCheckInput Remove="Views\PizzaComponent\Delete.cshtml" />
+      <UpToDateCheckInput Remove="Views\PizzaComponent\Details.cshtml" />
+      <UpToDateCheckInput Remove="Views\PizzaComponent\Edit.cshtml" />
+      <UpToDateCheckInput Remove="Views\PizzaComponent\Index.cshtml" />
     </ItemGroup>
 
 </Project>

@@ -1,3 +1,101 @@
 <template>
-    Home index
+    <div class="container" style="padding-right: 0px; padding-left: 0px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="my-slider" class="carousel slide container-fluid px-0" data-ride="carousel">
+
+                    <ol class="carousel-indicators">
+                        <li data-target="#my-slider" data-slide-to="0" class="active"></li>
+                        <li data-target="#my-slider" data-slide-to="1"></li>
+                        <li data-target="#my-slider" data-slide-to="2"></li>
+                        <li data-target="#my-slider" data-slide-to="3"></li>
+                    </ol> 
+
+                    <div class="carousel-inner" role="listbox">
+                        <div class="carousel-item active">
+                            <img class="img-fluid img-fluid w-100" src="https://cdn.pixabay.com/photo/2017/12/09/08/18/pizza-3007395_960_720.jpg" alt="Banner 1">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="img-fluid img-fluid w-100" src="https://cdn.pixabay.com/photo/2016/04/21/22/50/pizza-1344720_960_720.jpg" alt="Banner 2">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="img-fluid img-fluid w-100" src="https://cdn.pixabay.com/photo/2017/10/02/22/24/pizza-2810589_960_720.jpg" alt="Banner 3">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="img-fluid img-fluid w-100" src="https://cdn.pixabay.com/photo/2018/04/11/03/13/food-3309418_960_720.jpg" alt="Banner 4">
+                        </div>
+
+                    </div>
+
+                    <a class="carousel-control-prev" href="#my-slider" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#my-slider" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex-container">
+        <form id="filters" style="margin-right: 20px;">
+            <div class="group">
+                ${_alert.message}
+                <h2>Restaurant</h2>
+                <div class="filter-grid btn-group-toggle" data-toggle="buttons">
+                    <!-- old class tag btn-group -->
+                    <label class="btn btn-light" css="background-color: ${_restaurants ? 'e7e7e7' : 'ffffff'}" repeat.for="restaurant of _restaurants"> 
+                        <input type="radio" name="regionSelector" value="us">${restaurant.name}
+                    </label> 
+                </div>
+            </div>
+            <div class="group">
+                <h2>Category</h2>
+                <div class="filter-grid btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-light"> 
+                        <input type="radio" name="categorySelector">All
+                    </label>  
+                    <label class="btn btn-light" repeat.for="category of _categorys"> 
+                        <input type="radio" name="categorySelector">${category.name}
+                    </label> 
+                </div>
+            </div>
+        </form>
+        <div id="auctions" style="border: 0">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col" style="border-top: 0">Picture</th>
+                        <th scope="col" style="border-top: 0">Name</th>
+                        <th scope="col" style="border-top: 0">Size</th>
+                        <th scope="col" style="border-top: 0">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="col">
+                            <img src="https://d2mekbzx20fc11.cloudfront.net/uploads/web.Pesto-Chicken-Club_2018_600x600.png" width="120" height="120">
+                        </th>
+                        <th scope="col">
+                            <strong class="caps">6. Türi pizza</strong>
+                            <span>Juust, oliivid, ananass</span>
+                            <img src="https://www.tellitoit.ee/public/foodLabel/6.png">
+                        </th>
+                        <th scope="col">Size</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                
+                </tbody>
+            </table>
+            <div id="loading">
+                <div class="spinner-border" role="status"> <span class="sr-only">Loading...</span> </div>
+            </div>
+            <div class="alert alert-warning" role="alert" id="error"> 
+
+            </div>
+        </div>
+        
+    </div>
 </template>

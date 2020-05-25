@@ -4,6 +4,7 @@ import { MealService } from 'service/meal-service';
 import { IMeal } from 'domain/IMeal';
 import { IAlertData } from 'types/IAlertData';
 import { AlertType } from 'types/AlertType';
+import { alertHandler, SOURCE } from 'service/alert-service';
 
 
 @autoinject
@@ -25,17 +26,9 @@ export class MealDelete {
         if (params.id && typeof (params.id) == 'string') {
             this.mealService.getMeal(params.id).then(
                 response => {
+                    this._alert = alertHandler(SOURCE.MEAL, response.statusCode, response.errorMessage);
                     if (response.statusCode >= 200 && response.statusCode < 300) {
-                        this._alert = null;
                         this._meal = response.data!;
-                    } else {
-                        // show error message
-                        this._alert = {
-                            message: response.statusCode.toString() + ' - ' + response.errorMessage,
-                            type: AlertType.Danger,
-                            dismissable: true,
-                        };
-                        this._meal = undefined;
                     }
                 }
             );
@@ -47,16 +40,9 @@ export class MealDelete {
             .deleteMeal(this._meal!.id)
             .then(
                 response => {
+                    this._alert = alertHandler(SOURCE.MEAL, response.statusCode, response.errorMessage);
                     if (response.statusCode >= 200 && response.statusCode < 300) {
-                        this._alert = null;
                         this.router.navigateToRoute('meal-index', {});
-                    } else {
-                        // show error message
-                        this._alert = {
-                            message: response.statusCode.toString() + ' - ' + response.errorMessage,
-                            type: AlertType.Danger,
-                            dismissable: true,
-                        }
                     }
                 }
             );

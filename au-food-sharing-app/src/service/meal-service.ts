@@ -2,8 +2,7 @@ import { autoinject } from 'aurelia-framework';
 import { HttpClient } from "aurelia-fetch-client";
 import { AppState } from 'state/app-state';
 import { IFetchResponse } from 'types/IFetchResponse';
-import { IMeal } from 'domain/IMeal';
-import { IMealCreate } from 'domain/IMealCreate';
+import { IMeal, IMealCreate  } from 'domain/IMeal';
 
 
 @autoinject
@@ -14,7 +13,7 @@ export class MealService {
         this.httpClient.baseUrl = this.appState.baseUrl;
     }
 
-    private readonly _baseUrl = 'Meal';
+    private readonly _baseUrl = 'https://localhost:5001/api/v1.0/Meal';
 
     async getMeals(): Promise<IFetchResponse<IMeal[]>> {
         try {
@@ -80,6 +79,8 @@ export class MealService {
 
     async createMeal(meal: IMealCreate): Promise<IFetchResponse<string>> {
         try {
+            console.log(meal.category)
+            console.log(JSON.stringify(meal))
             const response = await this.httpClient
                 .post(this._baseUrl, JSON.stringify(meal), {
                     cache: 'no-store',

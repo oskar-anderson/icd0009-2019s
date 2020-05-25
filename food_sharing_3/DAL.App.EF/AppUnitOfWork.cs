@@ -24,40 +24,29 @@ namespace DAL.App.EF
 
         public IComponentRepository Components => 
             GetRepository<IComponentRepository>(() => new ComponentRepository(UOWDbContext));
-
-        public IComponentPriceRepository ComponentPrices => 
-            GetRepository<IComponentPriceRepository>(() => new ComponentPriceRepository(UOWDbContext));
-
-        public IInvoiceRepository Invoices => 
-            GetRepository<IInvoiceRepository>(() => new InvoiceRepository(UOWDbContext));
-
-        public IInvoiceLineRepository InvoiceLines => 
-            GetRepository<IInvoiceLineRepository>(() => new InvoiceLineRepository(UOWDbContext));
-
+        
         public IItemRepository Items => 
             GetRepository<IItemRepository>(() => new ItemRepository(UOWDbContext));
 
         public IMealRepository Meals => 
             GetRepository<IMealRepository>(() => new MealRepository(UOWDbContext));
-
-        public IPaymentMethodRepository PaymentMethods => 
-            GetRepository<IPaymentMethodRepository>(() => new PaymentMethodRepository(UOWDbContext));
-
-        public IPersonRepository Persons => 
-            GetRepository<IPersonRepository>(() => new PersonRepository(UOWDbContext));
+        public IComponentPizzaTemplateRepository ComponentPizzaTemplates => 
+            GetRepository<IComponentPizzaTemplateRepository>(() => new ComponentPizzaTemplateRepository(UOWDbContext));
         
-        public IPizzaComponentRepository PizzaComponents => 
-            GetRepository<IPizzaComponentRepository>(() => new PizzaComponentRepository(UOWDbContext));
+        public IComponentPizzaUserRepository ComponentPizzaUsers => 
+            GetRepository<IComponentPizzaUserRepository>(() => new ComponentPizzaUserRepository(UOWDbContext));
+        
         
         public IPizzaRepository Pizzas => 
             GetRepository<IPizzaRepository>(() => new PizzaRepository(UOWDbContext));
 
-        public IPizzaFinalRepository PizzaFinals => 
-            GetRepository<IPizzaFinalRepository>(() => new PizzaFinalRepository(UOWDbContext));
 
         public IPizzaTemplateRepository PizzaTemplates => 
             GetRepository<IPizzaTemplateRepository>(() => new PizzaTemplateRepository(UOWDbContext));
 
+        public IPizzaUserRepository PizzaUsers => 
+            GetRepository<IPizzaUserRepository>(() => new PizzaUserRepository(UOWDbContext));
+        
         public IRestaurantRepository Restaurants => 
             GetRepository<IRestaurantRepository>(() => new RestaurantRepository(UOWDbContext));
 
@@ -69,10 +58,7 @@ namespace DAL.App.EF
 
         public ISharingItemRepository SharingItems => 
             GetRepository<ISharingItemRepository>(() => new SharingItemRepository(UOWDbContext));
-
-        public ISizeRepository Sizes => 
-            GetRepository<ISizeRepository>(() => new SizeRepository(UOWDbContext));
-
+        
         public IUserLocationRepository UserLocations => 
             GetRepository<IUserLocationRepository>(() => new UserLocationRepository(UOWDbContext));
         

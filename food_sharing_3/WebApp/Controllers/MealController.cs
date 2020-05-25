@@ -36,8 +36,8 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-
-            var meal = await _bll.Meals.FirstOrDefaultAsync(id.Value);
+            
+            var meal = await _bll.Meals.FirstOrDefaultViewAsync(id.Value);
 
             if (meal == null)
             {
@@ -79,7 +79,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var meal = await _bll.Meals.FirstOrDefaultAsync(id.Value);
+            var meal = await _bll.Meals.FirstOrDefaultViewAsync(id.Value);
 
             if (meal == null)
             {
@@ -119,7 +119,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var meal = await _bll.Meals.FirstOrDefaultAsync(id.Value);
+            var meal = await _bll.Meals.FirstOrDefaultViewAsync(id.Value);
 
             if (meal == null)
             {

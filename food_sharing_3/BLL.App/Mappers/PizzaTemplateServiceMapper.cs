@@ -14,7 +14,6 @@ namespace BLL.App.Mappers
             MapperConfigurationExpression.CreateMap<PizzaTemplate, BLLAppDTO.PizzaTemplate>();
             MapperConfigurationExpression.CreateMap<Category, BLLAppDTO.Category>();
             // add more mappings
-            MapperConfigurationExpression.CreateMap<AppUser, BLLAppDTO.Identity.AppUser>();
 
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));
         }

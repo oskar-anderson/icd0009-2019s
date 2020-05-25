@@ -23,9 +23,24 @@ namespace BLL.App.Services
         {
         }
 
-        public virtual async Task<IEnumerable<Sharing>> GetAllForViewAsync()
+        public virtual async Task<IEnumerable<Sharing>> GetAllForViewAsync(Guid userId)
         {
-            return (await Repository.GetAllForViewAsync()).Select(e => Mapper.MapSharingView(e));
+            return (await Repository.GetAllForViewAsync(userId)).Select(e => Mapper.MapSharingView(e));
+        }
+
+        public virtual async Task<Sharing> FirstOrDefaultViewAsync(Guid id, Guid? userId = null)
+        {
+            return Mapper.MapSharingView(await Repository.FirstOrDefaultViewAsync(id, userId));
+        }
+
+        public virtual async Task<IEnumerable<Sharing>> GetAllForApiAsync(Guid userId)
+        {
+            return (await Repository.GetAllForApiAsync(userId)).Select(e => Mapper.MapSharingView(e));
+        }
+
+        public virtual async Task<Sharing> FirstOrDefaultApiAsync(Guid id, Guid? userId = null)
+        {
+            return Mapper.MapSharingView(await Repository.FirstOrDefaultApiAsync(id, userId));
         }
     }
 }

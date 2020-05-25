@@ -15,11 +15,7 @@ namespace BLL.App.DTO
 
         public Guid RestaurantId { get; set; } = default!;
         public Restaurant? Restaurant { get; set; }
-        
-        public string Name { get; set; } = default!;
-        
-        public decimal Tax { get; set; } = default!;
-        
+
         public decimal Gross { get; set; } = default!;
 
         public DateTime Since { get; set; } = default!;

@@ -1,3 +1,134 @@
 <template>
-    RestaurantFood index
+    <require from="../../components/alert"></require>
+
+    <alert alert-data.bind="_alert"></alert>
+
+    <h1>Index RestaurantFood</h1>
+    
+    <p>
+        <a route-href="route: restaurantFood-create; params.bind: {}">Create New</a>
+    </p>
+    <p>
+        <button click.delegate="show()" class="add btn btn-secondary">${_showComponentSet ? "Collapse assignment" : "Assign components"}</button>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="table-column-sm">
+                    ID
+                </th>
+                <th>
+                    CategoryID
+                </th>
+                <th>
+                    Category
+                </th>
+                <th>
+                    MealID
+                </th>
+                <th>
+                    Meal
+                </th>
+                <th>
+                    PizzaID
+                </th>
+                <th>
+                    Pizza
+                </th>
+                <th>
+                    RestaurantID
+                </th>
+                <th>
+                    Restaurant
+                </th>
+                <th>
+                    Gross
+                </th>
+                <th>
+                    Since
+                </th>
+                <th>
+                    Until
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="restaurantFood of _restaurantFoods">
+                <td>
+                    <button disabled type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="${restaurantFood.id}">
+                        i
+                    </button>
+                </td>
+                <td>
+                    <button disabled type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="${restaurantFood.categoryId}">
+                        i
+                    </button>
+                </td>
+                <td>
+                    ${restaurantFood.category.name}
+                </td>
+                <td>
+                    <button disabled type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="${restaurantFood.mealId}">
+                        i
+                    </button>
+                </td>
+                <td>
+                    ${restaurantFood.meal.name}
+                </td>
+                <td>
+                    <button disabled type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="${restaurantFood.pizzaId}">
+                        i
+                    </button>
+                </td>
+                <td>
+                    ${restaurantFood.pizza.name}
+                </td>
+                <td>
+                    <p>
+                        <img src=${pizzaTemplate.picture} alt="PizzaTemplate picture" width="150" height="150" title="${pizzaTemplate.picture}">
+                    </p>
+                </td>
+                <td>
+                    ${pizzaTemplate.modifications}
+                </td>
+                <td>
+                    ${pizzaTemplate.extras}
+                </td>
+                <td>
+                    ${pizzaTemplate.description}
+                </td>
+                <td>
+                    <p repeat.for="name of pizzaTemplate.pizzaNames">${name}</p>
+                </td>
+                <td>
+                    <p repeat.for="component of pizzaTemplate.takenComponents">
+                        <span click.delegate="RemoveComponent($event, pizzaTemplate.id, component.id)">
+                            ${component.gross.toFixed(1)}€ ${component.name}
+                            <br>
+                            <i show.bind="_showComponentSet" class="fa fa-color-a fa-2x fa-minus-square-o"></i>
+                        </span>
+                    </p>
+                </td>
+                <td show.bind="_showComponentSet">
+                    <p repeat.for="component of pizzaTemplate.freeComponents">
+                        <span click.delegate="AddComponent($event, pizzaTemplate.id, component.id)">
+                            ${component.gross.toFixed(1)}€ ${component.name}
+                            <br>
+                            <i class="fa fa-color-a fa-2x fa-plus-square-o"></i>
+                        </span>
+                    </p>
+                </td>
+
+                <td>
+                    <a route-href="route: pizzaTemplate-edit; params.bind: { id: pizzaTemplate.id }"><i class="fa fa-color-a fa-2x fa-pencil-square"></i></a>
+                    <a route-href="route: pizzaTemplate-delete; params.bind: { id: pizzaTemplate.id }"><i class="fa fa-color-a fa-2x fa-trash"></i></a>
+                </td>
+    
+            </tr>
+        </tbody>
+    </table>
 </template>

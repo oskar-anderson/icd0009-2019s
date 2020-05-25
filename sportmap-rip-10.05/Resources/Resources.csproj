@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Folder Include="Views\GpsSessions" />
+        <Folder Include="Views\Home" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Update="BLL.App.DTO\GpsSession.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>GpsSession.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Views\Shared\_Layout.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>_Layout.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Common.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>Common.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="BLL.App.DTO\GpsSession.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>GpsSession.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Views\Shared\_Layout.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>_Layout.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Common.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Common.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
+</Project>

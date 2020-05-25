@@ -11,7 +11,11 @@ namespace Contracts.DAL.App.Repositories
 
     public interface ICartRepositoryCustom<TCart>
     {
-        Task<IEnumerable<TCart>> GetAllForViewAsync();
+        Task<IEnumerable<TCart>> GetAllForViewAsync(Guid userId);
+        Task<TCart> FirstOrDefaultViewAsync(Guid id, Guid? userId = null);
+        Task<IEnumerable<TCart>> GetAllForApiAsync(Guid userId);
+        Task<TCart> FirstOrDefaultApiAsync(Guid id, Guid? userId = null);
+
     }
     
 }

@@ -2,8 +2,7 @@ import { autoinject } from 'aurelia-framework';
 import { HttpClient } from "aurelia-fetch-client";
 import { AppState } from 'state/app-state';
 import { IFetchResponse } from 'types/IFetchResponse';
-import { IRestaurant } from 'domain/IRestaurant';
-import { IRestaurantCreate } from 'domain/IRestaurantCreate';
+import { IRestaurant, IRestaurantCreate } from 'domain/IRestaurant';
 
 
 @autoinject
@@ -14,7 +13,7 @@ export class RestaurantService {
         this.httpClient.baseUrl = this.appState.baseUrl;
     }
 
-    private readonly _baseUrl = 'Restaurant';
+    private readonly _baseUrl = 'https://localhost:5001/api/v1.0/Restaurant';
 
     async getRestaurants(): Promise<IFetchResponse<IRestaurant[]>> {
         try {

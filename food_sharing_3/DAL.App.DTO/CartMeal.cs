@@ -14,7 +14,11 @@ namespace DAL.App.DTO
         public Guid? MealId { get; set; }
         public Meal? Meal { get; set; }
         
-        public Guid? PizzaFinalId { get; set; }
-        public PizzaFinal? PizzaFinal { get; set; }
+        public Guid? PizzaUserId { get; set; }
+        public PizzaUser? PizzaUser { get; set; }
+        
+        public string Name { get; set; } = default!;
+        
+        public decimal Gross { get; set; } = default!;
     }
 }

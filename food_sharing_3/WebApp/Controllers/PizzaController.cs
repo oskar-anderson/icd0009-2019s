@@ -23,7 +23,7 @@ namespace WebApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var pizzas = await _bll.Pizzas.GetAllAsyncBase();
+            var pizzas = await _bll.Pizzas.GetAllForViewAsync();
             return View(pizzas);
         }
 
@@ -36,7 +36,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var pizza = await _bll.Pizzas.FirstOrDefaultAsync(id.Value);
+            var pizza = await _bll.Pizzas.FirstOrDefaultViewAsync(id.Value);
             
             if (pizza == null)
             {
@@ -50,7 +50,6 @@ namespace WebApp.Controllers
         public async Task<IActionResult> Create()
         {
             ViewData["PizzaTemplateId"] = new SelectList(await _bll.PizzaTemplates.GetAllAsyncBase(), "Id", "Name");
-            ViewData["SizeId"] = new SelectList(await _bll.Sizes.GetAllAsyncBase(), "Id", "Name");
             return View();
         }
 
@@ -68,7 +67,6 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["PizzaTemplateId"] = new SelectList(await _bll.PizzaTemplates.GetAllAsyncBase(), "Id", "Name", pizza.PizzaTemplateId);
-            ViewData["SizeId"] = new SelectList(await _bll.Sizes.GetAllAsyncBase(), "Id", "Name", pizza.SizeId);
             return View(pizza);
         }
 
@@ -80,14 +78,13 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var pizza = await _bll.Pizzas.FirstOrDefaultAsync(id.Value);
+            var pizza = await _bll.Pizzas.FirstOrDefaultViewAsync(id.Value);
             
             if (pizza == null)
             {
                 return NotFound();
             }
             ViewData["PizzaTemplateId"] = new SelectList(await _bll.PizzaTemplates.GetAllAsyncBase(), "Id", "Name", pizza.PizzaTemplateId);
-            ViewData["SizeId"] = new SelectList(await _bll.Sizes.GetAllAsyncBase(), "Id", "Name", pizza.SizeId);
             return View(pizza);
         }
 
@@ -110,7 +107,6 @@ namespace WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["PizzaTemplateId"] = new SelectList(await _bll.PizzaTemplates.GetAllAsyncBase(), "Id", "Name", pizza.PizzaTemplateId);
-            ViewData["SizeId"] = new SelectList(await _bll.Sizes.GetAllAsyncBase(), "Id", "Name", pizza.SizeId);
             return View(pizza);
         }
 
@@ -122,7 +118,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var pizza = await _bll.Pizzas.FirstOrDefaultAsync(id.Value);
+            var pizza = await _bll.Pizzas.FirstOrDefaultViewAsync(id.Value);
 
             if (pizza == null)
             {

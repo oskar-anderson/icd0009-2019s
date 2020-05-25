@@ -7,7 +7,10 @@ namespace PublicApi.DTO.v1
     {
         public Guid Id { get; set; }
         
-        [MaxLength(64)] [MinLength(1)] public string Name { get; set; } = default!;
-
+        [MinLength(1)] [MaxLength(64)]  public string Name { get; set; } = default!;
+        
+        public bool ForMeal { get; set; } = default!;
+        
+        public bool ForPizzaTemplate { get; set; } = default!;
     }
 }

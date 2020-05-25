@@ -21,6 +21,7 @@ namespace DAL.App.EF.Repositories
         {
         }
 
+        /*
         public async Task<IEnumerable<Component>> GetAllAsync(Guid id, Guid? userId = null, bool noTracking = true)
         {
             var query = RepoDbSet

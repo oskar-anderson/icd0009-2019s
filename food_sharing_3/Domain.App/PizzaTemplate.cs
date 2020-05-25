@@ -21,31 +21,6 @@ namespace Domain.App
         [MaxLength(128)] [MinLength(4)] public string? Description { get; set; }
 
         
-        public ICollection<PizzaComponent>? PizzaComponents { get; set; }
-
-
-
-        /*
-        Americana
-        5/8€
-        juust, salaami, ananass, oliivid
-        
-        Bolognese
-        6/9€
-        hakkliha, sibul, küüslauk, mozarella, juust  
-        
-        Siciliana
-        5/8€
-        juust, sink, küüslauk, sibul
-        
-        Topolino
-        5.5/8.2€
-        juust, sink, šampinjonid, ananass
-        
-        Pepperoni
-        5/8€
-        juust, kaste, pepperoni, basiilik, mozzarella, oliivid
-        
-        */
+        public ICollection<ComponentPizzaTemplate>? ComponentPizzaTemplates { get; set; }
     }
 }

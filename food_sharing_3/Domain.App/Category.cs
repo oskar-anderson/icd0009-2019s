@@ -6,18 +6,14 @@ namespace Domain.App
 {
     public class Category : DomainEntityIdMetadata
     {
-        [MaxLength(64)] [MinLength(1)] public string Name { get; set; } = default!;
+        [MinLength(1)] [MaxLength(64)] public string Name { get; set; } = default!;
 
+        public bool ForMeal { get; set; } = default!;
+        
+        public bool ForPizzaTemplate { get; set; } = default!;
+        
         public ICollection<Meal>? Meals { get; set; }
         public ICollection<PizzaTemplate>? PizzaTemplates { get; set; }
         
-        /*
-        Fish
-        Meat
-        Vegan
-        Spicy
-        Lego
-        
-        */
     }
 }

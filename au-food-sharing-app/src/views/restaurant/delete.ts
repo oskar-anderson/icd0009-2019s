@@ -5,6 +5,7 @@ import { IRestaurant } from 'domain/IRestaurant';
 import { IAlertData } from 'types/IAlertData';
 import { AlertType } from 'types/AlertType';
 import { RestaurantDetails } from './details';
+import { alertHandler, SOURCE } from 'service/alert-service';
 
 
 @autoinject
@@ -26,18 +27,10 @@ export class MealDelete {
         if (params.id && typeof (params.id) == 'string') {
             this.restaurantService.getRestaurant(params.id).then(
                 response => {
+                    this._alert = alertHandler(SOURCE.RESTAURANT, response.statusCode, response.errorMessage);
                     if (response.statusCode >= 200 && response.statusCode < 300) {
-                        this._alert = null;
                         this._restaurant = response.data!;
-                    } else {
-                        // show error message
-                        this._alert = {
-                            message: response.statusCode.toString() + ' - ' + response.errorMessage,
-                            type: AlertType.Danger,
-                            dismissable: true,
-                        };
-                        this._restaurant = undefined;
-                    }
+                    };
                 }
             );
         }
@@ -48,16 +41,9 @@ export class MealDelete {
             .deleteRestaurant(this._restaurant!.id)
             .then(
                 response => {
+                    this._alert = alertHandler(SOURCE.RESTAURANT, response.statusCode, response.errorMessage);
                     if (response.statusCode >= 200 && response.statusCode < 300) {
-                        this._alert = null;
                         this.router.navigateToRoute('restaurant-index', {});
-                    } else {
-                        // show error message
-                        this._alert = {
-                            message: response.statusCode.toString() + ' - ' + response.errorMessage,
-                            type: AlertType.Danger,
-                            dismissable: true,
-                        }
                     }
                 }
             );

@@ -17,12 +17,6 @@ namespace PublicApi.DTO.v1
         public Guid RestaurantId { get; set; } = default!;
         public RestaurantDTO? Restaurant { get; set; }
 
-        [MaxLength(64, ErrorMessage = "Too long!")]
-        public string Name { get; set; } = default!;
-
-        [Column(TypeName = "decimal(18,4)")]
-        public decimal Tax { get; set; } = default!;
-
         [Column(TypeName = "decimal(18,4)")]
         public decimal Gross { get; set; } = default!;
 

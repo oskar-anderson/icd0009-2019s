@@ -20,6 +20,7 @@ namespace DAL.App.EF.Repositories
         {
         }
 
+        /*
         public async Task<IEnumerable<Sharing>> GetAllAsync(Guid id, Guid? userId = null, bool noTracking = true)
         {
             var query = RepoDbSet
@@ -65,40 +66,24 @@ namespace DAL.App.EF.Repositories
             await base.RemoveAsync(sharing.Id);
         }
         
-        /*
-        public async Task<IEnumerable<SharingDTO>> DTOAllAsync(Guid? userId = null)
+        */
+        public virtual async Task<IEnumerable<Sharing>> GetAllForViewAsync(Guid userId)
         {
-            var query = RepoDbSet.AsQueryable();
+            var query = RepoDbSet.Where(c => c.AppUserId == userId).AsQueryable();
             
             return await query
-                .Select(s => new SharingDTO()
+                .Select(s => new Sharing()
                 {
                     Id = s.Id,
                     AppUserId = s.AppUserId,
                     Name = s.Name,
-                    
                 })
                 .ToListAsync();
         }
 
-        public async Task<SharingDTO> DTOFirstOrDefaultAsync(Guid id, Guid? userId = null)
+        public virtual async Task<Sharing> FirstOrDefaultViewAsync(Guid id, Guid? userId = null)
         {
-            var query = RepoDbSet.AsQueryable();
-            SharingDTO sharingDTO = await query
-                .Select(s => new SharingDTO()
-                {
-                    Id = s.Id,
-                    AppUserId = s.AppUserId,
-                    Name = s.Name,
-                })
-                .FirstOrDefaultAsync();
-            
-            return sharingDTO;
-        }
-        */
-        public virtual async Task<IEnumerable<Sharing>> GetAllForViewAsync()
-        {
-            var query = RepoDbSet.AsQueryable();
+            var query = RepoDbSet.Where(s => s.Id == id).AsQueryable();
 
             return await query
                 .Select(s => new Sharing()
@@ -106,9 +91,36 @@ namespace DAL.App.EF.Repositories
                     Id = s.Id,
                     AppUserId = s.AppUserId,
                     Name = s.Name,
-                    
+                })
+                .FirstOrDefaultAsync();
+        }
+
+        public virtual async Task<IEnumerable<Sharing>> GetAllForApiAsync(Guid userId)
+        {
+            var query = RepoDbSet.Where(c => c.AppUserId == userId).AsQueryable();
+            
+            return await query
+                .Select(s => new Sharing()
+                {
+                    Id = s.Id,
+                    AppUserId = s.AppUserId,
+                    Name = s.Name,
                 })
                 .ToListAsync();
+        }
+
+        public virtual async Task<Sharing> FirstOrDefaultApiAsync(Guid id, Guid? userId = null)
+        {
+            var query = RepoDbSet.Where(s => s.Id == id).AsQueryable();
+
+            return await query
+                .Select(s => new Sharing()
+                {
+                    Id = s.Id,
+                    AppUserId = s.AppUserId,
+                    Name = s.Name,
+                })
+                .FirstOrDefaultAsync();
         }
     }
 }

@@ -11,7 +11,11 @@ namespace Contracts.DAL.App.Repositories
 
     public interface ISharingRepositoryCustom<TSharing>
     {
-        Task<IEnumerable<TSharing>> GetAllForViewAsync();
+        Task<IEnumerable<TSharing>> GetAllForViewAsync(Guid userId);
+        Task<TSharing> FirstOrDefaultViewAsync(Guid id, Guid? userId = null);
+        Task<IEnumerable<TSharing>> GetAllForApiAsync(Guid userId);
+        Task<TSharing> FirstOrDefaultApiAsync(Guid id, Guid? userId = null);
+
     }
 
     

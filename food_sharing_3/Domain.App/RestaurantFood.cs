@@ -16,13 +16,6 @@ namespace Domain.App
         public Guid RestaurantId { get; set; } = default!;
         public Restaurant? Restaurant { get; set; }
 
-        [MaxLength(64, ErrorMessage = "Too long!")]
-        public string Name { get; set; } = default!;
-        
-        [Range(1, 100), DataType(DataType.Currency)]
-        [Column(TypeName = "decimal(18, 2)")]
-        public decimal Tax { get; set; } = default!;
-
         [Range(1, 100), DataType(DataType.Currency)]
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Gross { get; set; } = default!;

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace DAL.App.EF.Helpers
 {
-    public class Pictures
+    public static class Pictures
     {
-        readonly List<string> pizzas = new List<string>()    // steal!, steal!!, STEAL!!! https://www.crust.com.au
+        static readonly List<string> Pizzas = new List<string>()    // steal!, steal!!, STEAL!!! https://www.crust.com.au
         {
             "https://d2mekbzx20fc11.cloudfront.net/uploads/web.Vietnamese-Chilli-Chicken_600x600.png",
             "https://d2mekbzx20fc11.cloudfront.net/uploads/web.Pesto-Chicken-Club_2018_600x600.png",
@@ -31,10 +31,10 @@ namespace DAL.App.EF.Helpers
             
         };
 
-        public string GetRandomPizza()
+        public static string GetRandomPizzaPicture()
         {
             var random = new Random();
-            return pizzas[random.Next(pizzas.Count)];
+            return Pizzas[random.Next(Pizzas.Count)];
         }
     }
 }

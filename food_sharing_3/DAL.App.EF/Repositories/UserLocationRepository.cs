@@ -20,6 +20,7 @@ namespace DAL.App.EF.Repositories
         {
         }
 
+        /*
         public async Task<IEnumerable<UserLocation>> GetAllAsync(Guid id, Guid? userId = null, bool noTracking = true)
         {
             var query = RepoDbSet
@@ -66,14 +67,14 @@ namespace DAL.App.EF.Repositories
             var userLocation = await FirstOrDefaultAsync(id, userId);
             await base.RemoveAsync(userLocation.Id);
         }
-
-        /*
-        public async Task<IEnumerable<UserLocationDTO>> DTOAllAsync(Guid? userId = null)
+        
+        */
+        public virtual async Task<IEnumerable<UserLocation>> GetAllForViewAsync(Guid userId)
         {
-            var query = RepoDbSet.AsQueryable();
+            var query = RepoDbSet.Where(c => c.AppUserId == userId).AsQueryable();
             
             return await query
-                .Select(ul => new UserLocationDTO()
+                .Select(ul => new UserLocation()
                 {
                     Id = ul.Id,
                     AppUserId = ul.AppUserId,
@@ -85,27 +86,9 @@ namespace DAL.App.EF.Repositories
                 .ToListAsync();
         }
 
-        public async Task<UserLocationDTO> DTOFirstOrDefaultAsync(Guid id, Guid? userId = null)
+        public virtual async Task<UserLocation> FirstOrDefaultViewAsync(Guid id, Guid? userId = null)
         {
-            var query = RepoDbSet.AsQueryable();
-            UserLocationDTO userLocationDTO = await query
-                .Select(ul => new UserLocationDTO()
-                {
-                    Id = ul.Id,
-                    AppUserId = ul.AppUserId,
-                    District = ul.District,
-                    StreetName = ul.StreetName,
-                    BuildingNumber = ul.BuildingNumber,
-                    ApartmentNumber = ul.ApartmentNumber,
-                })
-                .FirstOrDefaultAsync();
-            
-            return userLocationDTO;
-        }
-        */
-        public virtual async Task<IEnumerable<UserLocation>> GetAllForViewAsync()
-        {
-            var query = RepoDbSet.AsQueryable();
+            var query = RepoDbSet.Where(ul => ul.Id == id).AsQueryable();
 
             return await query
                 .Select(ul => new UserLocation()
@@ -116,9 +99,42 @@ namespace DAL.App.EF.Repositories
                     StreetName = ul.StreetName,
                     BuildingNumber = ul.BuildingNumber,
                     ApartmentNumber = ul.ApartmentNumber,
-                    
+                })
+                .FirstOrDefaultAsync();
+        }
+
+        public virtual async Task<IEnumerable<UserLocation>> GetAllForApiAsync(Guid userId)
+        {
+            var query = RepoDbSet.Where(c => c.AppUserId == userId).AsQueryable();
+            
+            return await query
+                .Select(ul => new UserLocation()
+                {
+                    Id = ul.Id,
+                    AppUserId = ul.AppUserId,
+                    District = ul.District,
+                    StreetName = ul.StreetName,
+                    BuildingNumber = ul.BuildingNumber,
+                    ApartmentNumber = ul.ApartmentNumber,
                 })
                 .ToListAsync();
+        }
+
+        public virtual async Task<UserLocation> FirstOrDefaultApiAsync(Guid id, Guid? userId = null)
+        {
+            var query = RepoDbSet.Where(ul => ul.Id == id).AsQueryable();
+
+            return await query
+                .Select(ul => new UserLocation()
+                {
+                    Id = ul.Id,
+                    AppUserId = ul.AppUserId,
+                    District = ul.District,
+                    StreetName = ul.StreetName,
+                    BuildingNumber = ul.BuildingNumber,
+                    ApartmentNumber = ul.ApartmentNumber,
+                })
+                .FirstOrDefaultAsync();
         }
     }
 }

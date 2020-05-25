@@ -2,6 +2,7 @@
 using BLL.Base.Mappers;
 using Contracts.BLL.App.Mappers;
 using DAL.App.DTO;
+using DAL.App.DTO.Identity;
 using BLLAppDTO=BLL.App.DTO;
 
 namespace BLL.App.Mappers
@@ -13,6 +14,8 @@ namespace BLL.App.Mappers
             MapperConfigurationExpression.CreateMap<SharingItem, BLLAppDTO.SharingItem>();
             MapperConfigurationExpression.CreateMap<Sharing, BLLAppDTO.Sharing>();
             MapperConfigurationExpression.CreateMap<Item, BLLAppDTO.Item>();
+            MapperConfigurationExpression.CreateMap<AppUser, BLLAppDTO.Identity.AppUser>();
+            
             // add more mappings
 
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));

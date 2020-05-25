@@ -13,7 +13,10 @@ namespace BLL.App.Mappers
             MapperConfigurationExpression.CreateMap<RestaurantFood, BLLAppDTO.RestaurantFood>();
             MapperConfigurationExpression.CreateMap<Restaurant, BLLAppDTO.Restaurant>();
             MapperConfigurationExpression.CreateMap<Meal, BLLAppDTO.Meal>();
+            MapperConfigurationExpression.CreateMap<Category, BLLAppDTO.Category>();
             MapperConfigurationExpression.CreateMap<Pizza, BLLAppDTO.Pizza>();
+            MapperConfigurationExpression.CreateMap<PizzaTemplate, BLLAppDTO.PizzaTemplate>();
+
             // add more mappings
 
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));

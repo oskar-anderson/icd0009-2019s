@@ -12,12 +12,12 @@ namespace DAL.App.DTO
         public Guid PizzaTemplateId { get; set; } = default!;
         public PizzaTemplate? PizzaTemplate { get; set; }
         
-        public Guid SizeId { get; set; } = default!;
-        public Size? Size { get; set; }
-
+        public int SizeNumber { get; set; } = default!;
+        public string SizeName { get; set; } = default!;
+        
         public string Name { get; set; } = default!;
         
-        public ICollection<PizzaFinal>? PizzaFinals { get; set; }
+        public ICollection<PizzaUser>? PizzaUsers { get; set; }
         public ICollection<RestaurantFood>? RestaurantFoods { get; set; }
 
     }

@@ -9,23 +9,18 @@ namespace Contracts.BLL.App
         ICartMealService CartMeals { get; }
         ICartService Carts { get; }
         ICategoryService Categorys { get; }
-        IComponentPriceService ComponentPrices { get; }
         IComponentService Components { get; }
-        IInvoiceLineService InvoiceLines { get; }
-        IInvoiceService Invoices { get; }
+        IComponentPizzaUserService ComponentPizzaUsers { get; }
+        IComponentPizzaTemplateService ComponentPizzaTemplates { get; }
         IItemService Items { get; }
         IMealService Meals { get; }
-        IPaymentMethodService PaymentMethods { get; }
-        IPersonService Persons { get; }
-        IPizzaComponentService PizzaComponents { get; }
-        IPizzaFinalService PizzaFinals { get; }
         IPizzaService Pizzas { get; }
+        IPizzaUserService PizzaUsers { get; }
         IPizzaTemplateService PizzaTemplates { get; }
         IRestaurantFoodService RestaurantFoods { get; }
         IRestaurantService Restaurants { get; }
         ISharingItemService SharingItems { get; }
         ISharingService Sharings { get; }
-        ISizeService Sizes { get; }
         IUserLocationService UserLocations { get; }
     }
 }

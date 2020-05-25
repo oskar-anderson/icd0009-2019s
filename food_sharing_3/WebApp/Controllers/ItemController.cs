@@ -22,7 +22,7 @@ namespace WebApp.Controllers
         // GET: Item
         public async Task<IActionResult> Index()
         {
-            var items = await _bll.Items.GetAllAsyncBase();
+            var items = await _bll.Items.GetAllForViewAsync();
             return View(items);
         }
 
@@ -34,7 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var item = await _bll.Items.FirstOrDefaultAsync(id.Value);
+            var item = await _bll.Items.FirstOrDefaultViewAsync(id.Value);
 
             if (item == null)
             {
@@ -47,7 +47,6 @@ namespace WebApp.Controllers
         // GET: Item/Create
         public async Task<IActionResult> Create()
         {
-            ViewData["InvoiceLineId"] = new SelectList(await _bll.InvoiceLines.GetAllAsyncBase(), "Id", "Name");
             ViewData["SharingId"] = new SelectList(await _bll.Sharings.GetAllAsyncBase(), "Id", "Name");
             return View();
         }
@@ -65,7 +64,6 @@ namespace WebApp.Controllers
                 await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["InvoiceLineId"] = new SelectList(await _bll.InvoiceLines.GetAllAsyncBase(), "Id", "Name", item.InvoiceLineId);
             ViewData["SharingId"] = new SelectList(await _bll.Sharings.GetAllAsyncBase(), "Id", "Name", item.SharingId);
             return View(item);
         }
@@ -78,13 +76,12 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var item = await _bll.Items.FirstOrDefaultAsync(id.Value);
+            var item = await _bll.Items.FirstOrDefaultViewAsync(id.Value);
 
             if (item == null)
             {
                 return NotFound();
             }
-            ViewData["InvoiceLineId"] = new SelectList(await _bll.InvoiceLines.GetAllAsyncBase(), "Id", "Name", item.InvoiceLineId);
             ViewData["SharingId"] = new SelectList(await _bll.Sharings.GetAllAsyncBase(), "Id", "Name", item.SharingId);
             return View(item);
         }
@@ -107,7 +104,6 @@ namespace WebApp.Controllers
                 await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["InvoiceLineId"] = new SelectList(await _bll.InvoiceLines.GetAllAsyncBase(), "Id", "Name", item.InvoiceLineId);
             ViewData["SharingId"] = new SelectList(await _bll.Sharings.GetAllAsyncBase(), "Id", "Name", item.SharingId);
             return View(item);
         }
@@ -120,7 +116,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var item = await _bll.Items.FirstOrDefaultAsync(id.Value);
+            var item = await _bll.Items.FirstOrDefaultViewAsync(id.Value);
 
             if (item == null)
             {

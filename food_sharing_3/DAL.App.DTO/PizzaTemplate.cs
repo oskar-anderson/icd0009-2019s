@@ -23,7 +23,7 @@ namespace DAL.App.DTO
         public string? Description { get; set; }
 
         
-        public ICollection<PizzaComponent>? PizzaComponents { get; set; }
+        public ICollection<ComponentPizzaUser>? PizzaComponents { get; set; }
 
     }
 }

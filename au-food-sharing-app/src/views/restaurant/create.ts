@@ -4,6 +4,7 @@ import { RestaurantService} from 'service/restaurant-service';
 import { IRestaurant } from 'domain/IRestaurant';
 import { IAlertData } from 'types/IAlertData';
 import { AlertType } from 'types/AlertType';
+import { alertHandler, SOURCE } from 'service/alert-service';
 
 @autoinject
 export class RestaurantCreate {
@@ -43,16 +44,9 @@ export class RestaurantCreate {
                 })
             .then(
                 response => {
+                    this._alert = alertHandler(SOURCE.RESTAURANT, response.statusCode, response.errorMessage);
                     if (response.statusCode >= 200 && response.statusCode < 300) {
-                        this._alert = null;
                         this.router.navigateToRoute('restaurant-index', {});
-                    } else {
-                        // show error message
-                        this._alert = {
-                            message: response.statusCode.toString() + ' - ' + response.errorMessage,
-                            type: AlertType.Danger,
-                            dismissable: true,
-                        }
                     }
                 }   
             );

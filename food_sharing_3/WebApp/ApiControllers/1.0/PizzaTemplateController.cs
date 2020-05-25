@@ -36,7 +36,7 @@ namespace WebApp.ApiControllers._1._0
         public async Task<ActionResult<IEnumerable<V1DTO.PizzaTemplateDTO>>> GetPizzaTemplates()
         {
             //var result = await _bll.PizzaTemplates.GetAllForViewAsync();
-            return Ok(await _bll.PizzaTemplates.GetAllAsyncBase());
+            return Ok(await _bll.PizzaTemplates.GetAllForApiAsync());
         }
 
         // GET: api/PizzaTemplate/5
@@ -44,7 +44,7 @@ namespace WebApp.ApiControllers._1._0
         [AllowAnonymous]
         public async Task<ActionResult<V1DTO.PizzaTemplateDTO>> GetPizzaTemplate(Guid id)
         {
-            var pizzaTemplate = await _bll.PizzaTemplates.FirstOrDefaultAsync(id);
+            var pizzaTemplate = await _bll.PizzaTemplates.FirstOrDefaultApiAsync(id);
             
             if (pizzaTemplate == null)
             {
@@ -60,6 +60,7 @@ namespace WebApp.ApiControllers._1._0
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPizzaTemplate(Guid id, PizzaTemplateDTO pizzaTemplate)
         {
+            pizzaTemplate.Category = null;
             if (id != pizzaTemplate.Id)
             {
                 return BadRequest(new V1DTO.MessageDTO("id and pizzaTemplate.id do not match"));

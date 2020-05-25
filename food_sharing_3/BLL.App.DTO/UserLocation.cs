@@ -16,5 +16,9 @@ namespace BLL.App.DTO
         public string BuildingNumber { get; set; } = default!;
         public string? ApartmentNumber { get; set; }
 
+        public string FullName
+        {
+            get { return $"{District}, {StreetName}, {BuildingNumber}-{ApartmentNumber}"; }
+        }
     }
 }

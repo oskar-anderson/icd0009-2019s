@@ -16,7 +16,7 @@ namespace BLL.App.DTO
         public string? Picture { get; set; }
 
         public string? Description { get; set; }
-
+        
         
         public ICollection<RestaurantFood>? RestaurantFoods { get; set; }
         public ICollection<CartMeal>? CartMeals { get; set; }

@@ -1,0 +1,22 @@
+<template>
+    <require from="../../components/alert"></require>
+
+    <alert alert-data.bind="_alert"></alert>
+
+
+    <h1>Details</h1>
+
+    <div>
+        <h4>Pizza</h4>
+        <hr />
+        <dl class="row">
+
+            <compose view="./detailsDelete.html"></compose>
+
+        </dl>
+    </div>
+    <div>
+        <a route-href="route: pizza-edit; params.bind: { id: _pizza.id }">Edit</a> |
+        <a route-href="route: pizza-index; params.bind: { }">Back to List</a>
+    </div>
+</template>

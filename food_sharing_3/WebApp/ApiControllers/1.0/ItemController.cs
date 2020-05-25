@@ -35,14 +35,14 @@ namespace WebApp.ApiControllers._1._0
         [HttpGet]
         public async Task<ActionResult<IEnumerable<V1DTO.ItemDTO>>> GetItems()
         {
-            return Ok(await _bll.Items.GetAllAsyncBase());
+            return Ok(await _bll.Items.GetAllForApiAsync());
         }
 
         // GET: api/Item/5
         [HttpGet("{id}")]
         public async Task<ActionResult<V1DTO.ItemDTO>> GetItem(Guid id)
         {
-            var item = await _bll.Items.FirstOrDefaultAsync(id);
+            var item = await _bll.Items.FirstOrDefaultApiAsync(id);
             
             if (item == null)
             {
@@ -87,7 +87,7 @@ namespace WebApp.ApiControllers._1._0
         [HttpDelete("{id}")]
         public async Task<ActionResult<V1DTO.ItemDTO>> DeleteItem(Guid id)
         {
-            var item = await _bll.Items.FirstOrDefaultAsync(id);
+            var item = await _bll.Items.FirstOrDefaultApiAsync(id);
             if (item == null)
             {
                 return NotFound();

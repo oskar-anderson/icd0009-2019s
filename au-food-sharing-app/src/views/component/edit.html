@@ -1,0 +1,30 @@
+<template>
+    <require from="../../components/alert"></require>
+
+    <alert alert-data.bind="_alert"></alert>
+    
+    <h1>Edit</h1>
+
+    <h4>Component</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form submit.trigger="onSubmit($event)">
+                
+                <compose view="./createEdit.html"></compose>
+                
+                <!-- 
+
+            -->
+                <div class="form-group">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a route-href="route: component-index; params.bind: { }">Back to List</a>
+    </div>
+
+</template>

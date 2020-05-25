@@ -10,15 +10,12 @@ namespace PublicApi.DTO.v1
         
         public Guid SharingId { get; set; } = default!;
         public SharingDTO? Sharing { get; set; }
-
-        public Guid InvoiceLineId { get; set; } = default!;
-        public InvoiceLineDTO? InvoiceLine { get; set; }
-
+        
         [MaxLength(64)] [MinLength(1)] public string Name { get; set; } = default!;
 
-        [Column(TypeName = "decimal(18,4)")] public decimal Net { get; set; } = default!;
-        [Column(TypeName = "decimal(18,4)")] public decimal Tax { get; set; } = default!;
-        [Column(TypeName = "decimal(18,4)")] public decimal Gross { get; set; } = default!;
+        [DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal Gross { get; set; } = default!;
 
     }
 }

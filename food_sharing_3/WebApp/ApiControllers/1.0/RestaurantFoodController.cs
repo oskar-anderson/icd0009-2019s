@@ -34,7 +34,7 @@ namespace WebApp.ApiControllers._1._0
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<V1DTO.RestaurantFoodDTO>>> GetRestaurantFoods()
         {
-            return Ok(await _bll.RestaurantFoods.GetAllAsyncBase());
+            return Ok(await _bll.RestaurantFoods.GetAllForApiAsync());
         }
 
         // GET: api/RestaurantFood/5
@@ -42,7 +42,7 @@ namespace WebApp.ApiControllers._1._0
         [AllowAnonymous]
         public async Task<ActionResult<V1DTO.RestaurantFoodDTO>> GetRestaurantFood(Guid id)
         {
-            var restaurantFood = await _bll.RestaurantFoods.FirstOrDefaultAsync(id);
+            var restaurantFood = await _bll.RestaurantFoods.FirstOrDefaultApiAsync(id);
             
             if (restaurantFood == null)
             {
@@ -87,7 +87,7 @@ namespace WebApp.ApiControllers._1._0
         [HttpDelete("{id}")]
         public async Task<ActionResult<V1DTO.RestaurantFoodDTO>> DeleteRestaurantFood(Guid id)
         {
-            var restaurantFood = await _bll.RestaurantFoods.FirstOrDefaultAsync(id);
+            var restaurantFood = await _bll.RestaurantFoods.FirstOrDefaultApiAsync(id);
             if (restaurantFood == null)
             {
                 return NotFound();

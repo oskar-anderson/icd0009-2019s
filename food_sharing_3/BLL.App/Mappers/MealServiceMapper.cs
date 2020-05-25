@@ -13,7 +13,6 @@ namespace BLL.App.Mappers
         {
             MapperConfigurationExpression.CreateMap<Meal, BLLAppDTO.Meal>();
             MapperConfigurationExpression.CreateMap<Category, BLLAppDTO.Category>();
-            MapperConfigurationExpression.CreateMap<AppUser, BLLAppDTO.Identity.AppUser>();
             // add more mappings
 
             Mapper = new Mapper(new MapperConfiguration(MapperConfigurationExpression));

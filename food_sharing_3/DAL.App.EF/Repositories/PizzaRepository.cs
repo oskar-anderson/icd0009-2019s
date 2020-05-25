@@ -19,11 +19,11 @@ namespace DAL.App.EF.Repositories
             new BaseMapper<Domain.App.Pizza, Pizza>())
         {
         }
-
+        
+        /*
         public async Task<IEnumerable<Pizza>> GetAllAsync(Guid id, Guid? userId = null, bool noTracking = true)
         {
             var query = RepoDbSet
-                .Include(p => p.Size)
                 .Include(p => p.PizzaTemplate)
                 .AsQueryable();
             return (await query.ToListAsync()).
@@ -33,7 +33,6 @@ namespace DAL.App.EF.Repositories
         public async Task<Pizza> FirstOrDefaultAsync(Guid id, Guid? userId = null)
         {
             var query = RepoDbSet
-                .Include(p => p.Size)
                 .Include(p => p.PizzaTemplate)
                 .Where(p => p.Id == id)
                 .AsQueryable();
@@ -52,22 +51,21 @@ namespace DAL.App.EF.Repositories
             await base.RemoveAsync(pizza.Id);
         }
 
-        /*
-        public async Task<IEnumerable<PizzaDTO>> DTOAllAsync(Guid? userId = null)
+
+        */
+        public virtual async Task<IEnumerable<Pizza>> GetAllForViewAsync()
         {
-            var query = RepoDbSet.AsQueryable();
-            return await query
-                .Select(p => new PizzaDTO()
+            return await RepoDbSet
+                .Select(p => new Pizza()
                 {
                     Id = p.Id,
                     PizzaTemplateId = p.PizzaTemplateId,
-                    PizzaTemplate = new PizzaTemplateDTO()
+                    PizzaTemplate = new PizzaTemplate()
                     {
                         Id = p.PizzaTemplate.Id,
                         CategoryId = p.PizzaTemplate.CategoryId,
-                        Category = new CategoryDTO()
+                        Category = new Category()
                         {
-                            Id = p.PizzaTemplate.Category.Id,
                             Name = p.PizzaTemplate.Category.Name,
                         },
                         Name = p.PizzaTemplate.Name,
@@ -76,32 +74,28 @@ namespace DAL.App.EF.Repositories
                         Extras = p.PizzaTemplate.Extras,
                         Description = p.PizzaTemplate.Description,
                     },
-                    SizeId = p.SizeId,
-                    Size = new SizeDTO()
-                    {
-                        Id = p.Size.Id,
-                        Name = p.Size.Name
-                    },
+                    SizeNumber = p.SizeNumber,
+                    SizeName = p.SizeName,
                     Name = p.Name,
                 })
                 .ToListAsync();
         }
 
-        public async Task<PizzaDTO> DTOFirstOrDefaultAsync(Guid id, Guid? userId = null)
+        public virtual async Task<Pizza> FirstOrDefaultViewAsync(Guid id, Guid? userId = null)
         {
-            var query = RepoDbSet.AsQueryable();
-            PizzaDTO pizzaDTO = await query
-                .Select(p => new PizzaDTO()
+            var query = RepoDbSet.Where(p => p.Id == id).AsQueryable();
+            
+            return await query
+                .Select(p => new Pizza()
                 {
                     Id = p.Id,
                     PizzaTemplateId = p.PizzaTemplateId,
-                    PizzaTemplate = new PizzaTemplateDTO()
+                    PizzaTemplate = new PizzaTemplate()
                     {
                         Id = p.PizzaTemplate.Id,
                         CategoryId = p.PizzaTemplate.CategoryId,
-                        Category = new CategoryDTO()
+                        Category = new Category()
                         {
-                            Id = p.PizzaTemplate.Category.Id,
                             Name = p.PizzaTemplate.Category.Name,
                         },
                         Name = p.PizzaTemplate.Name,
@@ -110,22 +104,47 @@ namespace DAL.App.EF.Repositories
                         Extras = p.PizzaTemplate.Extras,
                         Description = p.PizzaTemplate.Description,
                     },
-                    SizeId = p.SizeId,
-                    Size = new SizeDTO()
-                    {
-                        Id = p.Size.Id,
-                        Name = p.Size.Name
-                    },
+                    SizeNumber = p.SizeNumber,
+                    SizeName = p.SizeName,
                     Name = p.Name,
                 })
                 .FirstOrDefaultAsync();
-            
-            return pizzaDTO;
         }
-        */
-        public virtual async Task<IEnumerable<Pizza>> GetAllForViewAsync()
+
+        public virtual async Task<IEnumerable<Pizza>> GetAllForApiAsync()
         {
-            var query = RepoDbSet.AsQueryable();
+            return await RepoDbSet
+                .Select(p => new Pizza()
+                {
+                    Id = p.Id,
+                    PizzaTemplateId = p.PizzaTemplateId,
+                    PizzaTemplate = new PizzaTemplate()
+                    {
+                        Id = p.PizzaTemplate.Id,
+                        CategoryId = p.PizzaTemplate.CategoryId,
+                        Category = new Category()
+                        {
+                            Id = p.PizzaTemplate.Category.Id,
+                            Name = p.PizzaTemplate.Category.Name,
+                            ForMeal = p.PizzaTemplate.Category.ForMeal,
+                            ForPizzaTemplate = p.PizzaTemplate.Category.ForPizzaTemplate,
+                        },
+                        Name = p.PizzaTemplate.Name,
+                        Picture = p.PizzaTemplate.Picture,
+                        Modifications = p.PizzaTemplate.Modifications,
+                        Extras = p.PizzaTemplate.Extras,
+                        Description = p.PizzaTemplate.Description,
+                    },
+                    SizeNumber = p.SizeNumber,
+                    SizeName = p.SizeName,
+                    Name = p.Name,
+                })
+                .ToListAsync();
+        }
+
+        public virtual async Task<Pizza> FirstOrDefaultApiAsync(Guid id, Guid? userId = null)
+        {
+            var query = RepoDbSet.Where(p => p.Id == id).AsQueryable();
             
             return await query
                 .Select(p => new Pizza()
@@ -140,6 +159,8 @@ namespace DAL.App.EF.Repositories
                         {
                             Id = p.PizzaTemplate.Category.Id,
                             Name = p.PizzaTemplate.Category.Name,
+                            ForMeal = p.PizzaTemplate.Category.ForMeal,
+                            ForPizzaTemplate = p.PizzaTemplate.Category.ForPizzaTemplate,
                         },
                         Name = p.PizzaTemplate.Name,
                         Picture = p.PizzaTemplate.Picture,
@@ -147,15 +168,11 @@ namespace DAL.App.EF.Repositories
                         Extras = p.PizzaTemplate.Extras,
                         Description = p.PizzaTemplate.Description,
                     },
-                    SizeId = p.SizeId,
-                    Size = new Size()
-                    {
-                        Id = p.Size.Id,
-                        Name = p.Size.Name
-                    },
+                    SizeNumber = p.SizeNumber,
+                    SizeName = p.SizeName,
                     Name = p.Name,
                 })
-                .ToListAsync();
+                .FirstOrDefaultAsync();
         }
     }
 }

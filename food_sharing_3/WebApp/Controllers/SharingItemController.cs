@@ -22,7 +22,7 @@ namespace WebApp.Controllers
         // GET: SharingItem
         public async Task<IActionResult> Index()
         {
-            var sharingItems = await _bll.SharingItems.GetAllAsyncBase();
+            var sharingItems = await _bll.SharingItems.GetAllForViewAsync();
             return View(sharingItems);
         }
 
@@ -34,8 +34,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var sharingItem = await _bll.SharingItems
-                .FirstOrDefaultAsync(id.Value);
+            var sharingItem = await _bll.SharingItems.FirstOrDefaultViewAsync(id.Value);
             
             if (sharingItem == null)
             {
@@ -79,7 +78,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var sharingItem = await _bll.SharingItems.FirstOrDefaultAsync(id.Value);
+            var sharingItem = await _bll.SharingItems.FirstOrDefaultViewAsync(id.Value);
             if (sharingItem == null)
             {
                 return NotFound();
@@ -120,8 +119,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var sharingItem = await _bll.SharingItems
-                .FirstOrDefaultAsync(id.Value, User.UserId());
+            var sharingItem = await _bll.SharingItems.FirstOrDefaultViewAsync(id.Value, User.UserId());
             
             if (sharingItem == null)
             {

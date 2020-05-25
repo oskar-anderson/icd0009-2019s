@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "outDir": "./wwwroot/",
+    "strict": true,
+    "alwaysStrict": true,
+    "sourceMap": true,
+    "module": "ESNext",
+    "target": "es5",
+    "allowJs": true,
+    "moduleResolution": "Node",
+    "lib": [
+      "ESNext", "DOM", "DOM.Iterable", "ScriptHost"
+    ]
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
