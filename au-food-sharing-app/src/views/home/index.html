@@ -1,6 +1,16 @@
 <template>
     <div class="container" style="padding-right: 0px; padding-left: 0px;">
-        <div class="row">
+        <div class="group" show.bind="_optionState === 1" style="padding-top: 20px">
+            ${_alert.message}
+            <h2>Start your order</h2>
+            <div class="filter-grid-restaurants btn-group-toggle" data-toggle="buttons">
+                <!-- old class tag btn-group -->
+                <label class="btn btn-light" css="background-color: ${_restaurants ? 'e7e7e7' : 'ffffff'}" repeat.for="restaurant of _restaurants"> 
+                    <input click.delegate="restaurantChanged(restaurant.id)" type="radio" name="regionSelector" value="us">${restaurant.name}
+                </label> 
+            </div>
+        </div>
+        <div show.bind="_optionState === 1" class="row">
             <div class="col-sm-12">
                 <div id="my-slider" class="carousel slide container-fluid px-0" data-ride="carousel">
 
@@ -39,52 +49,51 @@
             </div>
         </div>
     </div>
-    <div class="flex-container">
-        <form id="filters" style="margin-right: 20px;">
-            <div class="group">
-                ${_alert.message}
-                <h2>Restaurant</h2>
-                <div class="filter-grid btn-group-toggle" data-toggle="buttons">
-                    <!-- old class tag btn-group -->
-                    <label class="btn btn-light" css="background-color: ${_restaurants ? 'e7e7e7' : 'ffffff'}" repeat.for="restaurant of _restaurants"> 
-                        <input type="radio" name="regionSelector" value="us">${restaurant.name}
-                    </label> 
-                </div>
-            </div>
+    <div class="flex-container" style="position: relative; top: 20px">
+        <form show.bind="_optionState === 2" id="filters" style="margin-right: 20px;">
             <div class="group">
                 <h2>Category</h2>
                 <div class="filter-grid btn-group-toggle" data-toggle="buttons">
                     <label class="btn btn-light"> 
-                        <input type="radio" name="categorySelector">All
+                        <input click.delegate="categoryChanged()" checked type="radio" name="categorySelector">All
                     </label>  
                     <label class="btn btn-light" repeat.for="category of _categorys"> 
-                        <input type="radio" name="categorySelector">${category.name}
+                        <input click.delegate="categoryChanged(category.id)" type="radio" name="categorySelector">${category.name}
                     </label> 
                 </div>
             </div>
         </form>
-        <div id="auctions" style="border: 0">
+        <div id="auctions" style="border: 0; margin-right: 20px;">
+            <h2 show.bind="_optionState === 2">
+                <b>Menu</b>
+            </h2>
             <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col" style="border-top: 0">Picture</th>
-                        <th scope="col" style="border-top: 0">Name</th>
-                        <th scope="col" style="border-top: 0">Size</th>
-                        <th scope="col" style="border-top: 0">Price</th>
-                    </tr>
-                </thead>
                 <tbody>
-                    <tr>
-                        <th scope="col">
-                            <img src="https://d2mekbzx20fc11.cloudfront.net/uploads/web.Pesto-Chicken-Club_2018_600x600.png" width="120" height="120">
-                        </th>
-                        <th scope="col">
-                            <strong class="caps">6. Türi pizza</strong>
-                            <span>Juust, oliivid, ananass</span>
-                            <img src="https://www.tellitoit.ee/public/foodLabel/6.png">
-                        </th>
-                        <th scope="col">Size</th>
-                        <th scope="col">Price</th>
+                    <tr repeat.for="pizzaTemplate of _displayedPizzaTemplates">
+                        <td scope="col" style="width: 8%">
+                            <img src="${pizzaTemplate.picture}" width="120" height="120">
+                        </td>
+                        <td scope="col">
+                            <b>${pizzaTemplate.name}</b>
+                            <br>
+                            <span>${pizzaTemplate.description}</span>
+                        </td>
+                        <td scope="col" >
+                            <p repeat.for="pizza of pizzaTemplate.pizzas" class="row">
+                                <span class="col-sm">
+                                    ${pizza.sizeName}
+                                </span>
+                                <span class="col-sm">
+                                    ${pizza.activeRestaurantFood.gross}€
+                                </span>
+                                <span class="col-sm">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fa fa-shopping-cart"></i> 
+                                        <span class="text">ADD</span>
+                                    </a>
+                                </span>
+                            </p>
+                        </td>
                     </tr>
                 
                 </tbody>
@@ -96,6 +105,62 @@
 
             </div>
         </div>
-        
+        <div show.bind="_optionState === 2">
+            <div class="cart_del_pic">
+                <!-- Cart Del or Pic -->
+                <p>
+                    <b style="color: #ed2024;">Selected Store</b>
+                    <div>
+                        ${_activeRestaurant.name}
+                        <br>
+                        ${_activeRestaurant.location}
+                        <br>
+                        ${_activeRestaurant.openTime}
+                    </div>
+                </p>
+                <p>
+                    <b style="color: #ed2024;">Service Method</b>
+                </p>
+                <div style="width: 200px" class="btn-group btn-group-rounded mb-25 mr-10">
+                    <label class="btn btn-light" style="width: 50%">
+                        <input type="radio" name="restaurant" id="delivery" value="1">Delivery
+                    </label>
+
+                    <label class="btn btn-light" style="width: 50%">
+                        <input type="radio" name="restaurant" id="pickup" value="2">Carryout
+                    </label>
+                </div>
+
+                <span class="cart_error" style="color: #ed2024; font-weight: bold;"></span>
+                <span class="inner_rx_model_del_pic_time">
+                    <p>Requested For:</p>
+                    <select class="time1" name="time" id="time">
+                        <option selected="selected" value="0">ASAP Please!</option>
+                        <option value="18:35">Around 18:35</option>
+                        <option value="18:50">Around 18:50</option>
+                        <option value="19:05">Around 19:05</option>
+                        <option value="19:20">Around 19:20</option>
+                        <option value="19:35">Around 19:35</option>
+                        <option value="19:50">Around 19:50</option>
+                        <option value="20:05">Around 20:05</option>
+                        <option value="20:20">Around 20:20</option>
+                        <option value="20:35">Around 20:35</option>
+                        <option value="20:50">Around 20:50</option>
+                        <option value="21:05">Around 21:05</option>
+                        <option value="21:20">Around 21:20</option>
+                        <option value="21:35">Around 21:35</option>
+                        <option value="21:50">Around 21:50</option>
+                        <option value="22:05">Around 22:05</option>
+                        <option value="22:20">Around 22:20</option>
+                        <option value="22:35">Around 22:35</option>
+                        <option value="22:50">Around 22:50</option>
+                        <option value="23:05">Around 23:05</option>
+                        <option value="23:20">Around 23:20</option>
+                        <option value="23:35">Around 23:35</option>
+                        <option value="23:50">Around 23:50</option>
+                    </select>
+                </span>
+            </div>
+        </div>
     </div>
 </template>

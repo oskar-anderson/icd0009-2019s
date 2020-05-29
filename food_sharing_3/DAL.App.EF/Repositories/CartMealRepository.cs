@@ -84,7 +84,7 @@ namespace DAL.App.EF.Repositories
                 {
                     Id = cm.Id,
                     CartId = cm.Cart.Id,
-                    MealId = cm.MealId,
+                    PizzaId = cm.PizzaId,
                     PizzaUserId = cm.PizzaUserId,
                     Name = cm.Name,
                     Gross = cm.Gross,
@@ -102,7 +102,7 @@ namespace DAL.App.EF.Repositories
                 {
                     Id = cm.Id,
                     CartId = cm.Cart.Id,
-                    MealId = cm.MealId,
+                    PizzaId = cm.PizzaId,
                     PizzaUserId = cm.PizzaUserId,
                     Name = cm.Name,
                     Gross = cm.Gross,
@@ -153,23 +153,32 @@ namespace DAL.App.EF.Repositories
                         Phone = cm.Cart.Phone,
                         ReadyBy = cm.Cart.ReadyBy
                     },
-                    MealId = cm.MealId,
-                    Meal = cm.Meal == null
+                    PizzaId = cm.PizzaId,
+                    Pizza = cm.Pizza == null
                         ? null
-                        : new Meal()
+                        : new Pizza()
                         {
-                            Id = cm.Meal.Id,
-                            CategoryId = cm.Meal.CategoryId,
-                            Category = new Category()
+                            Id = cm.Pizza.Id,
+                            PizzaTemplateId = cm.Pizza.PizzaTemplateId,
+                            PizzaTemplate = new PizzaTemplate()
                             {
-                                Id = cm.Meal.Category.Id,
-                                Name = cm.Meal.Category.Name,
-                                ForMeal = cm.Meal.Category.ForMeal,
-                                ForPizzaTemplate = cm.Meal.Category.ForPizzaTemplate,
+                                Id = cm.Pizza.PizzaTemplate.Id,
+                                CategoryId = cm.Pizza.PizzaTemplate.CategoryId,
+                                Category = new Category()
+                                {
+                                    Id = cm.Pizza.PizzaTemplate.Category.Id,
+                                    Name = cm.Pizza.PizzaTemplate.Category.Name,
+                                },
+                                Name = cm.Pizza.PizzaTemplate.Name,
+                                Picture = cm.Pizza.PizzaTemplate.Picture,
+                                Modifications = cm.Pizza.PizzaTemplate.Modifications,
+                                Extras = cm.Pizza.PizzaTemplate.Extras,
+                                Description = cm.Pizza.PizzaTemplate.Description,
+                                VarietyState = cm.Pizza.PizzaTemplate.VarietyState,
                             },
-                            Name = cm.Meal.Name,
-                            Picture = cm.Meal.Picture,
-                            Description = cm.Meal.Description,
+                            SizeNumber = cm.Pizza.SizeNumber,
+                            SizeName = cm.Pizza.SizeName,
+                            Name = cm.Pizza.Name,
                         },
                     PizzaUserId = cm.PizzaUserId,
                     PizzaUser = cm.PizzaUser == null
@@ -189,16 +198,15 @@ namespace DAL.App.EF.Repositories
                                     CategoryId = cm.PizzaUser.Pizza.PizzaTemplate.CategoryId,
                                     Category = new Category()
                                     {
-                                        Id = cm.Meal.Category.Id,
-                                        Name = cm.Meal.Category.Name,
-                                        ForMeal = cm.Meal.Category.ForMeal,
-                                        ForPizzaTemplate = cm.Meal.Category.ForPizzaTemplate,
+                                        Id = cm.PizzaUser.Pizza.PizzaTemplate.Category.Id,
+                                        Name = cm.PizzaUser.Pizza.PizzaTemplate.Category.Name,
                                     },
                                     Name = cm.PizzaUser.Pizza.PizzaTemplate.Name,
                                     Picture = cm.PizzaUser.Pizza.PizzaTemplate.Picture,
                                     Modifications = cm.PizzaUser.Pizza.PizzaTemplate.Modifications,
                                     Extras = cm.PizzaUser.Pizza.PizzaTemplate.Extras,
                                     Description = cm.PizzaUser.Pizza.PizzaTemplate.Description,
+                                    VarietyState = cm.PizzaUser.Pizza.PizzaTemplate.VarietyState,
                                 },
                                 SizeNumber = cm.PizzaUser.Pizza.SizeNumber,
                                 SizeName = cm.PizzaUser.Pizza.SizeName,
@@ -217,7 +225,7 @@ namespace DAL.App.EF.Repositories
             return await query
                 .Select(cm => new CartMeal()
                 {
-                    Id = cm.Id,
+                   Id = cm.Id,
                     CartId = cm.Cart.Id,
                     Cart = new Cart()
                     {
@@ -254,23 +262,32 @@ namespace DAL.App.EF.Repositories
                         Phone = cm.Cart.Phone,
                         ReadyBy = cm.Cart.ReadyBy
                     },
-                    MealId = cm.MealId,
-                    Meal = cm.Meal == null
+                    PizzaId = cm.PizzaId,
+                    Pizza = cm.Pizza == null
                         ? null
-                        : new Meal()
+                        : new Pizza()
                         {
-                            Id = cm.Meal.Id,
-                            CategoryId = cm.Meal.CategoryId,
-                            Category = new Category()
+                            Id = cm.Pizza.Id,
+                            PizzaTemplateId = cm.Pizza.PizzaTemplateId,
+                            PizzaTemplate = new PizzaTemplate()
                             {
-                                Id = cm.Meal.Category.Id,
-                                Name = cm.Meal.Category.Name,
-                                ForMeal = cm.Meal.Category.ForMeal,
-                                ForPizzaTemplate = cm.Meal.Category.ForPizzaTemplate,
+                                Id = cm.Pizza.PizzaTemplate.Id,
+                                CategoryId = cm.Pizza.PizzaTemplate.CategoryId,
+                                Category = new Category()
+                                {
+                                    Id = cm.Pizza.PizzaTemplate.Category.Id,
+                                    Name = cm.Pizza.PizzaTemplate.Category.Name,
+                                },
+                                Name = cm.Pizza.PizzaTemplate.Name,
+                                Picture = cm.Pizza.PizzaTemplate.Picture,
+                                Modifications = cm.Pizza.PizzaTemplate.Modifications,
+                                Extras = cm.Pizza.PizzaTemplate.Extras,
+                                Description = cm.Pizza.PizzaTemplate.Description,
+                                VarietyState = cm.Pizza.PizzaTemplate.VarietyState,
                             },
-                            Name = cm.Meal.Name,
-                            Picture = cm.Meal.Picture,
-                            Description = cm.Meal.Description,
+                            SizeNumber = cm.Pizza.SizeNumber,
+                            SizeName = cm.Pizza.SizeName,
+                            Name = cm.Pizza.Name,
                         },
                     PizzaUserId = cm.PizzaUserId,
                     PizzaUser = cm.PizzaUser == null
@@ -290,16 +307,15 @@ namespace DAL.App.EF.Repositories
                                     CategoryId = cm.PizzaUser.Pizza.PizzaTemplate.CategoryId,
                                     Category = new Category()
                                     {
-                                        Id = cm.Meal.Category.Id,
-                                        Name = cm.Meal.Category.Name,
-                                        ForMeal = cm.Meal.Category.ForMeal,
-                                        ForPizzaTemplate = cm.Meal.Category.ForPizzaTemplate,
+                                        Id = cm.PizzaUser.Pizza.PizzaTemplate.Category.Id,
+                                        Name = cm.PizzaUser.Pizza.PizzaTemplate.Category.Name,
                                     },
                                     Name = cm.PizzaUser.Pizza.PizzaTemplate.Name,
                                     Picture = cm.PizzaUser.Pizza.PizzaTemplate.Picture,
                                     Modifications = cm.PizzaUser.Pizza.PizzaTemplate.Modifications,
                                     Extras = cm.PizzaUser.Pizza.PizzaTemplate.Extras,
                                     Description = cm.PizzaUser.Pizza.PizzaTemplate.Description,
+                                    VarietyState = cm.PizzaUser.Pizza.PizzaTemplate.VarietyState,
                                 },
                                 SizeNumber = cm.PizzaUser.Pizza.SizeNumber,
                                 SizeName = cm.PizzaUser.Pizza.SizeName,

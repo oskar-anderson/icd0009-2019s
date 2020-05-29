@@ -56,15 +56,6 @@ export class App {
             {route: ['componentPizzaUser', 'componentPizzaUser/index'], name: 'componentPizzaUser', moduleId: PLATFORM.moduleName('views/componentPizzaUser/index'), nav: true, title: 'componentPizzaUser' },
             {route: ['item', 'item/index'], name: 'item', moduleId: PLATFORM.moduleName('views/item/index'), nav: true, title: 'item' },
             
-            {route: ['meal', 'meal/index'], name: 'meal-index', moduleId: PLATFORM.moduleName('views/meal/index'), nav: true, title: 'meal' },
-            {route: ['meal/create'], name: 'meal-create', moduleId: PLATFORM.moduleName('views/meal/create'), nav: false },
-            {route: ['meal/details/:id?'], name: 'meal-details', moduleId: PLATFORM.moduleName('views/meal/details'), nav: false},
-            {route: ['meal/edit/:id?'], name: 'meal-edit', moduleId: PLATFORM.moduleName('views/meal/edit'), nav: false },
-            {route: ['meal/delete/:id?'], name: 'meal-delete', moduleId: PLATFORM.moduleName('views/meal/delete'), nav: false },
-            
-            
-            
-            
             {route: ['pizza', 'pizza/index'], name: 'pizza-index', moduleId: PLATFORM.moduleName('views/pizza/index'), nav: true, title: 'pizza' },
             {route: ['pizza/create'], name: 'pizza-create', moduleId: PLATFORM.moduleName('views/pizza/create'), nav: false},
             {route: ['pizza/details/:id?'], name: 'pizza-details', moduleId: PLATFORM.moduleName('views/pizza/details'), nav: false },
@@ -86,9 +77,13 @@ export class App {
             {route: ['restaurant/delete/:id?'], name: 'restaurant-delete', moduleId: PLATFORM.moduleName('views/restaurant/delete'), nav: false },
             
             
+            {route: ['restaurantFood', 'restaurantFood/index'], name: 'restaurantFood-index', moduleId: PLATFORM.moduleName('views/restaurantFood/index'), nav: true, title: 'restaurantFood' },
+            {route: ['restaurantFood/create'], name: 'restaurantFood-create', moduleId: PLATFORM.moduleName('views/restaurantFood/create'), nav: false},
+            {route: ['restaurantFood/edit/:id?'], name: 'restaurantFood-edit', moduleId: PLATFORM.moduleName('views/restaurantFood/edit'), nav: false },
+            {route: ['restaurantFood/delete/:id?'], name: 'restaurantFood-delete', moduleId: PLATFORM.moduleName('views/restaurantFood/delete'), nav: false },
             
             
-            {route: ['restaurantFood', 'restaurantFood/index'], name: 'restaurantFood', moduleId: PLATFORM.moduleName('views/restaurantFood/index'), nav: true, title: 'restaurantFood' },
+            
             {route: ['sharing', 'sharing/index'], name: 'sharing', moduleId: PLATFORM.moduleName('views/sharing/index'), nav: true, title: 'sharing' },
             {route: ['sharingItem', 'sharingItem/index'], name: 'sharingItem', moduleId: PLATFORM.moduleName('views/sharingItem/index'), nav: true, title: 'sharingItem' },
             {route: ['userLocation', 'userLocation/index'], name: 'userLocation', moduleId: PLATFORM.moduleName('views/userLocation/index'), nav: true, title: 'userLocation' },

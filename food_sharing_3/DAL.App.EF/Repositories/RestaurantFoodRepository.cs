@@ -60,13 +60,6 @@ namespace DAL.App.EF.Repositories
                 .Select(rf => new RestaurantFood()
                 {
                     Id = rf.Id,
-                    MealId = rf.MealId,
-                    Meal = rf.Meal == null
-                        ? null
-                        : new Meal()
-                        {
-                            Name = rf.Meal.Name,
-                        },
                     PizzaId = rf.PizzaId,
                     Pizza = rf.Pizza == null
                         ? null
@@ -80,8 +73,6 @@ namespace DAL.App.EF.Repositories
                         Name = rf.Restaurant.Name,
                     },
                     Gross = rf.Gross,
-                    Since = rf.Since,
-                    Until = rf.Until
                 })
                 .ToListAsync();
         
@@ -95,13 +86,6 @@ namespace DAL.App.EF.Repositories
                 .Select(rf => new RestaurantFood()
                 {
                     Id = rf.Id,
-                    MealId = rf.MealId,
-                    Meal = rf.Meal == null
-                        ? null
-                        : new Meal()
-                        {
-                            Name = rf.Meal.Name,
-                        },
                     PizzaId = rf.PizzaId,
                     Pizza = rf.Pizza == null
                         ? null
@@ -115,8 +99,6 @@ namespace DAL.App.EF.Repositories
                         Name = rf.Restaurant.Name,
                     },
                     Gross = rf.Gross,
-                    Since = rf.Since,
-                    Until = rf.Until
                 })
                 .FirstOrDefaultAsync();
         }
@@ -127,24 +109,6 @@ namespace DAL.App.EF.Repositories
                 .Select(rf => new RestaurantFood()
                 {
                     Id = rf.Id,
-                    MealId = rf.MealId,
-                    Meal = rf.Meal == null
-                        ? null
-                        : new Meal()
-                        {
-                            Id = rf.Meal.Id,
-                            CategoryId = rf.Meal.CategoryId,
-                            Category = new Category()
-                            {
-                                Id = rf.Meal.Category.Id,
-                                Name = rf.Meal.Category.Name,
-                                ForMeal = rf.Meal.Category.ForMeal,
-                                ForPizzaTemplate = rf.Meal.Category.ForPizzaTemplate,
-                            },
-                            Name = rf.Meal.Name,
-                            Picture = rf.Meal.Picture,
-                            Description = rf.Meal.Description,
-                        },
                     PizzaId = rf.PizzaId,
                     Pizza = rf.Pizza == null
                         ? null
@@ -160,14 +124,13 @@ namespace DAL.App.EF.Repositories
                                 {
                                     Id = rf.Pizza.PizzaTemplate.Category.Id,
                                     Name = rf.Pizza.PizzaTemplate.Category.Name,
-                                    ForMeal = rf.Pizza.PizzaTemplate.Category.ForMeal,
-                                    ForPizzaTemplate = rf.Pizza.PizzaTemplate.Category.ForPizzaTemplate,
                                 },
                                 Name = rf.Pizza.PizzaTemplate.Name,
                                 Picture = rf.Pizza.PizzaTemplate.Picture,
                                 Modifications = rf.Pizza.PizzaTemplate.Modifications,
                                 Extras = rf.Pizza.PizzaTemplate.Extras,
                                 Description = rf.Pizza.PizzaTemplate.Description,
+                                VarietyState = rf.Pizza.PizzaTemplate.VarietyState,
                             },
                             SizeNumber = rf.Pizza.SizeNumber,
                             SizeName = rf.Pizza.SizeName,
@@ -184,8 +147,6 @@ namespace DAL.App.EF.Repositories
                         OpenNotification = rf.Restaurant.OpenNotification
                     },
                     Gross = rf.Gross,
-                    Since = rf.Since,
-                    Until = rf.Until
                 })
                 .ToListAsync();
         }
@@ -198,24 +159,6 @@ namespace DAL.App.EF.Repositories
                 .Select(rf => new RestaurantFood()
                 {
                     Id = rf.Id,
-                    MealId = rf.MealId,
-                    Meal = rf.Meal == null
-                        ? null
-                        : new Meal()
-                        {
-                            Id = rf.Meal.Id,
-                            CategoryId = rf.Meal.CategoryId,
-                            Category = new Category()
-                            {
-                                Id = rf.Meal.Category.Id,
-                                Name = rf.Meal.Category.Name,
-                                ForMeal = rf.Meal.Category.ForMeal,
-                                ForPizzaTemplate = rf.Meal.Category.ForPizzaTemplate,
-                            },
-                            Name = rf.Meal.Name,
-                            Picture = rf.Meal.Picture,
-                            Description = rf.Meal.Description,
-                        },
                     PizzaId = rf.PizzaId,
                     Pizza = rf.Pizza == null
                         ? null
@@ -231,14 +174,13 @@ namespace DAL.App.EF.Repositories
                                 {
                                     Id = rf.Pizza.PizzaTemplate.Category.Id,
                                     Name = rf.Pizza.PizzaTemplate.Category.Name,
-                                    ForMeal = rf.Pizza.PizzaTemplate.Category.ForMeal,
-                                    ForPizzaTemplate = rf.Pizza.PizzaTemplate.Category.ForPizzaTemplate,
                                 },
                                 Name = rf.Pizza.PizzaTemplate.Name,
                                 Picture = rf.Pizza.PizzaTemplate.Picture,
                                 Modifications = rf.Pizza.PizzaTemplate.Modifications,
                                 Extras = rf.Pizza.PizzaTemplate.Extras,
                                 Description = rf.Pizza.PizzaTemplate.Description,
+                                VarietyState = rf.Pizza.PizzaTemplate.VarietyState,
                             },
                             SizeNumber = rf.Pizza.SizeNumber,
                             SizeName = rf.Pizza.SizeName,
@@ -255,8 +197,6 @@ namespace DAL.App.EF.Repositories
                         OpenNotification = rf.Restaurant.OpenNotification
                     },
                     Gross = rf.Gross,
-                    Since = rf.Since,
-                    Until = rf.Until
                 })
                 .FirstOrDefaultAsync();
         }

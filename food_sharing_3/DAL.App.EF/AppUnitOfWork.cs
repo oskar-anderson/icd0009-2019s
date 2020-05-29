@@ -27,9 +27,7 @@ namespace DAL.App.EF
         
         public IItemRepository Items => 
             GetRepository<IItemRepository>(() => new ItemRepository(UOWDbContext));
-
-        public IMealRepository Meals => 
-            GetRepository<IMealRepository>(() => new MealRepository(UOWDbContext));
+        
         public IComponentPizzaTemplateRepository ComponentPizzaTemplates => 
             GetRepository<IComponentPizzaTemplateRepository>(() => new ComponentPizzaTemplateRepository(UOWDbContext));
         

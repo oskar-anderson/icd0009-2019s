@@ -118,14 +118,13 @@ namespace DAL.App.EF.Repositories
                         {
                             Id = cpt.PizzaTemplate.Category.Id,
                             Name = cpt.PizzaTemplate.Category.Name,
-                            ForMeal = cpt.PizzaTemplate.Category.ForMeal,
-                            ForPizzaTemplate = cpt.PizzaTemplate.Category.ForPizzaTemplate,
                         },
                         Name = cpt.PizzaTemplate.Name,
                         Picture = cpt.PizzaTemplate.Picture,
                         Modifications = cpt.PizzaTemplate.Modifications,
                         Extras = cpt.PizzaTemplate.Extras,
                         Description = cpt.PizzaTemplate.Description,
+                        VarietyState = cpt.PizzaTemplate.VarietyState,
                     }
                 })
                 .ToListAsync();
@@ -154,14 +153,13 @@ namespace DAL.App.EF.Repositories
                         {
                             Id = cpt.PizzaTemplate.Category.Id,
                             Name = cpt.PizzaTemplate.Category.Name,
-                            ForMeal = cpt.PizzaTemplate.Category.ForMeal,
-                            ForPizzaTemplate = cpt.PizzaTemplate.Category.ForPizzaTemplate,
                         },
                         Name = cpt.PizzaTemplate.Name,
                         Picture = cpt.PizzaTemplate.Picture,
                         Modifications = cpt.PizzaTemplate.Modifications,
                         Extras = cpt.PizzaTemplate.Extras,
                         Description = cpt.PizzaTemplate.Description,
+                        VarietyState = cpt.PizzaTemplate.VarietyState,
                     }
                 })
                 .FirstOrDefaultAsync();

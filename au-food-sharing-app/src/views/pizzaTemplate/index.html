@@ -3,22 +3,62 @@
 
     <alert alert-data.bind="_alert"></alert>
 
-    <h1>Index PizzaTemplates</h1>
+    <h1>Food Management</h1>
     
     <p>
         <a route-href="route: pizzaTemplate-create; params.bind: {}">Create New</a>
     </p>
+
+    <h2>DOCS</h2>
+    <p>Foods come in 2 states, internally referred as variationState. These states are:         
+        <ul>
+            <li>
+                Varied (V)
+            </li>
+            <li>
+                Customizable (C)
+            </li>
+        </ul>
+        Varied state means that food item also need to specify buying options.
+        Foods that have no options need to be assigned to use the default option.
+        More options can be added later when needed.
+        <br>
+        Varied state is useful when one food has different options for size.
+        For example Coca-cola might be available in sizes 33cl and 50cl. 
+        
+        <br>
+        <br>
+        State Customizable should be used for foods that consists of components. 
+        These items come in different sizes and component variations.
+        Components have a price.
+        This price is added to the food if the customer adds additional components.
+        Customers can replace components which changes the food price, 
+        but the food price will never go down the base price.
+        These components along with their prices need to be set 
+        <a route-href="route: component-index; params.bind: {}">here</a>.
+        
+        <br>
+        Customers can remove or add more components to these foods. 
+        <br>
+        Number of components customer can remove is limited by removes number (#R). 
+        <br>
+        Number of components customer can add is limited by extras number (#E). 
+
+    </p>
+    
+    
+    <h2>Foods</h2>
+
     <div>
-        <h4>View</h4>
-        <p>
-            <button click.delegate="showComponentSet()" class="add btn btn-secondary">${_showComponentSet ? "Collapse assignment" : "Assign components"}</button>
-        </p>
-        <p>
-            <button click.delegate="showTechnical()" class="add btn btn-secondary">${_showTechnical ? "Hide technical" : "Show technical"}</button>
-        </p>
+        <h3>Toggle view settings</h3>
+        <button click.delegate="TriggerComponentAssignment()" class="add btn btn-secondary">${_showComponentAssignment ? "Collapse assignment" : "Assign components"}</button>
+        <button click.delegate="TriggerOptionAssignment()" class="add btn btn-secondary">${_showOptionAssignment ? "Collapse assignment" : "Assign options"}</button>
+        <button click.delegate="TriggerPictures()" class="add btn btn-secondary">${_showPictures ? "Hide pictures" : "Show pictures"}</button>
+        <button click.delegate="TriggerTechnical()" class="add btn btn-secondary">${_showTechnical ? "Hide technical" : "Show technical"}</button>
     </div>
 
-    <table class="table">
+    <p></p>
+    <table class="table" style="font-size: 14px;">
         <thead>
             <tr>
                 <th class="table-column-sm" show.bind="_showTechnical">
@@ -31,28 +71,49 @@
                     Category
                 </th>
                 <th>
-                    Name
+                    Type
                 </th>
                 <th>
+                    Name
+                </th>
+                <th show.bind="_showPictures">
                     Picture
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Options
+                    <br>
+                    <a route-href="route: pizza-index; params.bind: { }">
+                        <i class="fa fa-color-a fa-2x fa-eye"></i>
+                    </a>
+                </th>
+                <th show.bind="_showOptionAssignment">
+                    New Option
+                </th>
+                <th>
+                    Store listings
+                    <br>
+                    <a route-href="route: restaurantFood-index; params.bind: { }">
+                        <i class="fa fa-color-a fa-2x fa-eye"></i>
+                    </a>
+                </th>
+                <th>
+                    Components
+                    <br>
+                    <a route-href="route: component-index; params.bind: { }">
+                        <i class="fa fa-color-a fa-2x fa-eye"></i>
+                    </a>
+                </th>
+                <th show.bind="_showComponentAssignment">
+                    Available Components
                 </th>
                 <th>
                     #R
                 </th>
                 <th>
                     #E
-                </th>
-                <th>
-                    Description
-                </th>
-                <th>
-                    Children
-                </th>
-                <th>
-                    Components
-                </th>
-                <th show.bind="_showComponentSet">
-                    SetComponent
                 </th>
                 <th>
                     Actions
@@ -71,15 +132,77 @@
                         i
                     </button>
                 </td>
-                <td>
+                <td class="table-column-sm" style="width: 8%">
                     ${pizzaTemplate.category.name}
+                </td>
+                <td>
+                    ${getVarietyStateName(pizzaTemplate.varietyState)}
                 </td>
                 <td>
                     ${pizzaTemplate.name}
                 </td>
-                <td>
+                <td show.bind="_showPictures">
                     <p>
                         <img src=${pizzaTemplate.picture} alt="PizzaTemplate picture" width="150" height="150" title="${pizzaTemplate.picture}">
+                    </p>
+                </td>
+                <td style="max-width: 14%">
+                    ${pizzaTemplate.description}
+                </td>
+                <td>
+                    <p repeat.for="name of pizzaTemplate.pizzaNames">
+                        ${name}
+                    </p>
+                </td>
+                <td show.bind="_showOptionAssignment" style="width: 14%">
+                    <span>
+                        <span show.bind="!pizzaTemplate.freeSizes.length">
+                            Not available
+                        </span>
+                        <span show.bind="pizzaTemplate.freeSizes.length" class="form-group">
+                            <label class="control-label" for="Size">Size</label>
+                            <select class="form-control" data-val="true" data-val-required="The Size field is required." id="Size" name="Size" value.bind="pizzaTemplate.newPizzaSizeChoice" change.delegate="DropdownChanged(pizzaTemplate)">
+                                <option repeat.for="i of pizzaTemplate.freeSizes.length" model.bind=i>${pizzaTemplate.freeSizes[i].displayName}</option>
+                            </select>
+                        
+                            <!--
+                            <span class="form-group">
+                                <label class="control-label" for="Name">Name</label>
+                                <textarea class="form-control" type="text" placeholder="optional" data-val="true" data-val-required="The Name field is required." id="Name" name="Name" value.bind="pizzaTemplate.newPizzaName" /></textarea>
+                                <span class="text-danger field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+                            </span>
+                            -->
+                            <button class="btn btn-primary btn-block" type="submit">Create</button>
+                        </span>
+                    </span>
+                </td>
+                <td>
+                    <span repeat.for="pizza of pizzaTemplate.pizzas">
+                        <span>
+                            <p>
+                                <b>${pizza.name}</b>
+                                <br>
+                                <span repeat.for="restaurant of pizza.takenRestaurants">
+                                    ${restaurant.gross.toFixed(1)}€
+                                    ${restaurant.restaurant.name}
+                                    <br>
+                                </span>
+                            </p>
+                        </span>
+                </td>
+                <td>
+                    <p repeat.for="component of pizzaTemplate.takenComponents">
+                        ${component.gross.toFixed(1)}€ ${component.name}
+                        <br>
+                        <i click.delegate="RemoveComponent($event, pizzaTemplate.id, component.id)" show.bind="_showComponentAssignment" class="fa fa-color-a fa-2x fa-minus-square-o"></i>
+                    </p>
+                </td>
+
+                <td show.bind="_showComponentAssignment">
+                    <p repeat.for="component of pizzaTemplate.freeComponents">
+                        ${component.gross.toFixed(1)}€ ${component.name}
+                        <br>
+                        <i click.delegate="AddComponent($event, pizzaTemplate.id, component.id)" class="fa fa-color-a fa-2x fa-plus-square-o"></i>
                     </p>
                 </td>
                 <td>
@@ -87,33 +210,6 @@
                 </td>
                 <td>
                     ${pizzaTemplate.extras}
-                </td>
-                <td>
-                    ${pizzaTemplate.description}
-                </td>
-                <td>
-                    <p repeat.for="name of pizzaTemplate.pizzaNames">${name}</p>
-                    <a route-href="route: pizza-index; params.bind: { }">
-                        <i class="fa fa-color-a fa-2x fa-eye"></i>
-                    </a>
-                </td>
-                <td>
-                    <p repeat.for="component of pizzaTemplate.takenComponents">
-                        <span click.delegate="RemoveComponent($event, pizzaTemplate.id, component.id)">
-                            ${component.gross.toFixed(1)}€ ${component.name}
-                            <br>
-                            <i show.bind="_showComponentSet" class="fa fa-color-a fa-2x fa-minus-square-o"></i>
-                        </span>
-                    </p>
-                </td>
-                <td show.bind="_showComponentSet">
-                    <p repeat.for="component of pizzaTemplate.freeComponents">
-                        <span click.delegate="AddComponent($event, pizzaTemplate.id, component.id)">
-                            ${component.gross.toFixed(1)}€ ${component.name}
-                            <br>
-                            <i class="fa fa-color-a fa-2x fa-plus-square-o"></i>
-                        </span>
-                    </p>
                 </td>
 
                 <td>

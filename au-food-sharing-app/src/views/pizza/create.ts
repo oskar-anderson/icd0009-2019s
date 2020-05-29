@@ -33,11 +33,11 @@ export class PizzaCreate {
 
     }
 
-    DropdownChanged() {
-        let size = this._sizes[parseInt(this._sizeChoice + "")].name;
+    dropdownChanged() {
+        let size = this._sizes[parseInt(this._sizeChoice + "")].valueName;
         let yourSelect = document.getElementById("PizzaTemplateId") as HTMLSelectElement;
         let pizzaTemplate = yourSelect.options[yourSelect.selectedIndex].value
-        this._pizza.name = pizzaTemplate + " - " + size;
+        this._pizza.name = size === "" ? pizzaTemplate : pizzaTemplate + " - " + size;
     }
 
     attached() {
@@ -57,12 +57,16 @@ export class PizzaCreate {
     }
 
     onSubmit(event: Event) {
+        console.log(this._pizza.pizzaTemplateId)
+        console.log(this._sizes[parseInt(this._sizeChoice + "")].size)
+        console.log(this._sizes[parseInt(this._sizeChoice + "")].valueName)
+        console.log(this._pizza.name)
         this.pizzaService
             .createPizza({
                 pizzaTemplateId: this._pizza.pizzaTemplateId,
                 pizzaTemplate: null,
                 sizeNumber: this._sizes[parseInt(this._sizeChoice + "")].size,
-                sizeName: this._sizes[parseInt(this._sizeChoice + "")].name,
+                sizeName: this._sizes[parseInt(this._sizeChoice + "")].valueName,
                 name: this._pizza.name,
                 })
             .then(

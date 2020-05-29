@@ -19,6 +19,6 @@ namespace DAL.App.DTO
         
         public ICollection<PizzaUser>? PizzaUsers { get; set; }
         public ICollection<RestaurantFood>? RestaurantFoods { get; set; }
-
+        public ICollection<CartMeal>? CartMeals { get; set; }
     }
 }

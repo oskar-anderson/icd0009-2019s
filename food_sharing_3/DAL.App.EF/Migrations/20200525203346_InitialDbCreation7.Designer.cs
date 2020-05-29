@@ -4,14 +4,16 @@ using DAL.App.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Domain.Base.App.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200525203346_InitialDbCreation7")]
+    partial class InitialDbCreation7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,6 +123,9 @@ namespace Domain.Base.App.EF.Migrations
                     b.Property<Guid?>("PizzaId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("PizzaTemplateId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("PizzaUserId")
                         .HasColumnType("uniqueidentifier");
 
@@ -129,6 +134,8 @@ namespace Domain.Base.App.EF.Migrations
                     b.HasIndex("CartId");
 
                     b.HasIndex("PizzaId");
+
+                    b.HasIndex("PizzaTemplateId");
 
                     b.HasIndex("PizzaUserId");
 
@@ -628,7 +635,10 @@ namespace Domain.Base.App.EF.Migrations
                     b.Property<decimal>("Gross")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<Guid>("PizzaId")
+                    b.Property<Guid?>("PizzaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PizzaTemplateId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("RestaurantId")
@@ -637,6 +647,8 @@ namespace Domain.Base.App.EF.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("PizzaId");
+
+                    b.HasIndex("PizzaTemplateId");
 
                     b.HasIndex("RestaurantId");
 
@@ -907,6 +919,11 @@ namespace Domain.Base.App.EF.Migrations
                         .HasForeignKey("PizzaId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("Domain.App.PizzaTemplate", "PizzaTemplate")
+                        .WithMany("CartMeals")
+                        .HasForeignKey("PizzaTemplateId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Domain.App.PizzaUser", "PizzaUser")
                         .WithMany("CartMeals")
                         .HasForeignKey("PizzaUserId")
@@ -990,8 +1007,12 @@ namespace Domain.Base.App.EF.Migrations
                     b.HasOne("Domain.App.Pizza", "Pizza")
                         .WithMany("RestaurantFoods")
                         .HasForeignKey("PizzaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Domain.App.PizzaTemplate", "PizzaTemplate")
+                        .WithMany("RestaurantFoods")
+                        .HasForeignKey("PizzaTemplateId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Domain.App.Restaurant", "Restaurant")
                         .WithMany("RestaurantFoods")

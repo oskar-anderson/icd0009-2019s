@@ -12,7 +12,6 @@ namespace Contracts.DAL.App
         IComponentPizzaUserRepository ComponentPizzaUsers { get; }
         IComponentPizzaTemplateRepository ComponentPizzaTemplates { get; }
         IItemRepository Items { get; }
-        IMealRepository Meals { get; }
         IPizzaRepository Pizzas { get; }
         IPizzaUserRepository PizzaUsers { get; }
         IPizzaTemplateRepository PizzaTemplates { get; }

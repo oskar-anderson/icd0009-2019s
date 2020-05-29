@@ -11,12 +11,6 @@ namespace DAL.App.DTO
         
         public string Name { get; set; } = default!;
         
-        public bool ForMeal { get; set; } = default!;
-        
-        public bool ForPizzaTemplate { get; set; } = default!;
-        
-
-        public ICollection<Meal>? Meals { get; set; }
         public ICollection<PizzaTemplate>? PizzaTemplates { get; set; }
 
     }

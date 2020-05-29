@@ -11,7 +11,7 @@ namespace PublicApi.DTO.v1
         public PizzaTemplateDTO? PizzaTemplate { get; set; }
 
         [Range(0, 6)] public int SizeNumber { get; set; } = default!;
-        [MinLength(1)] [MaxLength(64)] public string SizeName { get; set; } = default!;
+        [MaxLength(64)] public string SizeName { get; set; } = default!;
 
         [MinLength(4), MaxLength(128)] public string Name { get; set; } = default!;
 

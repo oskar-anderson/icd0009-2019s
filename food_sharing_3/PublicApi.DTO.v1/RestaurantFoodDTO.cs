@@ -7,11 +7,8 @@ namespace PublicApi.DTO.v1
     public class RestaurantFoodDTO
     {
         public Guid Id { get; set; }
-        
-        public Guid? MealId { get; set; }
-        public MealDTO? Meal { get; set; }
-        
-        public Guid? PizzaId { get; set; }
+
+        public Guid PizzaId { get; set; } = default!;
         public PizzaDTO? Pizza { get; set; }
 
         public Guid RestaurantId { get; set; } = default!;
@@ -19,9 +16,5 @@ namespace PublicApi.DTO.v1
 
         [Column(TypeName = "decimal(18,4)")]
         public decimal Gross { get; set; } = default!;
-
-        public DateTime Since { get; set; } = default!;
-        
-        public DateTime Until { get; set; } = default!;
     }
 }

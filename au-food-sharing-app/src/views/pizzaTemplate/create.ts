@@ -17,6 +17,7 @@ export class PizzaTemplateCreate {
     private _alert: IAlertData | null = null;
 
     private _categorys?: ICategory[];
+    private _dummyImage = "https://dummyimage.com/300x300/ffffff/000000.png&text=No+image"
 
     private _pizzaTemplate: IPizzaTemplate = {
         id: '',
@@ -26,7 +27,10 @@ export class PizzaTemplateCreate {
         modifications: 0,
         extras: 0,
         description: "",
+        varietyState: 0,
     };
+
+
 
     constructor(private pizzaTemplateService: PizzaTemplateService, private categoryService: CategoryService, private router: Router) {
 
@@ -41,9 +45,7 @@ export class PizzaTemplateCreate {
             response => {
                 this._alert = alertHandler(SOURCE.PIZZATEMPLATE, response.statusCode, response.errorMessage);
                 if (response.statusCode >= 200 && response.statusCode < 300) {
-                    this._categorys = response.data!.filter(function (x) {
-                        return x.forPizzaTemplate;
-                    })
+                    this._categorys = response.data;
                 }
             }
         );
@@ -59,6 +61,7 @@ export class PizzaTemplateCreate {
                 modifications: this._pizzaTemplate.modifications,
                 extras: this._pizzaTemplate.extras,
                 description: this._pizzaTemplate.description,
+                varietyState: this._pizzaTemplate.varietyState
                 })
             .then(
                 response => {

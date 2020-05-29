@@ -1,19 +1,6 @@
 ﻿@model BLL.App.DTO.RestaurantFood
 
 
-<input type="radio" id="MealSelected" name="FoodSelection" value="Meal" checked="">
-<label for="MealSelected">Meal</label>
-<br>
-
-<div class="form-group">
-    <label asp-for="MealId" class="control-label"></label>
-    <select asp-for="MealId" class ="form-control" asp-items="ViewBag.MealId"></select>
-</div>
-
-<input type="radio" id="PizzaSelected" name="FoodSelection" value="Pizza">
-<label for="PizzaSelected">Pizza</label>
-<br>
-
 <div class="form-group">
     <label asp-for="PizzaId" class="control-label"></label>
     <select asp-for="PizzaId" class ="form-control" asp-items="ViewBag.PizzaId"></select>
@@ -27,16 +14,7 @@
     <input asp-for="Gross" class="form-control" />
     <span asp-validation-for="Gross" class="text-danger"></span>
 </div>
-<div class="form-group">
-    <label asp-for="Since" class="control-label"></label>
-    <input asp-for="Since" class="form-control" />
-    <span asp-validation-for="Since" class="text-danger"></span>
-</div>
-<div class="form-group">
-    <label asp-for="Until" class="control-label"></label>
-    <input asp-for="Until" class="form-control" />
-    <span asp-validation-for="Until" class="text-danger"></span>
-</div>
+
 
 
 @*

@@ -13,9 +13,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Meal)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Pizza)
             </th>
             <th>
@@ -23,12 +20,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Gross)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Since)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Until)
             </th>
 
             <th></th>
@@ -38,9 +29,6 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Meal.Name)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Pizza.Name)
             </td>
             <td>
@@ -48,12 +36,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Gross)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Since)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Until)
             </td>
 
             <td>

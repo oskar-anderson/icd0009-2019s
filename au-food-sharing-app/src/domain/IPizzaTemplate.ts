@@ -1,4 +1,5 @@
 import { IComponent } from '../domain/IComponent'
+import { IPizzaWithRestaurants, PizzaSize } from './IPizza';
 
 export interface IPizzaTemplate {
     id: string;
@@ -7,7 +8,8 @@ export interface IPizzaTemplate {
     picture: string;
     modifications: number;
     extras: number;
-    description: string;    
+    description: string; 
+    varietyState: number   
 }
 
 export interface IPizzaTemplateCreate {
@@ -18,6 +20,7 @@ export interface IPizzaTemplateCreate {
     modifications: number;
     extras: number;
     description: string;
+    varietyState: number
 
 }
 
@@ -25,18 +28,19 @@ export interface IPizzaTemplateWithChildren {
     id: string;
     categoryId: string;
     pizzaNames: string[];
+    pizzas: IPizzaWithRestaurants[];
     takenComponents: IComponent[];
     freeComponents: IComponent[];
-    chosenComponentId: string,
+    chosenComponentId: string;
     name: string;
     picture: string;
     modifications: number;
     extras: number;
-    description: string;    
+    description: string;
+    varietyState: number;
+
+    newPizzaName: string;
+    newPizzaSizeChoice: number;
+    freeSizes: PizzaSize[];
 }
 
-export class IPizzaTemplateIndex {
-    constructor(id: string, pizzaName: string){
-
-    };
-}

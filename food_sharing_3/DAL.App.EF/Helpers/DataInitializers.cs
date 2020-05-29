@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Domain.App;
 using Domain.App.Identity;
@@ -22,6 +23,8 @@ namespace DAL.App.EF.Helpers
     }
 
     
+    [SuppressMessage("ReSharper", "IdentifierTypo")]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class DataInitializers
     {
         public static void MigrateDatabase(AppDbContext context)
@@ -212,38 +215,26 @@ namespace DAL.App.EF.Helpers
             var categoryArr = new []
             {
                 new { 
-                    Name = Helper.GetName(CategorysEnum.Salatid), 
-                    ForMeal = true, 
-                    ForPizzaTemplate = false 
+                    Name = Helper.GetName(CategorysEnum.Salatid),
                 },
                 new { 
                     Name = Helper.GetName(CategorysEnum.Pastad),
-                    ForMeal = true, 
-                    ForPizzaTemplate = false 
                 },
                 new { 
                     Name = Helper.GetName(CategorysEnum.Pitsad),
-                    ForMeal = false, 
-                    ForPizzaTemplate = true
                 },
                 new { 
                     Name = Helper.GetName(CategorysEnum.Snäkid),
-                    ForMeal = true, 
-                    ForPizzaTemplate = false 
                 },
                 new { 
                     Name = Helper.GetName(CategorysEnum.Magustoidud),
-                    ForMeal = true, 
-                    ForPizzaTemplate = false 
                 },
                 new { 
                     Name = Helper.GetName(CategorysEnum.Joogid),
-                    ForMeal = true, 
-                    ForPizzaTemplate = false,
                 },
             };
 
-            List<Category> categoryDBEntryList = new List<Category>();
+            //List<Category> categoryDBEntryList = new List<Category>();
             Dictionary<string, Category> categoryDBEntryDictionary = new Dictionary<string, Category>();
 
             foreach (var category in categoryArr)
@@ -255,13 +246,11 @@ namespace DAL.App.EF.Helpers
                 Category categoryDBEntry = new Category()
                 {
                     Name = category.Name,
-                    ForMeal = category.ForMeal,
-                    ForPizzaTemplate = category.ForPizzaTemplate,
                     ChangedBy = "System"
                 };
                 context.AddAsync(categoryDBEntry);
                 
-                categoryDBEntryList.Add(categoryDBEntry);
+                //categoryDBEntryList.Add(categoryDBEntry);
                 categoryDBEntryDictionary.Add(categoryDBEntry.Name, categoryDBEntry);
                 
             }
@@ -362,7 +351,7 @@ namespace DAL.App.EF.Helpers
             };
             
             Dictionary<string, Component> componentDBEntryDictionary = new Dictionary<string, Component>();
-            List<Component> componentDBEntryList = new List<Component>();
+            //List<Component> componentDBEntryList = new List<Component>();
             
             foreach (var componentObject in componentArr)
             {
@@ -381,7 +370,7 @@ namespace DAL.App.EF.Helpers
                 context.AddAsync(component);
                 
                 componentDBEntryDictionary.Add(component.Name, component);
-                componentDBEntryList.Add(component);
+                //componentDBEntryList.Add(component);
                 
                 Console.WriteLine(component.Id);
             }
@@ -399,6 +388,7 @@ namespace DAL.App.EF.Helpers
                     Modifications = 1,
                     Extras = 4,
                     Description = "Juust, oliivid, ananass",
+                    VarietyState = 3,
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
@@ -407,6 +397,7 @@ namespace DAL.App.EF.Helpers
                     Modifications = 2,
                     Extras = 3,
                     Description = "Juust, hakkliha, jalapeno, paprika",
+                    VarietyState = 3,
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
@@ -415,6 +406,7 @@ namespace DAL.App.EF.Helpers
                     Modifications = 2,
                     Extras = 3,
                     Description = "Juust, sink, küüslauk, sibul",
+                    VarietyState = 3,
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
@@ -423,6 +415,7 @@ namespace DAL.App.EF.Helpers
                     Modifications = 2,
                     Extras = 3,
                     Description = "Juust, sink, šampinjonid, ananass",
+                    VarietyState = 3,
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
@@ -431,6 +424,7 @@ namespace DAL.App.EF.Helpers
                     Modifications = 1,
                     Extras = 4,
                     Description = "Tomat, mozzarella, pepperoni",
+                    VarietyState = 3,
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
@@ -439,6 +433,7 @@ namespace DAL.App.EF.Helpers
                     Modifications = 1,
                     Extras = 4,
                     Description = "Sink, mozzarella, ananass",
+                    VarietyState = 3,
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
@@ -447,6 +442,7 @@ namespace DAL.App.EF.Helpers
                     Modifications = 2,
                     Extras = 3,
                     Description = "Mozzarella, sink, küüslauk, šampinionid",
+                    VarietyState = 3,
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
@@ -455,6 +451,7 @@ namespace DAL.App.EF.Helpers
                     Modifications = 1,
                     Extras = 4,
                     Description = "Tomat, mozzarella, basiilik",
+                    VarietyState = 3,
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
@@ -463,6 +460,7 @@ namespace DAL.App.EF.Helpers
                     Modifications = 1,
                     Extras = 4,
                     Description = "Juust, mozarella, sinihallitusjuust",
+                    VarietyState = 3,
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
@@ -471,6 +469,7 @@ namespace DAL.App.EF.Helpers
                     Modifications = 3,
                     Extras = 2,
                     Description = "Mozzarella, kana, sibul, tomat, paprika, jalapeno",
+                    VarietyState = 3,
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
@@ -479,6 +478,7 @@ namespace DAL.App.EF.Helpers
                     Modifications = 2,
                     Extras = 3,
                     Description = "Kana, mozzarella, peekon, küüslauk",
+                    VarietyState = 3,
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
@@ -487,11 +487,12 @@ namespace DAL.App.EF.Helpers
                     Modifications = 3,
                     Extras = 2,
                     Description = "Mozarella, tomatid, sibul, oliivid, šampinionid",
+                    VarietyState = 3,
                 },
             };
             
             Dictionary<string, PizzaTemplate> pizzaTemplateDBEntryDictionary = new Dictionary<string, PizzaTemplate>();
-            List<PizzaTemplate> pizzaTemplatesDBEntryList = new List<PizzaTemplate>();
+            //List<PizzaTemplate> pizzaTemplatesDBEntryList = new List<PizzaTemplate>();
             
             foreach (var pizzaTemplateObject in pizzaTemplateArr)
             {
@@ -507,6 +508,7 @@ namespace DAL.App.EF.Helpers
                     Modifications = pizzaTemplateObject.Modifications,
                     Extras = pizzaTemplateObject.Extras,
                     Description = pizzaTemplateObject.Description,
+                    VarietyState = pizzaTemplateObject.VarietyState,
                     CreatedAt = DateTime.Now,
                     ChangedAt = new DateTime(2020, 2, 20),
                     ChangedBy = "System"
@@ -514,7 +516,7 @@ namespace DAL.App.EF.Helpers
                 context.AddAsync(pizzaTemplate);
                 
                 pizzaTemplateDBEntryDictionary.Add(pizzaTemplate.Name, pizzaTemplate);
-                pizzaTemplatesDBEntryList.Add(pizzaTemplate);
+                //pizzaTemplatesDBEntryList.Add(pizzaTemplate);
                 
                 Console.WriteLine(pizzaTemplate.Id);
             }
@@ -748,7 +750,7 @@ namespace DAL.App.EF.Helpers
             };
                 
             
-            List<ComponentPizzaTemplate> componentPizzaTemplatesDBEntryList = new List<ComponentPizzaTemplate>();
+            //List<ComponentPizzaTemplate> componentPizzaTemplatesDBEntryList = new List<ComponentPizzaTemplate>();
             
             foreach (var componentPizzaTemplateObject in componentPizzaTemplateArr)
             {
@@ -768,7 +770,7 @@ namespace DAL.App.EF.Helpers
                 };
                 context.AddAsync(componentPizzaTemplate);
                 
-                componentPizzaTemplatesDBEntryList.Add(componentPizzaTemplate);
+                //componentPizzaTemplatesDBEntryList.Add(componentPizzaTemplate);
                 
                 Console.WriteLine(componentPizzaTemplate.Id);
             }
@@ -938,7 +940,7 @@ namespace DAL.App.EF.Helpers
             };
             
             Dictionary<string, Pizza> PizzaDBEntryDictionary = new Dictionary<string, Pizza>();
-            List<Pizza> PizzaDBEntryList = new List<Pizza>();
+            //List<Pizza> PizzaDBEntryList = new List<Pizza>();
             
             foreach (var pizzaObject in pizzaArr)
             {
@@ -958,7 +960,7 @@ namespace DAL.App.EF.Helpers
                 };
                 context.AddAsync(pizza);
                 
-                PizzaDBEntryList.Add(pizza);
+                //PizzaDBEntryList.Add(pizza);
                 PizzaDBEntryDictionary.Add(pizza.Name, pizza);
                 
                 Console.WriteLine(pizza.Id);
@@ -973,25 +975,25 @@ namespace DAL.App.EF.Helpers
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Snäkid)].Id,
                     Name = Helper.GetName(MealsEnum.Kanatiivad),
-                    Picture = "This is an invalid link, no image must be displayed",
+                    Picture = "https://dummyimage.com/300x300/ffffff/000000.png&text=No+image",
                     Description = "Tiina lemmikud"
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Snäkid)].Id,
                     Name = Helper.GetName(MealsEnum.Friikartulid),
-                    Picture = "This is an invalid link, no image must be displayed",
+                    Picture = "https://dummyimage.com/300x300/ffffff/000000.png&text=No+image",
                     Description = "Ahju friikartulid"
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Snäkid)].Id,
                     Name = Helper.GetName(MealsEnum.Leivapulgad),
-                    Picture = "This is an invalid link, no image must be displayed",
+                    Picture = "https://dummyimage.com/300x300/ffffff/000000.png&text=No+image",
                     Description = "Krõbedad leivapulgad"
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Snäkid)].Id,
                     Name = Helper.GetName(MealsEnum.SingiBaagel),
-                    Picture = "This is an invalid link, no image must be displayed",
+                    Picture = "https://dummyimage.com/300x300/ffffff/000000.png&text=No+image",
                     Description = "Mozarella-singi saiakesed"
                 },
                 
@@ -1000,19 +1002,19 @@ namespace DAL.App.EF.Helpers
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Magustoidud)].Id,
                     Name = Helper.GetName(MealsEnum.Vahvlid),
-                    Picture = "This is an invalid link, no image must be displayed",
+                    Picture = "https://dummyimage.com/300x300/ffffff/000000.png&text=No+image",
                     Description = "Vanilli jäätis metsmarjadega"
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Magustoidud)].Id,
                     Name = Helper.GetName(MealsEnum.Muffin),
-                    Picture = "This is an invalid link, no image must be displayed",
+                    Picture = "https://dummyimage.com/300x300/ffffff/000000.png&text=No+image",
                     Description = "Maitsev muffin rosinatega"
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Magustoidud)].Id,
                     Name = Helper.GetName(MealsEnum.CremeBrulee),
-                    Picture = "This is an invalid link, no image must be displayed",
+                    Picture = "https://dummyimage.com/300x300/ffffff/000000.png&text=No+image",
                     Description = "Krõbedad leivapulgad"
                 },
                 
@@ -1021,50 +1023,53 @@ namespace DAL.App.EF.Helpers
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Joogid)].Id,
                     Name = Helper.GetName(MealsEnum.Mineraalvesi),
-                    Picture = "This is an invalid link, no image must be displayed",
+                    Picture = "https://dummyimage.com/300x300/ffffff/000000.png&text=No+image",
                     Description = ""
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Joogid)].Id,
                     Name = Helper.GetName(MealsEnum.Õunamahl),
-                    Picture = "This is an invalid link, no image must be displayed",
+                    Picture = "https://dummyimage.com/300x300/ffffff/000000.png&text=No+image",
                     Description = ""
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Joogid)].Id,
                     Name = Helper.GetName(MealsEnum.Cola),
-                    Picture = "This is an invalid link, no image must be displayed",
+                    Picture = "https://dummyimage.com/300x300/ffffff/000000.png&text=No+image",
                     Description = ""
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Joogid)].Id,
                     Name = Helper.GetName(MealsEnum.Fanta),
-                    Picture = "This is an invalid link, no image must be displayed",
+                    Picture = "https://dummyimage.com/300x300/ffffff/000000.png&text=No+image",
                     Description = ""
                 },
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Joogid)].Id,
                     Name = Helper.GetName(MealsEnum.Sprite),
-                    Picture = "This is an invalid link, no image must be displayed",
+                    Picture = "https://dummyimage.com/300x300/ffffff/000000.png&text=No+image",
                     Description = ""
                 },
             };
             
-            Dictionary<string, Meal> MealDBEntryDictionary = new Dictionary<string, Meal>();
-            List<Meal> MealsDBEntryList = new List<Meal>();
+            //Dictionary<string, PizzaTemplate> MealDBEntryDictionary = new Dictionary<string, PizzaTemplate>();
+            List<PizzaTemplate> MealsDBEntryList = new List<PizzaTemplate>();
             
             foreach (var mealObject in mealArr)
             {
-                if (context.Meals.Any(s => s.Name == mealObject.Name))
+                if (context.PizzaTemplates.Any(s => s.Name == mealObject.Name))
                 {
                     continue;
                 }
-                Meal meal = new Meal()
+                PizzaTemplate meal = new PizzaTemplate()
                 {
                     CategoryId = mealObject.CategoryId,
                     Name = mealObject.Name,
                     Picture = mealObject.Picture,
+                    Modifications = null,
+                    Extras = null,
                     Description = mealObject.Description,
+                    VarietyState = 2,
                     CreatedAt = DateTime.Now,
                     ChangedAt = new DateTime(2020, 2, 20),
                     ChangedBy = "System"
@@ -1072,14 +1077,36 @@ namespace DAL.App.EF.Helpers
                 context.AddAsync(meal);
                 
                 MealsDBEntryList.Add(meal);
-                MealDBEntryDictionary.Add(meal.Name, meal);
+                //MealDBEntryDictionary.Add(meal.Name, meal);
                 
                 Console.WriteLine(meal.Id);
             }
         
             context.SaveChanges();
+
             
+            Dictionary<string, Pizza> MealSellableDBEntryDictionary = new Dictionary<string, Pizza>();
+            //List<Pizza> MealsSellableDBEntryList = new List<Pizza>();
             
+            foreach (var mealObject in MealsDBEntryList)
+            {
+                Pizza meal = new Pizza()
+                {
+                    PizzaTemplateId = mealObject.Id,
+                    SizeNumber = 2,
+                    SizeName = "",
+                    Name = mealObject.Name,
+                    CreatedAt = DateTime.Now,
+                    ChangedAt = new DateTime(2020, 2, 20),
+                    ChangedBy = "System"
+                };
+                context.AddAsync(meal);
+
+                //MealsSellableDBEntryList.Add(meal);
+                MealSellableDBEntryDictionary.Add(meal.Name, meal);
+                
+                Console.WriteLine(meal.Id);
+            }
             
             
             
@@ -1109,7 +1136,7 @@ namespace DAL.App.EF.Helpers
             };
             
             Dictionary<string, Restaurant> RestaurantDBEntryDictionary = new Dictionary<string, Restaurant>();
-            List<Restaurant> RestaurantsDBEntryList = new List<Restaurant>();
+            // List<Restaurant> RestaurantsDBEntryList = new List<Restaurant>();
             
             foreach (var restaurantObject in restaurantArr)
             {
@@ -1130,7 +1157,7 @@ namespace DAL.App.EF.Helpers
                 };
                 context.AddAsync(restaurant);
                 
-                RestaurantsDBEntryList.Add(restaurant);
+                //RestaurantsDBEntryList.Add(restaurant);
                 RestaurantDBEntryDictionary.Add(restaurant.Name, restaurant);
                 
                 Console.WriteLine(restaurant.Id);
@@ -1145,118 +1172,87 @@ namespace DAL.App.EF.Helpers
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Kanatiivad)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Kanatiivad)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 4.9m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Friikartulid)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Friikartulid)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 3.2m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
-                new RestaurantFood() {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Leivapulgad)].Id,
-                    PizzaId = null,
+                new RestaurantFood() 
+                {
+                    
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Leivapulgad)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 0.6m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.SingiBaagel)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.SingiBaagel)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 1.9m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
-                new RestaurantFood() {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Vahvlid)].Id,
-                    PizzaId = null,
+                new RestaurantFood() 
+                {
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Vahvlid)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 2.5m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
-                new RestaurantFood() {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Muffin)].Id,
-                    PizzaId = null,
+                new RestaurantFood() 
+                {
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Muffin)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 1.9m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.CremeBrulee)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.CremeBrulee)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 4.9m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Mineraalvesi)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Mineraalvesi)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 1.5m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Õunamahl)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Õunamahl)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 1.5m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Cola)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Cola)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 1.5m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
-                new RestaurantFood() {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Fanta)].Id,
-                    PizzaId = null,
+                new RestaurantFood() 
+                {
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Fanta)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 1.5m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Sprite)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Sprite)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 1.5m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
 
@@ -1266,265 +1262,193 @@ namespace DAL.App.EF.Helpers
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.AmericanaVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.AmericanaSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.BologneseVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.BologneseSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.SicilianaVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.SicilianaSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.TopolinoVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.TopolinoSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.PepperoniVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.PepperoniSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.HawaiiVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.HawaiiSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.HamAndMushroomsVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.HamAndMushroomsSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.MargheritaVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 3.7m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.MargheritaSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 6.7m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.ThreeCheesesVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.ThreeCheesesSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.MexicanVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.MexicanSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.ChickenAndBaconVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.ChickenAndBaconSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.VegetarianVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 3.7m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.VegetarianSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EhitajateTiinaRiina)].Id,
                     Gross = 6.7m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             
@@ -1537,118 +1461,86 @@ namespace DAL.App.EF.Helpers
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Kanatiivad)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Kanatiivad)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 4.9m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Friikartulid)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Friikartulid)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 3.2m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
-                new RestaurantFood() {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Leivapulgad)].Id,
-                    PizzaId = null,
+                new RestaurantFood() 
+                {
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Leivapulgad)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 0.6m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.SingiBaagel)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.SingiBaagel)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 1.9m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
-                new RestaurantFood() {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Vahvlid)].Id,
-                    PizzaId = null,
+                new RestaurantFood() 
+                {
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Vahvlid)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 2.5m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
-                new RestaurantFood() {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Muffin)].Id,
-                    PizzaId = null,
+                new RestaurantFood() 
+                {
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Muffin)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 1.9m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.CremeBrulee)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.CremeBrulee)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 4.9m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Mineraalvesi)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Mineraalvesi)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 1.5m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Õunamahl)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Õunamahl)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 1.5m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Cola)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Cola)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 1.5m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
-                new RestaurantFood() {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Fanta)].Id,
-                    PizzaId = null,
+                new RestaurantFood() 
+                {
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Fanta)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 1.5m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Sprite)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Sprite)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 1.5m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             
@@ -1658,265 +1550,193 @@ namespace DAL.App.EF.Helpers
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.AmericanaVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.AmericanaSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.BologneseVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.BologneseSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.SicilianaVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.SicilianaSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.TopolinoVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.TopolinoSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.PepperoniVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.PepperoniSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.HawaiiVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.HawaiiSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.HamAndMushroomsVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.HamAndMushroomsSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.MargheritaVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 3.7m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.MargheritaSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 6.7m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.ThreeCheesesVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.ThreeCheesesSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.MexicanVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.MexicanSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.ChickenAndBaconVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.ChickenAndBaconSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.VegetarianVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 3.7m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.VegetarianSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.EndlaTiinaRiina)].Id,
                     Gross = 6.7m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             
@@ -1934,118 +1754,86 @@ namespace DAL.App.EF.Helpers
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Kanatiivad)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Kanatiivad)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 4.9m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Friikartulid)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Friikartulid)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 3.2m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
-                new RestaurantFood() {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Leivapulgad)].Id,
-                    PizzaId = null,
+                new RestaurantFood() 
+                {
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Leivapulgad)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 0.6m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.SingiBaagel)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.SingiBaagel)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 1.9m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
-                new RestaurantFood() {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Vahvlid)].Id,
-                    PizzaId = null,
+                new RestaurantFood() 
+                {
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Vahvlid)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 2.5m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
-                new RestaurantFood() {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Muffin)].Id,
-                    PizzaId = null,
+                new RestaurantFood() 
+                {
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Muffin)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 1.9m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.CremeBrulee)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.CremeBrulee)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 4.9m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Mineraalvesi)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Mineraalvesi)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 1.5m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Õunamahl)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Õunamahl)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 1.5m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Cola)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Cola)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 1.5m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
-                new RestaurantFood() {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Fanta)].Id,
-                    PizzaId = null,
+                new RestaurantFood() 
+                {
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Fanta)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 1.5m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 });
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = MealDBEntryDictionary[Helper.GetName(MealsEnum.Sprite)].Id,
-                    PizzaId = null,
+                    PizzaId = MealSellableDBEntryDictionary[Helper.GetName(MealsEnum.Sprite)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 1.5m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             
@@ -2054,288 +1842,213 @@ namespace DAL.App.EF.Helpers
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.AmericanaVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.AmericanaSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.BologneseVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.BologneseSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.SicilianaVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.SicilianaSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.TopolinoVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.TopolinoSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.PepperoniVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.PepperoniSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.HawaiiVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.HawaiiSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.HamAndMushroomsVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.HamAndMushroomsSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 7.4m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.MargheritaVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 3.7m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.MargheritaSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 6.7m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.ThreeCheesesVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.ThreeCheesesSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.MexicanVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.MexicanSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.ChickenAndBaconVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 4.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.ChickenAndBaconSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 7.3m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.VegetarianVäike)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 3.7m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             restaurantFoodsList.Add(
                 new RestaurantFood()
                 {
-                    MealId = null,
                     PizzaId = PizzaDBEntryDictionary[Helper.GetName(PizzaEnum.VegetarianSuur)].Id,
                     RestaurantId = RestaurantDBEntryDictionary[Helper.GetName(RestaurantsEnum.LaagnaTiinaRiina)].Id,
                     Gross = 6.7m,
-                    Since = DateTime.Now,
-                    Until = new DateTime(9999, 1, 1),
                 }
             );
             
             
-            List<RestaurantFood> RestaurantFoodsDBEntryList = new List<RestaurantFood>();
+            //List<RestaurantFood> RestaurantFoodsDBEntryList = new List<RestaurantFood>();
             
             foreach (var restaurantFoodObject in restaurantFoodsList)
             {
                 RestaurantFood restaurantFood = new RestaurantFood()
                 {
-                    MealId = restaurantFoodObject.MealId,
                     PizzaId = restaurantFoodObject.PizzaId,
                     RestaurantId = restaurantFoodObject.RestaurantId,
                     Gross = restaurantFoodObject.Gross,
-                    Since = restaurantFoodObject.Since,
-                    Until = restaurantFoodObject.Until,
                     CreatedAt = DateTime.Now,
                     ChangedAt = new DateTime(2020, 2, 20),
                     ChangedBy = "System"
                 };
                 context.AddAsync(restaurantFood);
                 
-                RestaurantFoodsDBEntryList.Add(restaurantFood);
+                //RestaurantFoodsDBEntryList.Add(restaurantFood);
 
                 
                 Console.WriteLine(restaurantFood.Id);

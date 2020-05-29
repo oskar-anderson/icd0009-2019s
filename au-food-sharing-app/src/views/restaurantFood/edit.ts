@@ -1,11 +1,14 @@
 import { autoinject } from 'aurelia-framework';
 import { RouteConfig, NavigationInstruction, Router } from 'aurelia-router';
 
-import { PizzaTemplateService} from 'service/pizzaTemplate-service';
-import { IPizzaTemplate } from 'domain/IPizzaTemplate';
+import { RestaurantFoodService} from 'service/restaurantFood-service';
+import { IRestaurantFood } from 'domain/IRestaurantFood';
 
-import { CategoryService} from 'service/category-service';
-import { ICategory } from 'domain/ICategory';
+import { RestaurantService} from 'service/restaurant-service';
+import { IRestaurant } from 'domain/IRestaurant';
+
+import { PizzaService} from 'service/pizza-service';
+import { IPizza } from 'domain/IPizza';
 
 import { IAlertData } from 'types/IAlertData';
 import { AlertType } from 'types/AlertType';
@@ -13,22 +16,24 @@ import { AlertType } from 'types/AlertType';
 import { alertHandler, SOURCE } from 'service/alert-service';
 
 @autoinject
-export class PizzaTemplateEdit {
+export class RestaurantFoodEdit {
     private _alert: IAlertData | null = null;
     
-    private _pizzaTemplate: IPizzaTemplate = {
+    private _restaurantFood: IRestaurantFood = {
         id: '',
-        categoryId: '',
-        name: '',
-        picture: '',
-        modifications: 0,
-        extras: 0,
-        description: "",
+        restaurantId: '',
+        pizzaId: '',
+        gross: 0,
     }
     
-    private _categorys?: ICategory[];
+    private _restaurants?: IRestaurant[];
+    private _pizzas?: IPizza[];
 
-    constructor(private pizzaTemplateService: PizzaTemplateService, private categoryService: CategoryService, private router: Router) {
+    constructor(
+        private restaurantFoodService: RestaurantFoodService, 
+        private restaurantService: RestaurantService, 
+        private pizzaService: PizzaService,
+        private router: Router) {
     }
 
     attached() {
@@ -36,21 +41,27 @@ export class PizzaTemplateEdit {
 
     activate(params: any, routeConfig: RouteConfig, navigationInstruction: NavigationInstruction) {
         if (params.id && typeof (params.id) == 'string') {
-            this.pizzaTemplateService.getPizzaTemplate(params.id).then(
+            this.restaurantFoodService.getRestaurantFood(params.id).then(
                 response => {
-                    this._alert = alertHandler(SOURCE.PIZZATEMPLATE, response.statusCode, response.errorMessage);
+                    this._alert = alertHandler(SOURCE.RESTAURANTFOOD, response.statusCode, response.errorMessage);
                     if (response.statusCode >= 200 && response.statusCode < 300) {
-                        this._pizzaTemplate = response.data!;
+                        this._restaurantFood = response.data!;
                     }
                 }
             );
-            this.categoryService.getCategorys().then(
+            this.restaurantService.getRestaurants().then(
                 response => {
-                    this._alert = alertHandler(SOURCE.CATEGORY, response.statusCode, response.errorMessage);
+                    this._alert = alertHandler(SOURCE.RESTAURANT, response.statusCode, response.errorMessage);
                     if (response.statusCode >= 200 && response.statusCode < 300) {
-                        this._categorys = response.data!.filter(function (x) {
-                            return x.forPizzaTemplate;
-                        })
+                        this._restaurants = response.data;
+                    }
+                }
+            );
+            this.pizzaService.getPizzas().then(
+                response => {
+                    this._alert = alertHandler(SOURCE.PIZZA, response.statusCode, response.errorMessage);
+                    if (response.statusCode >= 200 && response.statusCode < 300) {
+                        this._pizzas = response.data;
                     }
                 }
             );
@@ -58,21 +69,18 @@ export class PizzaTemplateEdit {
     }
 
     onSubmit(event: Event) {
-        this.pizzaTemplateService
-            .updatePizzaTemplate({
-                id: this._pizzaTemplate.id,
-                categoryId: this._pizzaTemplate.categoryId,
-                name: this._pizzaTemplate.name,
-                picture: this._pizzaTemplate.picture,
-                modifications: parseInt(this._pizzaTemplate.modifications + ""),
-                extras: parseInt(this._pizzaTemplate.extras + ""),
-                description: this._pizzaTemplate.description,
+        this.restaurantFoodService
+            .updateRestaurantFood({
+                id: this._restaurantFood.id,
+                restaurantId: this._restaurantFood.restaurantId,
+                pizzaId: this._restaurantFood.pizzaId,
+                gross: parseFloat(this._restaurantFood.gross + ""),
             })
             .then(
                 response => {
-                    this._alert = alertHandler(SOURCE.PIZZATEMPLATE, response.statusCode, response.errorMessage);
+                    this._alert = alertHandler(SOURCE.RESTAURANTFOOD, response.statusCode, response.errorMessage);
                     if (response.statusCode >= 200 && response.statusCode < 300) {
-                        this.router.navigateToRoute('pizzaTemplate-index', {});
+                        this.router.navigateToRoute('restaurantFood-index', {});
                     }
                 }
             );

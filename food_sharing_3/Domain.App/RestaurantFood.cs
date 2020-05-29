@@ -7,10 +7,7 @@ namespace Domain.App
 {
     public class RestaurantFood : DomainEntityIdMetadata
     {
-        public Guid? MealId { get; set; }
-        public Meal? Meal { get; set; }
-        
-        public Guid? PizzaId { get; set; }
+        public Guid PizzaId { get; set; } = default!;
         public Pizza? Pizza { get; set; }
 
         public Guid RestaurantId { get; set; } = default!;
@@ -19,9 +16,5 @@ namespace Domain.App
         [Range(1, 100), DataType(DataType.Currency)]
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Gross { get; set; } = default!;
-
-        public DateTime Since { get; set; } = default!;
-        
-        public DateTime Until { get; set; } = default!;
     }
 }

@@ -10,6 +10,7 @@ import { alertHandler, SOURCE } from 'service/alert-service';
 export class PizzaIndex{
     private _pizzas: IPizza[] = [];
 
+    private _showTechnical: boolean = false;
     private _alert: IAlertData | null = null;
 
     constructor(private pizzaService: PizzaService){
@@ -25,5 +26,9 @@ export class PizzaIndex{
                 }
             }
         );
+    }
+
+    TriggerTechnical(){
+        this._showTechnical = !this._showTechnical;
     }
 }

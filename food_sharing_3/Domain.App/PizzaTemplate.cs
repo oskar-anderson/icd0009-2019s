@@ -14,13 +14,16 @@ namespace Domain.App
         
         [MaxLength(128)] public string? Picture { get; set; }
 
-        [Range(0, 6)] public int Modifications { get; set; } = default!;
+        [Range(0, 6)] public int? Modifications { get; set; }
 
-        [Range(0, 8)] public int Extras { get; set; } = default!;
+        [Range(0, 8)] public int? Extras { get; set; }
 
-        [MaxLength(128)] [MinLength(4)] public string? Description { get; set; }
+        [MaxLength(128)] public string? Description { get; set; }
+        
+        [Range(1, 3)] public int VarietyState { get; set; } = default!;
 
         
         public ICollection<ComponentPizzaTemplate>? ComponentPizzaTemplates { get; set; }
+        public ICollection<Pizza>? Pizzas { get; set; }
     }
 }

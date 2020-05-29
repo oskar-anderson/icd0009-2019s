@@ -21,7 +21,6 @@ namespace DAL.App.EF
         public DbSet<ComponentPizzaTemplate> ComponentPizzaTPLs { get; set; } = default!;
         public DbSet<ComponentPizzaUser> ComponentPizzaUsers { get; set; } = default!;
         public DbSet<Item> Items { get; set; } = default!;
-        public DbSet<Meal> Meals { get; set; } = default!;
         public DbSet<Pizza> Pizzas { get; set; } = default!;
         public DbSet<PizzaUser> PizzaUsers { get; set; } = default!;
         public DbSet<PizzaTemplate> PizzaTemplates { get; set; } = default!;

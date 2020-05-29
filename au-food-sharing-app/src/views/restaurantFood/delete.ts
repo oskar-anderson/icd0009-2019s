@@ -1,19 +1,19 @@
 import { autoinject } from 'aurelia-framework';
 import { RouteConfig, NavigationInstruction, Router } from 'aurelia-router';
-import { PizzaTemplateService } from 'service/pizzaTemplate-service';
-import { IPizzaTemplate } from 'domain/IPizzaTemplate';
+import { RestaurantFoodService } from 'service/restaurantFood-service';
+import { IRestaurantFood } from 'domain/IRestaurantFood';
 import { IAlertData } from 'types/IAlertData';
 import { AlertType } from 'types/AlertType';
 import { alertHandler, SOURCE } from 'service/alert-service';
 
 
 @autoinject
-export class PizzaTemplateDelete {
+export class RestaurantFoodDelete {
     private _alert: IAlertData | null = null;
 
-    private _pizzaTemplate?: IPizzaTemplate;
+    private _restaurantFood?: IRestaurantFood;
 
-    constructor(private pizzaTemplateService: PizzaTemplateService, private router: Router) {
+    constructor(private restaurantFoodService: RestaurantFoodService, private router: Router) {
 
     }
 
@@ -24,11 +24,11 @@ export class PizzaTemplateDelete {
     activate(params: any, routeConfig: RouteConfig, navigationInstruction: NavigationInstruction) {
         console.log(params);
         if (params.id && typeof (params.id) == 'string') {
-            this.pizzaTemplateService.getPizzaTemplate(params.id).then(
+            this.restaurantFoodService.getRestaurantFood(params.id).then(
                 response => {
-                    this._alert = alertHandler(SOURCE.PIZZATEMPLATE, response.statusCode, response.errorMessage);
+                    this._alert = alertHandler(SOURCE.RESTAURANTFOOD, response.statusCode, response.errorMessage);
                     if (response.statusCode >= 200 && response.statusCode < 300) {
-                        this._pizzaTemplate = response.data!;
+                        this._restaurantFood = response.data!;
                     }
                 }
             );
@@ -36,13 +36,13 @@ export class PizzaTemplateDelete {
     }
 
     onSubmit(event: Event) {
-        this.pizzaTemplateService
-            .deletePizzaTemplate(this._pizzaTemplate!.id)
+        this.restaurantFoodService
+            .deleteRestaurantFood(this._restaurantFood!.id)
             .then(
                 response => {
-                    this._alert = alertHandler(SOURCE.PIZZATEMPLATE, response.statusCode, response.errorMessage);
+                    this._alert = alertHandler(SOURCE.RESTAURANTFOOD, response.statusCode, response.errorMessage);
                     if (response.statusCode >= 200 && response.statusCode < 300) {
-                        this.router.navigateToRoute('pizzaTemplate-index', {});
+                        this.router.navigateToRoute('restaurantFood-index', {});
                     }
                 }
             );

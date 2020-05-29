@@ -93,6 +93,7 @@ namespace WebApp.ApiControllers._1._0
             {
                 return NotFound();
             }
+            pizza.PizzaTemplate = null;
 
             await _bll.Pizzas.RemoveAsync(pizza);
             await _bll.SaveChangesAsync();

@@ -13,7 +13,6 @@ namespace Contracts.BLL.App
         IComponentPizzaUserService ComponentPizzaUsers { get; }
         IComponentPizzaTemplateService ComponentPizzaTemplates { get; }
         IItemService Items { get; }
-        IMealService Meals { get; }
         IPizzaService Pizzas { get; }
         IPizzaUserService PizzaUsers { get; }
         IPizzaTemplateService PizzaTemplates { get; }

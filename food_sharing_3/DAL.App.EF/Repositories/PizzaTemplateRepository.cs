@@ -115,14 +115,13 @@ namespace DAL.App.EF.Repositories
                     {
                         Id = pt.Category.Id,
                         Name = pt.Category.Name,
-                        ForMeal = pt.Category.ForMeal,
-                        ForPizzaTemplate = pt.Category.ForPizzaTemplate,
                     },
                     Name = pt.Name,
                     Picture = pt.Picture,
                     Modifications = pt.Modifications,
                     Extras = pt.Extras,
                     Description = pt.Description,
+                    VarietyState = pt.VarietyState,
                 }).ToListAsync();
         }
         
@@ -139,14 +138,13 @@ namespace DAL.App.EF.Repositories
                     {
                         Id = pt.Category.Id,
                         Name = pt.Category.Name,
-                        ForMeal = pt.Category.ForMeal,
-                        ForPizzaTemplate = pt.Category.ForPizzaTemplate,
                     },
                     Name = pt.Name,
                     Picture = pt.Picture,
                     Modifications = pt.Modifications,
                     Extras = pt.Extras,
                     Description = pt.Description,
+                    VarietyState = pt.VarietyState,
                 }).FirstOrDefaultAsync();
         }
     }

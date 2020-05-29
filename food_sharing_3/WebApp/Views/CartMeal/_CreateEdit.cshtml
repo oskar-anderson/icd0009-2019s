@@ -5,13 +5,13 @@
     <select asp-for="CartId" class ="form-control" asp-items="ViewBag.CartId"></select>
 </div>
 
-<input type="radio" id="MealSelected" name="FoodSelection" value="Meal" checked="">
+<input type="radio" id="MealWithOptionsSelected" name="FoodSelection" value="MealWithOptions" checked="">
 <label for="MealSelected">Meal</label>
 <br>
 
 <div class="form-group">
-    <label asp-for="MealId" class="control-label"></label>
-    <select asp-for="MealId" class ="form-control" asp-items="ViewBag.MealId"></select>
+    <label asp-for="PizzaId" class="control-label"></label>
+    <select asp-for="PizzaId" class ="form-control" asp-items="ViewBag.PizzaId"></select>
 </div>
 
 <input type="radio" id="PizzaSelected" name="FoodSelection" value="Pizza">

@@ -7,9 +7,9 @@ namespace PublicApi.DTO.v1
     public class CartMealDTO
     {
         public Guid Id { get; set; }
-        
-        public Guid? MealId { get; set; }
-        public MealDTO? Meal { get; set; }
+
+        public Guid? PizzaId { get; set; }
+        public PizzaDTO? Pizza { get; set; }
         
         public Guid? PizzaUserId { get; set; }
         public PizzaUserDTO? PizzaUser { get; set; }

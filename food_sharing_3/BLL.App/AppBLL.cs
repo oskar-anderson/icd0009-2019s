@@ -29,8 +29,6 @@ namespace BLL.App
             GetService<IComponentPizzaTemplateService>(() => new ComponentPizzaTemplateService(UOW));
         public IItemService Items  => 
             GetService<IItemService>(() => new ItemService(UOW));
-        public IMealService Meals  => 
-            GetService<IMealService>(() => new MealService(UOW));
         public IPizzaUserService PizzaUsers  => 
             GetService<IPizzaUserService>(() => new PizzaUserService(UOW));
         public IPizzaService Pizzas  => 

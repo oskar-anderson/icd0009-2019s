@@ -2,7 +2,7 @@ import { autoinject } from 'aurelia-framework';
 import { HttpClient } from "aurelia-fetch-client";
 import { AppState } from 'state/app-state';
 import { IFetchResponse } from 'types/IFetchResponse';
-import { IPizza, IPizzaCreate  } from 'domain/IPizza';
+import { IPizza, IPizzaCreate, IPizzaWithRestaurants  } from 'domain/IPizza';
 
 
 @autoinject
@@ -15,7 +15,7 @@ export class PizzaService {
 
     private readonly _baseUrl = 'https://localhost:5001/api/v1.0/Pizza';
 
-    async getPizzas(): Promise<IFetchResponse<IPizza[]>> {
+    async getPizzas(): Promise<IFetchResponse<IPizzaWithRestaurants[]>> {
         try {
             const response = await this.httpClient
                 .fetch(this._baseUrl, {
@@ -26,7 +26,7 @@ export class PizzaService {
                 });
             // happy case
             if (response.status >= 200 && response.status < 300) {
-                const data = (await response.json()) as IPizza[];
+                const data = (await response.json()) as IPizzaWithRestaurants[];
                 return {
                     statusCode: response.status,
                     data: data

@@ -49,10 +49,10 @@ namespace WebApp.Controllers
         // GET: RestaurantFood/Create
         public async Task<IActionResult> Create()
         {
-            ViewData[ViewDataIdConstants.PizzaId] = new SelectList(await _bll.Pizzas.GetAllAsyncBase(),
+            ViewData[ViewDataIdConstants.MealId] = new SelectList(await _bll.PizzaTemplates.GetAllAsyncBase(),
                 ViewDataConstants.Id,
                 ViewDataConstants.Name);
-            ViewData[ViewDataIdConstants.MealId] = new SelectList(await _bll.Meals.GetAllAsyncBase(),
+            ViewData[ViewDataIdConstants.PizzaId] = new SelectList(await _bll.Pizzas.GetAllAsyncBase(),
                 ViewDataConstants.Id,
                 ViewDataConstants.Name);
             ViewData[ViewDataIdConstants.RestaurantId] = new SelectList(await _bll.Restaurants.GetAllAsyncBase(),
@@ -63,20 +63,11 @@ namespace WebApp.Controllers
 
         // POST: RestaurantFood/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // more details see http://go.micˇrosoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(BLL.App.DTO.RestaurantFood restaurantFood)
         {
-            if (Request.Form["FoodSelection"] == "Meal")
-            {
-                restaurantFood.PizzaId = null;
-            }
-            else
-            {
-                restaurantFood.MealId = null;
-            }
-            
             if (ModelState.IsValid)
             {
                 restaurantFood.Id = Guid.NewGuid();
@@ -84,10 +75,6 @@ namespace WebApp.Controllers
                 await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData[ViewDataIdConstants.MealId] = new SelectList(await _bll.Meals.GetAllAsyncBase(), 
-                ViewDataConstants.Id,
-                ViewDataConstants.Name,
-                restaurantFood.MealId);
             ViewData[ViewDataIdConstants.PizzaId] = new SelectList(await _bll.Pizzas.GetAllAsyncBase(),
                 ViewDataConstants.Id,
                 ViewDataConstants.Name,
@@ -112,10 +99,6 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData[ViewDataIdConstants.MealId] = new SelectList(await _bll.Meals.GetAllAsyncBase(), 
-                ViewDataConstants.Id,
-                ViewDataConstants.Name,
-                restaurantFood.MealId);
             ViewData[ViewDataIdConstants.PizzaId] = new SelectList(await _bll.Pizzas.GetAllAsyncBase(),
                 ViewDataConstants.Id,
                 ViewDataConstants.Name,
@@ -134,15 +117,6 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, BLL.App.DTO.RestaurantFood restaurantFood)
         {
-            if (Request.Form["FoodSelection"] == "Meal")
-            {
-                restaurantFood.PizzaId = null;
-            }
-            else
-            {
-                restaurantFood.MealId = null;
-            }
-            
             if (id != restaurantFood.Id)
             {
                 return NotFound();
@@ -154,10 +128,6 @@ namespace WebApp.Controllers
                 await _bll.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData[ViewDataIdConstants.MealId] = new SelectList(await _bll.Meals.GetAllAsyncBase(),
-                ViewDataConstants.Id,
-                ViewDataConstants.Name,
-                restaurantFood.MealId);
             ViewData[ViewDataIdConstants.PizzaId] = new SelectList(await _bll.Pizzas.GetAllAsyncBase(), 
                 ViewDataConstants.Id,
                 ViewDataConstants.Name,

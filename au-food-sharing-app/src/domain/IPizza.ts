@@ -1,3 +1,5 @@
+import { IRestaurantFood } from '../domain/IRestaurantFood'
+
 export interface IPizza {
     id: string;
     pizzaTemplateId: string;
@@ -15,13 +17,27 @@ export interface IPizzaCreate {
 }
 
 
-export class PizzaSize {
+export interface IPizzaWithRestaurants {
+    id: string;
+    pizzaTemplateId: string;
+    pizzaTemplate: null;
+    sizeNumber: number;
+    sizeName: string;
     name: string;
+    freeRestaurants: IRestaurantFood[];
+    takenRestaurants: IRestaurantFood[];
+    activeRestaurantFood: IRestaurantFood;
+}
+
+export class PizzaSize {
+    displayName: string;
     size: number;
-    constructor(name: string, size: number) {
-        this.name = name;
+    valueName: string;
+    constructor(displayName: string, size: number, valueName: string) {
+        this.displayName = displayName;
         this.size = size;
+        this.valueName = valueName;
     }
 }
 
-export let Sizes = [new PizzaSize('Väike', 1), new PizzaSize('Suur', 3)];
+export let Sizes = [new PizzaSize('Suurus puudub', 2, ''), new PizzaSize('Väike', 1, 'Väike'), new PizzaSize('Suur', 3, 'Suur')];

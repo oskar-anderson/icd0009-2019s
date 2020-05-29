@@ -32,8 +32,8 @@ export class PizzaEdit {
     constructor(private pizzaService: PizzaService, private pizzaTemplateService: PizzaTemplateService, private router: Router) {
     }
 
-    DropdownChanged() {
-        let size = this._sizes[parseInt(this._sizeChoice + "")].name;
+    dropdownChanged() {
+        let size = this._sizes[parseInt(this._sizeChoice + "")].displayName;
         let yourSelect = document.getElementById("PizzaTemplateId") as HTMLSelectElement;
         let pizzaTemplate = yourSelect.options[yourSelect.selectedIndex].value
         this._pizza.name = pizzaTemplate + " - " + size;
@@ -70,7 +70,7 @@ export class PizzaEdit {
                 id: this._pizza.id,
                 pizzaTemplateId: this._pizza.pizzaTemplateId,
                 sizeNumber: this._sizes[parseInt(this._sizeChoice + "")].size,
-                sizeName: this._sizes[parseInt(this._sizeChoice + "")].name,
+                sizeName: this._sizes[parseInt(this._sizeChoice + "")].valueName,
                 name: this._pizza.name,
             })
             .then(

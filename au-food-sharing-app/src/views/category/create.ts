@@ -14,8 +14,6 @@ export class CategoryCreate {
     private _category: ICategory = {
         id: '',
         name: '',
-        forMeal: false,
-        forPizzaTemplate: false,
     };
 
     constructor(private categoryService: CategoryService, private router: Router) {
@@ -35,8 +33,6 @@ export class CategoryCreate {
         this.categoryService
             .createCategory({
                 name: this._category.name,
-                forMeal: this._category.forMeal,
-                forPizzaTemplate: this._category.forPizzaTemplate,
                 })
             .then(
                 response => {

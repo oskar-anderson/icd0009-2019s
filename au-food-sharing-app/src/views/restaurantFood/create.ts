@@ -7,8 +7,8 @@ import { IRestaurantFood } from 'domain/IRestaurantFood';
 import { PizzaService} from 'service/pizza-service';
 import { IPizza } from 'domain/IPizza';
 
-import { MealService} from 'service/meal-service';
-import { IMeal } from 'domain/IMeal';
+import { PizzaTemplateService} from 'service/pizzaTemplate-service';
+import { IPizzaTemplate } from 'domain/IPizzaTemplate';
 
 import { RestaurantService} from 'service/restaurant-service';
 import { IRestaurant } from 'domain/IRestaurant';
@@ -23,24 +23,19 @@ export class RestaurantFoodCreate {
     private _alert: IAlertData | null = null;
 
     private _pizzas?: IPizza[];
-    private _meals?: IMeal[];
     private _restaurants?: IRestaurant[];
 
     private _date = new Date();
 
     private _restaurantFood: IRestaurantFood = {
         id: "",
-        mealId: "",
         pizzaId: "",
         restaurantId: "",
         gross: 0,
-        since: this._date.getDate() + "." + this._date.getMonth() + 1 + "." + this._date.getFullYear(),
-        until: "01.01.9999",
     };
 
     constructor(private restaurantFoodService: RestaurantFoodService,
                 private pizzaService: PizzaService,
-                private mealService: MealService,
                 private restaurantService: RestaurantService,
                 private router: Router) {
 
@@ -59,14 +54,6 @@ export class RestaurantFoodCreate {
                 }
             }
         );
-        this.mealService.getMeals().then(
-            response => {
-                this._alert = alertHandler(SOURCE.RESTAURANTFOOD, response.statusCode, response.errorMessage);
-                if (response.statusCode >= 200 && response.statusCode < 300) {
-                    this._meals = response.data;
-                }
-            }
-        );
         this.restaurantService.getRestaurants().then(
             response => {
                 this._alert = alertHandler(SOURCE.RESTAURANTFOOD, response.statusCode, response.errorMessage);
@@ -80,12 +67,9 @@ export class RestaurantFoodCreate {
     onSubmit(event: Event) {
         this.restaurantFoodService
             .createRestaurantFood({
-                mealId: this._restaurantFood.mealId,
-                pizzaId: "",
+                pizzaId: this._restaurantFood.pizzaId,
                 restaurantId: this._restaurantFood.restaurantId,
-                gross: this._restaurantFood.gross,
-                since: this._restaurantFood.since,
-                until: this._restaurantFood.until,
+                gross: parseFloat(this._restaurantFood.gross + ""),
                 })
             .then(
                 response => {

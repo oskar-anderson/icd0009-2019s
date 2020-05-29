@@ -258,6 +258,8 @@
       <_ContentIncludedByDefault Remove="Views\ComponentPrice\_DetailsDelete.cshtml" />
       <_ContentIncludedByDefault Remove="Views\PizzaComponent\_CreateEdit.cshtml" />
       <_ContentIncludedByDefault Remove="Views\PizzaComponent\_DetailsDelete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Meal\_CreateEdit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Meal\_DetailsDelete.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
@@ -896,6 +898,11 @@
       <UpToDateCheckInput Remove="Views\PizzaComponent\Details.cshtml" />
       <UpToDateCheckInput Remove="Views\PizzaComponent\Edit.cshtml" />
       <UpToDateCheckInput Remove="Views\PizzaComponent\Index.cshtml" />
+      <UpToDateCheckInput Remove="Views\Meal\Create.cshtml" />
+      <UpToDateCheckInput Remove="Views\Meal\Delete.cshtml" />
+      <UpToDateCheckInput Remove="Views\Meal\Details.cshtml" />
+      <UpToDateCheckInput Remove="Views\Meal\Edit.cshtml" />
+      <UpToDateCheckInput Remove="Views\Meal\Index.cshtml" />
     </ItemGroup>
 
 </Project>

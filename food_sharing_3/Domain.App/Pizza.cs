@@ -11,11 +11,12 @@ namespace Domain.App
         public PizzaTemplate? PizzaTemplate { get; set; }
 
         [Range(0, 6)] public int SizeNumber { get; set; } = default!;
-        [MinLength(1)] [MaxLength(64)] public string SizeName { get; set; } = default!;
+        [MaxLength(64)] public string SizeName { get; set; } = default!;
 
         [MinLength(4), MaxLength(128)] public string Name { get; set; } = default!;
         
         public ICollection<PizzaUser>? PizzaUsers { get; set; }
         public ICollection<RestaurantFood>? RestaurantFoods { get; set; }
+        public ICollection<CartMeal>? CartMeals { get; set; }
     }
 }

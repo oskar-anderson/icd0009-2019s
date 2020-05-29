@@ -24,6 +24,7 @@ export class PizzaTemplateEdit {
         modifications: 0,
         extras: 0,
         description: "",
+        varietyState: 0,
     }
     
     private _categorys?: ICategory[];
@@ -48,9 +49,7 @@ export class PizzaTemplateEdit {
                 response => {
                     this._alert = alertHandler(SOURCE.CATEGORY, response.statusCode, response.errorMessage);
                     if (response.statusCode >= 200 && response.statusCode < 300) {
-                        this._categorys = response.data!.filter(function (x) {
-                            return x.forPizzaTemplate;
-                        })
+                        this._categorys = response.data;
                     }
                 }
             );
@@ -67,6 +66,7 @@ export class PizzaTemplateEdit {
                 modifications: parseInt(this._pizzaTemplate.modifications + ""),
                 extras: parseInt(this._pizzaTemplate.extras + ""),
                 description: this._pizzaTemplate.description,
+                varietyState: parseInt(this._pizzaTemplate.varietyState + ""),
             })
             .then(
                 response => {

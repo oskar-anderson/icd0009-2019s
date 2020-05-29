@@ -16,14 +16,15 @@ namespace DAL.App.DTO
         
         public string? Picture { get; set; }
 
-        public int Modifications { get; set; } = default!;
+        public int? Modifications { get; set; }
 
-        public int Extras { get; set; } = default!;
+        public int? Extras { get; set; }
 
         public string? Description { get; set; }
-
         
-        public ICollection<ComponentPizzaUser>? PizzaComponents { get; set; }
-
+        public int VarietyState { get; set; } = default!;
+        
+        public ICollection<ComponentPizzaTemplate>? ComponentPizzaTemplates { get; set; }
+        public ICollection<Pizza>? Pizzas { get; set; }
     }
 }
