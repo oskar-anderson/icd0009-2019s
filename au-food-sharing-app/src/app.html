@@ -1,183 +1,182 @@
 <template>
-    <header class="topHead">
-        <div class="container">
-            <nav style="display: flex;">
-                <ul if.bind="appState.jwt == null" class="navbar-nav flex-row ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" style="padding: 0px 8px 0px 8px !important;" href="#">
-                            <img alt="facebook-logo" src="https://secureservercdn.net/160.153.138.53/b53.d60.myftpupload.com/wp-content/uploads/2019/09/icon-social4-white.png?time=1589656675" width="22">
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" style="padding: 0px 8px 0px 8px !important;" href="#">
-                            <img alt="facebook-logo" src="https://secureservercdn.net/160.153.138.53/b53.d60.myftpupload.com/wp-content/uploads/2019/09/icon-social2-white.png?time=1589656675" width="22">
-                        </a>
-                    </li>
-                    <!--
-                        <a href="/" style="color: white" class="fa fa-facebook"></a>
-                        <a href="/" style="color: white" class="fa fa-twitter"></a>
-                    -->
-                    <li class="nav-item">
-                        <a class="text-light" style="padding: 0px 8px 0px 8px !important;" class="nav-link" route-href="route: account-register; params.bind: {}">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="text-light" style="padding: 0px 8px 0px 8px !important;" class="nav-link" route-href="route: account-login; params.bind: {}">Login</a>
-                    </li>
-                </ul>
-                <ul if.bind="appState.jwt != null" class="navbar-nav flex-row ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" style="padding: 0px 8px 0px 8px !important;" href="#">
-                            <img alt="facebook-logo" src="https://secureservercdn.net/160.153.138.53/b53.d60.myftpupload.com/wp-content/uploads/2019/09/icon-social4-white.png?time=1589656675" width="22">
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" style="padding: 0px 8px 0px 8px !important;" href="#">
-                            <img alt="facebook-logo" src="https://secureservercdn.net/160.153.138.53/b53.d60.myftpupload.com/wp-content/uploads/2019/09/icon-social2-white.png?time=1589656675" width="22">
-                        </a>
-                    </li>
-                    <!--
-                        <a href="/" style="color: white" class="fa fa-facebook"></a>
-                        <a href="/" style="color: white" class="fa fa-twitter"></a>
-                    -->
-                    <li class="nav-item">
-                        <a class="text-light" style="padding: 0px 0px 0px 8px !important;" class="nav-link" href="#" click.delegate="logoutOnClick()">Logout</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    <header class="botHead">
-        <nav class="navbar navbar-expand-md navbar-toggleable-md navbar-dark" style="padding-bottom: 0.2rem;padding-top: 0.2rem;">
-            <!-- Logo text or image -->
+    <div class="page-container">
+        <header class="topHead">
             <div class="container">
-                <a class="navbar-brand" style="padding-top: 0px;" href="/">
-                    <h1>Pitsa Riina</h1>
-                </a>
-
-                <button class="navbar-toggler ml-auto" data-toggle="collapse" data-target="#navbarMenu">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarMenu">
-                    
-                    <div class="main_nav_dropdown dropdown">
-                        <button class="main_nav_dropbtn text-light" type="button" data-toggle="dropdown">
-                            DB User
-                            <i class="fa fa-caret-down"></i>
-                        </button>
-                        <div class="main-nav-dropdown-content dropdown-menu">
-                            <a class="nav-link text-dark" href="#/cart">Cart</a>
-                            <a class="nav-link text-dark" href="#/cartMeal">CartMeal</a>
-                            <a class="nav-link text-dark" href="#/componentPizzaUser">ComponentPizzaUser</a>
-                            <a class="nav-link text-dark" href="#/item">Item</a>
-                            <a class="nav-link text-dark" href="#/pizzaUser">PizzaUser</a>
-                            <a class="nav-link text-dark" href="#/sharing">Sharing</a>
-                            <a class="nav-link text-dark" href="#/sharingItem">SharingItem</a>
-                            <a class="nav-link text-dark" href="#/userLocation">UserLocation</a>
-                        </div>
-                    </div>
-                    <div class="main_nav_dropdown dropdown">
-                        <button class="main_nav_dropbtn text-light" type="button" data-toggle="dropdown">
-                            DB Restaurant
-                            <i class="fa fa-caret-down"></i>
-                        </button>
-                        <div class="main-nav-dropdown-content dropdown-menu">
-                            <a class="nav-link text-dark" href="#/category">Category</a>
-                            <a class="nav-link text-dark" href="#/component">Component</a>
-                            <a class="nav-link text-dark" href="#/componentPizzaTPL">ComponentPizzaTemplate</a>
-                            <a class="nav-link text-dark" href="#/pizza">Pizza</a>
-                            <a class="nav-link text-dark" href="#/pizzaTemplate">PizzaTemplate</a>
-                            <a class="nav-link text-dark" href="#/restaurant">Restaurant</a>
-                            <a class="nav-link text-dark" href="#/restaurantFood">RestaurantFood</a>
-                        </div>
-                    </div>
-
-                    
-
-
-                    <div class="main_nav_dropdown dropdown">
-                        <button class="main_nav_dropbtn" style="margin: 0px 16px 0px 0px; color: #9C9C9C" type="button" data-toggle="dropdown">
-                            Meist
-                            <i class="fa fa-caret-down"></i>
-                        </button>
-                        <div class="main-nav-dropdown-content dropdown-menu">
-                            <a class="nav-link text-dark" href="#">Lugu</a>
-                            <a class="nav-link text-dark" href="#">Kontaktid</a>
-                            <a class="nav-link text-dark" href="#">Tööpakkumised</a>
-                        </div>
-                    </div>
-                    <div style="margin: 8px 8px 8px 8px">
-                        <a style="color: #9C9C9C" href="#">Gallery</a>
-                    </div>
-                    <div class="ml-auto">
-                        <img class="nd_options_float_left" alt="" src="https://secureservercdn.net/160.153.138.53/b53.d60.myftpupload.com/wp-content/uploads/2019/12/cart-icon.png?time=1589656675" width="25">
-                    </div>
-                </div>
+                <nav style="display: flex;">
+                    <ul if.bind="appState.jwt == null" class="navbar-nav flex-row ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" style="padding: 0px 8px 0px 8px !important;" href="#">
+                                <img alt="facebook-logo" src="https://secureservercdn.net/160.153.138.53/b53.d60.myftpupload.com/wp-content/uploads/2019/09/icon-social4-white.png?time=1589656675" width="22">
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="padding: 0px 8px 0px 8px !important;" href="#">
+                                <img alt="facebook-logo" src="https://secureservercdn.net/160.153.138.53/b53.d60.myftpupload.com/wp-content/uploads/2019/09/icon-social2-white.png?time=1589656675" width="22">
+                            </a>
+                        </li>
+                        <!--
+                            <a href="/" style="color: white" class="fa fa-facebook"></a>
+                            <a href="/" style="color: white" class="fa fa-twitter"></a>
+                        -->
+                        <li class="nav-item">
+                            <a class="text-light" style="padding: 0px 8px 0px 8px !important;" class="nav-link" route-href="route: account-register; params.bind: {}">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="text-light" style="padding: 0px 8px 0px 8px !important;" class="nav-link" route-href="route: account-login; params.bind: {}">Login</a>
+                        </li>
+                    </ul>
+                    <ul if.bind="appState.jwt != null" class="navbar-nav flex-row ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" style="padding: 0px 8px 0px 8px !important;" href="#">
+                                <img alt="facebook-logo" src="https://secureservercdn.net/160.153.138.53/b53.d60.myftpupload.com/wp-content/uploads/2019/09/icon-social4-white.png?time=1589656675" width="22">
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="padding: 0px 8px 0px 8px !important;" href="#">
+                                <img alt="facebook-logo" src="https://secureservercdn.net/160.153.138.53/b53.d60.myftpupload.com/wp-content/uploads/2019/09/icon-social2-white.png?time=1589656675" width="22">
+                            </a>
+                        </li>
+                        <!--
+                            <a href="/" style="color: white" class="fa fa-facebook"></a>
+                            <a href="/" style="color: white" class="fa fa-twitter"></a>
+                        -->
+                        <li class="nav-item">
+                            <a class="text-light" style="padding: 0px 0px 0px 8px !important;" class="nav-link" href="#" click.delegate="logoutOnClick()">Logout</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
-            
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main">
-            <router-view></router-view> 
-        </main>
-    </div>
-    <footer class="page-footer footer-dark" style="padding-bottom: 1px;">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-4">
-                    <div class="widget m-b-40 clearfix widget_text text-11">
-                        <h3 class="widget_title">Kontaktid</h3>
-                        <div class="textwidget">
-                            <p class="has-icon">
-                                <i class="fa fa-building"></i> AS Pitsa Riina, Endla 76, 45627, Tallinn, Eesti
-                                <br>Reg.nr: 11653933 
-                                <br>KMKR EE100460728
-                            </p>
-                            <p></p>
-                            <p class="has-icon"><i class="fa fa-phone"></i> 537 7344</p>
-                            <p class="has-icon"><i class="fa fa-coffee"></i> Restoranid Kristiines, Mustamäel ja Lasnamäel</p>
-                            <p class="has-icon"><i class="fa fa-envelope"></i> yritused@pitsariina.ee</p>
-                            <p class="has-icon"><i class="fa fa-globe"></i> www.pitsariina.ee</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-4">
-                    <div class="widget m-b-40 clearfix widget_text text-12">
-                        <h3 class="footerh3">Lingid</h3>
-                        <div class="divmff">
-                            <ul class="footerlistlinks w-list-unstyled">
-                                <li class="footerp">
-                                    <a class="text-light" href="#">Privaatsustingimused</a>
-                                </li>
-                                <li class="footerp">
-                                    <a class="text-light" href="#">Kasutustingumused</a>
-                                </li>
-                                <li class="footerp">
-                                    <a class="text-light" href="#">Reklaam</a>
-                                </li>
-                                <li class="footerp">
-                                    <a class="text-light" href="#">KKK</a>
-                                </li>
+        </header>
+        <header class="botHead">
+            <nav class="navbar navbar-expand-md navbar-toggleable-md navbar-dark" style="padding-bottom: 0.2rem;padding-top: 0.2rem;">
+                <!-- Logo text or image -->
+                <div class="container">
+                    <a class="navbar-brand" style="padding-top: 0px;" href="/">
+                        <h1>Pitsa Riina</h1>
+                    </a>
 
-                            </ul>
+                    <button class="navbar-toggler ml-auto" data-toggle="collapse" data-target="#navbarMenu">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarMenu">
+                        
+                        <div class="main_nav_dropdown dropdown">
+                            <button class="main_nav_dropbtn text-light" type="button" data-toggle="dropdown">
+                                DB User
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                            <div class="main-nav-dropdown-content dropdown-menu">
+                                <a class="nav-link text-dark" href="#/cart">Cart</a>
+                                <a class="nav-link text-dark" href="#/sharing">Sharing</a>
+                                <a class="nav-link text-dark" href="#/userLocation">UserLocation</a>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-4">
-                    <div class="widget m-b-40 clearfix widget_text text-8">
-                        <h3 class="widget_title">Restoranid</h3>
-                        <span>${_alert.message}</span>
-                        <div class="textwidget"  repeat.for="restaurant of _restaurants">
-                            <p>${restaurant.name}, ${restaurant.location}.<br> 
-                                ${restaurant.openTime}. ${restaurant.openNotification} 
-                            </p>
+                        <div class="main_nav_dropdown dropdown">
+                            <button class="main_nav_dropbtn text-light" type="button" data-toggle="dropdown">
+                                DB Restaurant
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                            <div class="main-nav-dropdown-content dropdown-menu">
+                                <a class="nav-link text-dark" href="#/category">Category</a>
+                                <a class="nav-link text-dark" href="#/component">Component</a>
+                                <a class="nav-link text-dark" href="#/componentPizzaTPL">ComponentPizzaTemplate</a>
+                                <a class="nav-link text-dark" href="#/pizza">Pizza</a>
+                                <a class="nav-link text-dark" href="#/pizzaTemplate">PizzaTemplate</a>
+                                <a class="nav-link text-dark" href="#/restaurant">Restaurant</a>
+                                <a class="nav-link text-dark" href="#/restaurantFood">RestaurantFood</a>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
 
-            <p style="text-align: right">&copy; 2020 - Pitsa Riina</p>
-            <a href="#all" class="to-top scroll-to"></a>
+                        
+
+
+                        <div class="main_nav_dropdown dropdown">
+                            <button class="main_nav_dropbtn" style="margin: 0px 16px 0px 0px; color: #9C9C9C" type="button" data-toggle="dropdown">
+                                Meist
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                            <div class="main-nav-dropdown-content dropdown-menu">
+                                <a class="nav-link text-dark" href="#">Lugu</a>
+                                <a class="nav-link text-dark" href="#">Kontaktid</a>
+                                <a class="nav-link text-dark" href="#">Tööpakkumised</a>
+                            </div>
+                        </div>
+                        <div style="margin: 8px 8px 8px 8px">
+                            <a style="color: #9C9C9C" href="#">Gallery</a>
+                        </div>
+                        <!--
+                        <div class="ml-auto">
+                            <img class="nd_options_float_left" alt="" src="https://secureservercdn.net/160.153.138.53/b53.d60.myftpupload.com/wp-content/uploads/2019/12/cart-icon.png?time=1589656675" width="25">
+                        </div>
+                        -->
+                    </div>
+                </div>
+                
+            </nav>
+        </header>
+        <div class="container" style="padding-bottom: 2.5rem; min-height: 800px;">
+            <main role="main">
+                <router-view></router-view> 
+            </main>
         </div>
-    </footer>
+        <footer class="page-footer footer-dark" style="padding-bottom: 1px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="widget m-b-40 clearfix widget_text text-11">
+                            <h3 class="widget_title">Kontaktid</h3>
+                            <div class="textwidget">
+                                <p class="has-icon">
+                                    <i class="fa fa-building"></i> AS Pitsa Riina, Endla 76, 45627, Tallinn, Eesti
+                                    <br>Reg.nr: 11653933 
+                                    <br>KMKR EE100460728
+                                </p>
+                                <p></p>
+                                <p class="has-icon"><i class="fa fa-phone"></i> 537 7344</p>
+                                <p class="has-icon"><i class="fa fa-coffee"></i> Restoranid Kristiines, Mustamäel ja Lasnamäel</p>
+                                <p class="has-icon"><i class="fa fa-envelope"></i> yritused@pitsariina.ee</p>
+                                <p class="has-icon"><i class="fa fa-globe"></i> www.pitsariina.ee</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="widget m-b-40 clearfix widget_text text-12">
+                            <h3 class="footerh3">Lingid</h3>
+                            <div class="divmff">
+                                <ul class="footerlistlinks w-list-unstyled">
+                                    <li class="footerp">
+                                        <a class="text-light" href="#">Privaatsustingimused</a>
+                                    </li>
+                                    <li class="footerp">
+                                        <a class="text-light" href="#">Kasutustingumused</a>
+                                    </li>
+                                    <li class="footerp">
+                                        <a class="text-light" href="#">Reklaam</a>
+                                    </li>
+                                    <li class="footerp">
+                                        <a class="text-light" href="#">KKK</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="widget m-b-40 clearfix widget_text text-8">
+                            <h3 class="widget_title">Restoranid</h3>
+                            <span>${_alert.message}</span>
+                            <div class="textwidget"  repeat.for="restaurant of _restaurants">
+                                <p>${restaurant.name}, ${restaurant.location}.<br> 
+                                    ${restaurant.openTime}. ${restaurant.openNotification} 
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="text-align: right">&copy; 2020 - Pitsa Riina</p>
+                <a href="#all" class="to-top scroll-to"></a>
+            </div>
+        </footer>
+    </div>
 </template>

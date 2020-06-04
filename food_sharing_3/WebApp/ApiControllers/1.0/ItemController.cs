@@ -16,6 +16,9 @@ using V1DTO = PublicApi.DTO.v1;
 
 namespace WebApp.ApiControllers._1._0
 {
+    /// <summary>
+    /// Item Api Controller
+    /// </summary>
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
@@ -26,20 +29,36 @@ namespace WebApp.ApiControllers._1._0
         private readonly IAppBLL _bll;
         private readonly ItemMapper _mapper = new ItemMapper();
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ItemController(IAppBLL bll)
         {
             _bll = bll;
         }
 
-        // GET: api/Item
+        /// <summary>
+        /// Get a list of all the Items
+        /// </summary>
+        /// <returns>List of Item</returns>
         [HttpGet]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<V1DTO.ItemDTO>))]
         public async Task<ActionResult<IEnumerable<V1DTO.ItemDTO>>> GetItems()
         {
-            return Ok(await _bll.Items.GetAllForApiAsync());
+            return Ok((await _bll.Items.GetAllForApiAsync()).Select(e => _mapper.MapItemView(e)));
         }
 
-        // GET: api/Item/5
+        /// <summary>
+        /// Get single Item
+        /// </summary>
+        /// <param name="id">Item Id</param>
+        /// <returns>request Item</returns>
         [HttpGet("{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.ItemDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<V1DTO.ItemDTO>> GetItem(Guid id)
         {
             var item = await _bll.Items.FirstOrDefaultApiAsync(id);
@@ -49,13 +68,21 @@ namespace WebApp.ApiControllers._1._0
                 return NotFound(new V1DTO.MessageDTO($"GetItem with id {id} not found"));
             }
 
-            return Ok(item);
+            return Ok(_mapper.MapItemView(item));
         }
 
-        // PUT: api/Item/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        /// <summary>
+        /// Update the Item
+        /// </summary>
+        /// <param name="id">Item id</param>
+        /// <param name="item">Item object</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(V1DTO.MessageDTO))]
         public async Task<IActionResult> PutItem(Guid id, ItemDTO item)
         {
             if (id != item.Id)
@@ -69,10 +96,15 @@ namespace WebApp.ApiControllers._1._0
             return NoContent();
         }
 
-        // POST: api/Item
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        /// <summary>
+        /// Create a new Item
+        /// </summary>
+        /// <param name="item">Item object</param>
+        /// <returns>created Item object</returns>
         [HttpPost]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(V1DTO.ItemDTO))]
         public async Task<ActionResult<V1DTO.ItemDTO>> PostItem(ItemDTO item)
         {
             var bllEntity = _mapper.Map(item);
@@ -80,20 +112,31 @@ namespace WebApp.ApiControllers._1._0
             await _bll.SaveChangesAsync();
             item.Id = bllEntity.Id;
 
-            return CreatedAtAction("GetItem", new { id = item.Id }, item);
+            return CreatedAtAction("GetItem",
+                new { id = item.Id, version = HttpContext.GetRequestedApiVersion()?.ToString() ?? "0"}, 
+                item);
         }
 
-        // DELETE: api/Item/5
+        /// <summary>
+        /// Delete the Item
+        /// </summary>
+        /// <param name="id">Item Id</param>
+        /// <returns>deleted Item object</returns>
         [HttpDelete("{id}")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(V1DTO.ItemDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(V1DTO.MessageDTO))]
         public async Task<ActionResult<V1DTO.ItemDTO>> DeleteItem(Guid id)
         {
             var item = await _bll.Items.FirstOrDefaultApiAsync(id);
             if (item == null)
             {
-                return NotFound();
+                return NotFound(new {message = "Item not found"});
             }
+            item.Sharing = null;
 
-            await _bll.Items.RemoveAsync(item);
+            await _bll.Items.RemoveAsync(id);
             await _bll.SaveChangesAsync();
 
             return Ok(item);

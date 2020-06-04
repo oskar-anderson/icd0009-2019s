@@ -19,10 +19,8 @@ namespace DAL.App.EF
         public DbSet<Category> Categorys { get; set; } = default!;
         public DbSet<Component> Components { get; set; } = default!;
         public DbSet<ComponentPizzaTemplate> ComponentPizzaTPLs { get; set; } = default!;
-        public DbSet<ComponentPizzaUser> ComponentPizzaUsers { get; set; } = default!;
         public DbSet<Item> Items { get; set; } = default!;
         public DbSet<Pizza> Pizzas { get; set; } = default!;
-        public DbSet<PizzaUser> PizzaUsers { get; set; } = default!;
         public DbSet<PizzaTemplate> PizzaTemplates { get; set; } = default!;
         public DbSet<Restaurant> Restaurants { get; set; } = default!;
         public DbSet<RestaurantFood> RestaurantFoods { get; set; } = default!;

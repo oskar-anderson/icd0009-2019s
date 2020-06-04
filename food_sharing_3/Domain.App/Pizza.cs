@@ -15,7 +15,6 @@ namespace Domain.App
 
         [MinLength(4), MaxLength(128)] public string Name { get; set; } = default!;
         
-        public ICollection<PizzaUser>? PizzaUsers { get; set; }
         public ICollection<RestaurantFood>? RestaurantFoods { get; set; }
         public ICollection<CartMeal>? CartMeals { get; set; }
     }

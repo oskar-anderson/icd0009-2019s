@@ -9,11 +9,9 @@ namespace Contracts.DAL.App
         ICartMealRepository CartMeals { get; }
         ICategoryRepository Categorys { get; }
         IComponentRepository Components { get; }
-        IComponentPizzaUserRepository ComponentPizzaUsers { get; }
         IComponentPizzaTemplateRepository ComponentPizzaTemplates { get; }
         IItemRepository Items { get; }
         IPizzaRepository Pizzas { get; }
-        IPizzaUserRepository PizzaUsers { get; }
         IPizzaTemplateRepository PizzaTemplates { get; }
         IRestaurantRepository Restaurants { get; }
         IRestaurantFoodRepository RestaurantFoods { get; }

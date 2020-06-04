@@ -1,0 +1,60 @@
+﻿@model BLL.App.DTO.Cart
+
+<div class="form-group">
+    <label asp-for="AppUserId" class="control-label"></label>
+    <select asp-for="AppUserId" class ="form-control" asp-items="ViewBag.AppUserId"></select>
+</div>
+<div class="form-group">
+    <label asp-for="RestaurantId" class="control-label"></label>
+    <select asp-for="RestaurantId" class ="form-control" asp-items="ViewBag.RestaurantId"></select>
+</div>
+<div class="form-group">
+    <label asp-for="AsDelivery" class="control-label"></label>
+    <input asp-for="AsDelivery" class="checkbox" type="checkbox" />
+</div>
+<div class="form-group">
+    <label asp-for="UserLocationId" class="control-label"></label>
+    <select asp-for="UserLocationId" class ="form-control" asp-items="ViewBag.UserLocationId"></select>
+</div>
+<div class="form-group">
+    <label asp-for="PaymentMethod" class="control-label"></label>
+    <select asp-for="PaymentMethod" class ="form-control" asp-items="ViewBag.PaymentMethod"></select>
+    <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="FirstName" class="control-label"></label>
+    <input asp-for="FirstName" class="form-control" />
+    <span asp-validation-for="FirstName" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="LastName" class="control-label"></label>
+    <input asp-for="LastName" class="form-control" />
+    <span asp-validation-for="LastName" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Phone" class="control-label"></label>
+    <input asp-for="Phone" class="form-control" />
+    <span asp-validation-for="Phone" class="text-danger"></span>
+</div>
+@*
+<div class="form-group">
+    <label asp-for="CreatedBy" class="control-label"></label>
+    <input asp-for="CreatedBy" class="form-control" />
+    <span asp-validation-for="CreatedBy" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="CreatedAt" class="control-label"></label>
+    <input asp-for="CreatedAt" class="form-control" />
+    <span asp-validation-for="CreatedAt" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ChangedBy" class="control-label"></label>
+    <input asp-for="ChangedBy" class="form-control" />
+    <span asp-validation-for="ChangedBy" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ChangedAt" class="control-label"></label>
+    <input asp-for="ChangedAt" class="form-control" />
+    <span asp-validation-for="ChangedAt" class="text-danger"></span>
+</div>
+*@

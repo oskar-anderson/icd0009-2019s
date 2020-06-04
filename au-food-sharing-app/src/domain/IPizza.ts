@@ -27,6 +27,7 @@ export interface IPizzaWithRestaurants {
     freeRestaurants: IRestaurantFood[];
     takenRestaurants: IRestaurantFood[];
     activeRestaurantFood: IRestaurantFood;
+    isSelectedPizza: boolean;
 }
 
 export class PizzaSize {

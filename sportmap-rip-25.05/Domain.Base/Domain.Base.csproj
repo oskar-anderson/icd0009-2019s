@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="com.akaver.sportmap.Contracts.Domain" Version="1.0.0" />
+      <PackageReference Include="System.Text.Json" Version="4.7.2" />
+    </ItemGroup>
+
+</Project>

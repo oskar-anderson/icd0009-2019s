@@ -16,7 +16,6 @@ namespace BLL.App.Mappers
             MapperConfigurationExpression.CreateMap<UserLocation, BLLAppDTO.UserLocation>();
             MapperConfigurationExpression.CreateMap<AppUser, BLLAppDTO.Identity.AppUser>();
             MapperConfigurationExpression.CreateMap<Restaurant, BLLAppDTO.Restaurant>();
-            MapperConfigurationExpression.CreateMap<PizzaUser, BLLAppDTO.PizzaUser>();
             MapperConfigurationExpression.CreateMap<Pizza, BLLAppDTO.Pizza>();
             MapperConfigurationExpression.CreateMap<PizzaTemplate, BLLAppDTO.PizzaTemplate>();
             MapperConfigurationExpression.CreateMap<Category, BLLAppDTO.Category>();

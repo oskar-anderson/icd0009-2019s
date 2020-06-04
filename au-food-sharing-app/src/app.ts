@@ -27,7 +27,7 @@ export class App {
     configureRouter(config: RouterConfiguration, router: Router): void {
         this.router = router;
 
-        config.title = 'food-sharing';
+        config.title = 'Pitsa Riina';
 
         config.map([
             {route: ['', 'home', 'home/index'], name: 'home', moduleId: PLATFORM.moduleName('views/home/index'), nav: true, title: 'Home' },
@@ -35,8 +35,7 @@ export class App {
             {route: ['account/login'], name: 'account-login', moduleId: PLATFORM.moduleName('views/account/login'), nav: false, title: 'Login' },
             {route: ['account/register'], name: 'account-register', moduleId: PLATFORM.moduleName('views/account/register'), nav: false, title: 'Register' },
             
-            {route: ['cart', 'cart/index'], name: 'cart', moduleId: PLATFORM.moduleName('views/cart/index'), nav: true, title: 'cart' },
-            {route: ['cartMeal', 'cartMeal/index'], name: 'cartMeal', moduleId: PLATFORM.moduleName('views/cartMeal/index'), nav: true, title: 'cartMeal' },
+            {route: ['cart', 'cart/index'], name: 'cart-index', moduleId: PLATFORM.moduleName('views/cart/index'), nav: true, title: 'cart' },
             
             {route: ['category', 'category/index'], name: 'category-index', moduleId: PLATFORM.moduleName('views/category/index'), nav: true, title: 'category' },
             {route: ['category/create'], name: 'category-create', moduleId: PLATFORM.moduleName('views/category/create'), nav: false},
@@ -53,7 +52,6 @@ export class App {
 
             
             {route: ['componentPizzaTPL', 'componentPizzaTPL/index'], name: 'componentPizzaTPL', moduleId: PLATFORM.moduleName('views/componentPizzaTPL/index'), nav: true, title: 'componentPizzaTPL' },
-            {route: ['componentPizzaUser', 'componentPizzaUser/index'], name: 'componentPizzaUser', moduleId: PLATFORM.moduleName('views/componentPizzaUser/index'), nav: true, title: 'componentPizzaUser' },
             {route: ['item', 'item/index'], name: 'item', moduleId: PLATFORM.moduleName('views/item/index'), nav: true, title: 'item' },
             
             {route: ['pizza', 'pizza/index'], name: 'pizza-index', moduleId: PLATFORM.moduleName('views/pizza/index'), nav: true, title: 'pizza' },
@@ -62,7 +60,6 @@ export class App {
             {route: ['pizza/edit/:id?'], name: 'pizza-edit', moduleId: PLATFORM.moduleName('views/pizza/edit'), nav: false },
             {route: ['pizza/delete/:id?'], name: 'pizza-delete', moduleId: PLATFORM.moduleName('views/pizza/delete'), nav: false },  
             
-            {route: ['pizzaUser', 'pizzaUser/index'], name: 'pizzaUser', moduleId: PLATFORM.moduleName('views/pizzaUser/index'), nav: true, title: 'pizzaUser' },
             
             {route: ['pizzaTemplate', 'pizzaTemplate/index'], name: 'pizzaTemplate-index', moduleId: PLATFORM.moduleName('views/pizzaTemplate/index'), nav: true, title: 'pizzaTemplate' },
             {route: ['pizzaTemplate/create'], name: 'pizzaTemplate-create', moduleId: PLATFORM.moduleName('views/pizzaTemplate/create'), nav: false },
@@ -84,10 +81,17 @@ export class App {
             
             
             
-            {route: ['sharing', 'sharing/index'], name: 'sharing', moduleId: PLATFORM.moduleName('views/sharing/index'), nav: true, title: 'sharing' },
-            {route: ['sharingItem', 'sharingItem/index'], name: 'sharingItem', moduleId: PLATFORM.moduleName('views/sharingItem/index'), nav: true, title: 'sharingItem' },
-            {route: ['userLocation', 'userLocation/index'], name: 'userLocation', moduleId: PLATFORM.moduleName('views/userLocation/index'), nav: true, title: 'userLocation' },
+            {route: ['sharing', 'sharing/index'], name: 'sharing-index', moduleId: PLATFORM.moduleName('views/sharing/index'), nav: true, title: 'sharing' },
+            //{route: ['sharing/create'], name: 'sharing-create', moduleId: PLATFORM.moduleName('views/sharing/create'), nav: false},
+            {route: ['sharing/edit/:id?'], name: 'sharing-edit', moduleId: PLATFORM.moduleName('views/sharing/edit'), nav: false },
+            //{route: ['userLosharingcation/delete/:id?'], name: 'sharing-delete', moduleId: PLATFORM.moduleName('views/sharing/delete'), nav: false },
 
+            {route: ['sharingItem', 'sharingItem/index'], name: 'sharingItem', moduleId: PLATFORM.moduleName('views/sharingItem/index'), nav: true, title: 'sharingItem' },
+            
+            {route: ['userLocation', 'userLocation/index'], name: 'userLocation-index', moduleId: PLATFORM.moduleName('views/userLocation/index'), nav: true, title: 'userLocation' },
+            {route: ['userLocation/create'], name: 'userLocation-create', moduleId: PLATFORM.moduleName('views/userLocation/create'), nav: false},
+            {route: ['userLocation/edit/:id?'], name: 'userLocation-edit', moduleId: PLATFORM.moduleName('views/userLocation/edit'), nav: false },
+            {route: ['userLocation/delete/:id?'], name: 'userLocation-delete', moduleId: PLATFORM.moduleName('views/userLocation/delete'), nav: false },
         ]
 
         );

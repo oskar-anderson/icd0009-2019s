@@ -12,8 +12,6 @@ namespace DAL.App.DTO
         
         public Guid AppUserId { get; set; } = default!;
         public AppUser? AppUser { get; set; }
-        
-        public int State { get; set; } = default!;
 
         public Guid RestaurantId { get; set; } = default!;
         public Restaurant? Restaurant { get; set; }
@@ -22,18 +20,13 @@ namespace DAL.App.DTO
 
         public Guid? UserLocationId { get; set; }
         public UserLocation? UserLocation { get; set; }
+        
+        public string PaymentMethod { get; set; } = default!;
 
-        
-        public decimal? Gross { get; set; }
-        
-        public string? PaymentMethod { get; set; }
+        public string FirstName { get; set; } = default!;
+        public string LastName { get; set; } = default!;
+        public string Phone { get; set; } = default!;
 
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public string? Phone { get; set; }
-        
-        public DateTime? ReadyBy { get; set; }
-        
         public ICollection<CartMeal>? CartMeals { get; set; }
     }
 }

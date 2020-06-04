@@ -31,9 +31,6 @@ namespace DAL.App.EF
         public IComponentPizzaTemplateRepository ComponentPizzaTemplates => 
             GetRepository<IComponentPizzaTemplateRepository>(() => new ComponentPizzaTemplateRepository(UOWDbContext));
         
-        public IComponentPizzaUserRepository ComponentPizzaUsers => 
-            GetRepository<IComponentPizzaUserRepository>(() => new ComponentPizzaUserRepository(UOWDbContext));
-        
         
         public IPizzaRepository Pizzas => 
             GetRepository<IPizzaRepository>(() => new PizzaRepository(UOWDbContext));
@@ -41,9 +38,6 @@ namespace DAL.App.EF
 
         public IPizzaTemplateRepository PizzaTemplates => 
             GetRepository<IPizzaTemplateRepository>(() => new PizzaTemplateRepository(UOWDbContext));
-
-        public IPizzaUserRepository PizzaUsers => 
-            GetRepository<IPizzaUserRepository>(() => new PizzaUserRepository(UOWDbContext));
         
         public IRestaurantRepository Restaurants => 
             GetRepository<IRestaurantRepository>(() => new RestaurantRepository(UOWDbContext));

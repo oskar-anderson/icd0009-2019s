@@ -10,11 +10,9 @@ namespace Contracts.BLL.App
         ICartService Carts { get; }
         ICategoryService Categorys { get; }
         IComponentService Components { get; }
-        IComponentPizzaUserService ComponentPizzaUsers { get; }
         IComponentPizzaTemplateService ComponentPizzaTemplates { get; }
         IItemService Items { get; }
         IPizzaService Pizzas { get; }
-        IPizzaUserService PizzaUsers { get; }
         IPizzaTemplateService PizzaTemplates { get; }
         IRestaurantFoodService RestaurantFoods { get; }
         IRestaurantService Restaurants { get; }

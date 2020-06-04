@@ -85,9 +85,11 @@ namespace DAL.App.EF.Repositories
                     Id = cm.Id,
                     CartId = cm.Cart.Id,
                     PizzaId = cm.PizzaId,
-                    PizzaUserId = cm.PizzaUserId,
                     Name = cm.Name,
-                    Gross = cm.Gross,
+                    PizzaGross = cm.PizzaGross,
+                    Changes = cm.Changes,
+                    ComponentsGross = cm.ComponentsGross,
+                    TotalGross = cm.TotalGross,
                 })
                 .ToListAsync();
             return cartMeal;
@@ -103,9 +105,11 @@ namespace DAL.App.EF.Repositories
                     Id = cm.Id,
                     CartId = cm.Cart.Id,
                     PizzaId = cm.PizzaId,
-                    PizzaUserId = cm.PizzaUserId,
                     Name = cm.Name,
-                    Gross = cm.Gross,
+                    PizzaGross = cm.PizzaGross,
+                    Changes = cm.Changes,
+                    ComponentsGross = cm.ComponentsGross,
+                    TotalGross = cm.TotalGross,
                 })
                 .FirstOrDefaultAsync();
             return cartMeal;
@@ -121,7 +125,6 @@ namespace DAL.App.EF.Repositories
                     Cart = new Cart()
                     {
                         Id = cm.Cart.Id,
-                        State = cm.Cart.State,
                         AppUserId = cm.Cart.AppUser.Id,    // appUser
                         RestaurantId = cm.Cart.RestaurantId,
                         Restaurant = new Restaurant()
@@ -146,12 +149,10 @@ namespace DAL.App.EF.Repositories
                                 BuildingNumber = cm.Cart.UserLocation.BuildingNumber,
                                 ApartmentNumber = cm.Cart.UserLocation.ApartmentNumber
                             },
-                        Gross = cm.Cart.Gross,
                         PaymentMethod = cm.Cart.PaymentMethod,
                         FirstName = cm.Cart.FirstName,
                         LastName = cm.Cart.LastName,
                         Phone = cm.Cart.Phone,
-                        ReadyBy = cm.Cart.ReadyBy
                     },
                     PizzaId = cm.PizzaId,
                     Pizza = cm.Pizza == null
@@ -180,40 +181,11 @@ namespace DAL.App.EF.Repositories
                             SizeName = cm.Pizza.SizeName,
                             Name = cm.Pizza.Name,
                         },
-                    PizzaUserId = cm.PizzaUserId,
-                    PizzaUser = cm.PizzaUser == null
-                        ? null
-                        : new PizzaUser()
-                        {
-                            Id = cm.PizzaUser.Id,
-                            PizzaId = cm.PizzaUser.Pizza.Id,
-                            AppUserId = cm.PizzaUser.AppUserId,
-                            Pizza = new Pizza()
-                            {
-                                Id = cm.PizzaUser.Pizza.Id,
-                                PizzaTemplateId = cm.PizzaUser.Pizza.PizzaTemplateId,
-                                PizzaTemplate = new PizzaTemplate()
-                                {
-                                    Id = cm.PizzaUser.Pizza.PizzaTemplate.Id,
-                                    CategoryId = cm.PizzaUser.Pizza.PizzaTemplate.CategoryId,
-                                    Category = new Category()
-                                    {
-                                        Id = cm.PizzaUser.Pizza.PizzaTemplate.Category.Id,
-                                        Name = cm.PizzaUser.Pizza.PizzaTemplate.Category.Name,
-                                    },
-                                    Name = cm.PizzaUser.Pizza.PizzaTemplate.Name,
-                                    Picture = cm.PizzaUser.Pizza.PizzaTemplate.Picture,
-                                    Modifications = cm.PizzaUser.Pizza.PizzaTemplate.Modifications,
-                                    Extras = cm.PizzaUser.Pizza.PizzaTemplate.Extras,
-                                    Description = cm.PizzaUser.Pizza.PizzaTemplate.Description,
-                                    VarietyState = cm.PizzaUser.Pizza.PizzaTemplate.VarietyState,
-                                },
-                                SizeNumber = cm.PizzaUser.Pizza.SizeNumber,
-                                SizeName = cm.PizzaUser.Pizza.SizeName,
-                                Name = cm.PizzaUser.Pizza.Name,
-                            },
-                            Changes = cm.PizzaUser.Changes,
-                        },
+                    Name = cm.Name,
+                    PizzaGross = cm.PizzaGross,
+                    Changes = cm.Changes,
+                    ComponentsGross = cm.ComponentsGross,
+                    TotalGross = cm.TotalGross,
                 })
                 .ToListAsync();
         }
@@ -225,12 +197,11 @@ namespace DAL.App.EF.Repositories
             return await query
                 .Select(cm => new CartMeal()
                 {
-                   Id = cm.Id,
+                    Id = cm.Id,
                     CartId = cm.Cart.Id,
                     Cart = new Cart()
                     {
                         Id = cm.Cart.Id,
-                        State = cm.Cart.State,
                         AppUserId = cm.Cart.AppUser.Id,    // appUser
                         RestaurantId = cm.Cart.RestaurantId,
                         Restaurant = new Restaurant()
@@ -255,12 +226,10 @@ namespace DAL.App.EF.Repositories
                                 BuildingNumber = cm.Cart.UserLocation.BuildingNumber,
                                 ApartmentNumber = cm.Cart.UserLocation.ApartmentNumber
                             },
-                        Gross = cm.Cart.Gross,
                         PaymentMethod = cm.Cart.PaymentMethod,
                         FirstName = cm.Cart.FirstName,
                         LastName = cm.Cart.LastName,
                         Phone = cm.Cart.Phone,
-                        ReadyBy = cm.Cart.ReadyBy
                     },
                     PizzaId = cm.PizzaId,
                     Pizza = cm.Pizza == null
@@ -289,40 +258,11 @@ namespace DAL.App.EF.Repositories
                             SizeName = cm.Pizza.SizeName,
                             Name = cm.Pizza.Name,
                         },
-                    PizzaUserId = cm.PizzaUserId,
-                    PizzaUser = cm.PizzaUser == null
-                        ? null
-                        : new PizzaUser()
-                        {
-                            Id = cm.PizzaUser.Id,
-                            PizzaId = cm.PizzaUser.Pizza.Id,
-                            AppUserId = cm.PizzaUser.AppUserId,
-                            Pizza = new Pizza()
-                            {
-                                Id = cm.PizzaUser.Pizza.Id,
-                                PizzaTemplateId = cm.PizzaUser.Pizza.PizzaTemplateId,
-                                PizzaTemplate = new PizzaTemplate()
-                                {
-                                    Id = cm.PizzaUser.Pizza.PizzaTemplate.Id,
-                                    CategoryId = cm.PizzaUser.Pizza.PizzaTemplate.CategoryId,
-                                    Category = new Category()
-                                    {
-                                        Id = cm.PizzaUser.Pizza.PizzaTemplate.Category.Id,
-                                        Name = cm.PizzaUser.Pizza.PizzaTemplate.Category.Name,
-                                    },
-                                    Name = cm.PizzaUser.Pizza.PizzaTemplate.Name,
-                                    Picture = cm.PizzaUser.Pizza.PizzaTemplate.Picture,
-                                    Modifications = cm.PizzaUser.Pizza.PizzaTemplate.Modifications,
-                                    Extras = cm.PizzaUser.Pizza.PizzaTemplate.Extras,
-                                    Description = cm.PizzaUser.Pizza.PizzaTemplate.Description,
-                                    VarietyState = cm.PizzaUser.Pizza.PizzaTemplate.VarietyState,
-                                },
-                                SizeNumber = cm.PizzaUser.Pizza.SizeNumber,
-                                SizeName = cm.PizzaUser.Pizza.SizeName,
-                                Name = cm.PizzaUser.Pizza.Name,
-                            },
-                            Changes = cm.PizzaUser.Changes,
-                        },
+                    Name = cm.Name,
+                    PizzaGross = cm.PizzaGross,
+                    Changes = cm.Changes,
+                    ComponentsGross = cm.ComponentsGross,
+                    TotalGross = cm.TotalGross,
                 })
                 .FirstOrDefaultAsync();
         }

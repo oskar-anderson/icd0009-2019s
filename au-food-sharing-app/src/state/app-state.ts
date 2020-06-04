@@ -1,3 +1,5 @@
+import * as JwtDecode from "jwt-decode";
+
 export class AppState {
     constructor(){
     }
@@ -19,5 +21,17 @@ export class AppState {
         }
     }
 
+    get isAdmin(): boolean {
+        if (this.jwt) {
+            const decoded = JwtDecode(this.jwt) as Record<string, string>;
+            let userRole = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+            if (userRole.includes('Admin')) {
+                userRole = 'Admin';
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
 
 }

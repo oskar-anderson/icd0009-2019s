@@ -14,6 +14,7 @@ export class CategoryCreate {
     private _category: ICategory = {
         id: '',
         name: '',
+        countInRestaurant: 0,
     };
 
     constructor(private categoryService: CategoryService, private router: Router) {

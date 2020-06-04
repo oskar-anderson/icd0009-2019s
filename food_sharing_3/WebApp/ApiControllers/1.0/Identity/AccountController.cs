@@ -13,6 +13,9 @@ using AppUser = Domain.App.Identity.AppUser;
 
 namespace WebApp.ApiControllers._1._0.Identity
 {
+    /// <summary>
+    /// Api endpoint for registering new user and user log-in (jwt token generation)
+    /// </summary>
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]/[action]")]
@@ -23,6 +26,13 @@ namespace WebApp.ApiControllers._1._0.Identity
         private readonly ILogger<AccountController> _logger;
         private readonly SignInManager<AppUser> _signInManager;
         
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <param name="userManager"></param>
+        /// <param name="signInManager"></param>
+        /// <param name="logger"></param>
         public AccountController(IConfiguration configuration, UserManager<AppUser> userManager,
             ILogger<AccountController> logger, SignInManager<AppUser> signInManager)
         {
@@ -32,7 +42,16 @@ namespace WebApp.ApiControllers._1._0.Identity
             _signInManager = signInManager;
         }
         
+        /// <summary>
+        /// Endpoint for user log-in (jwt generation)
+        /// </summary>
+        /// <param name="dto">login data</param>
+        /// <returns></returns>
         [HttpPost]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(JwtResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(MessageDTO))]
         public async Task<IActionResult> Login([FromBody] LoginDTO dto)
         {
             var appUser = await _userManager.FindByEmailAsync(dto.Email);
@@ -60,10 +79,17 @@ namespace WebApp.ApiControllers._1._0.Identity
             return NotFound(new MessageDTO("User not found!"));
         }
 
+        /// <summary>
+        /// Endpoint for user registration and immediate log-in (jwt generation) 
+        /// </summary>
+        /// <param name="dto">user data</param>
+        /// <returns></returns>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
-
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(JwtResponseDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(MessageDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(MessageDTO))]
         public async Task<ActionResult<string>> Register([FromBody] RegisterDTO dto)
         {
             var appUser = await _userManager.FindByEmailAsync(dto.Email);
@@ -81,12 +107,6 @@ namespace WebApp.ApiControllers._1._0.Identity
                 LastName = dto.LastName,
                 Phone = dto.Phone,
             };
-            Console.WriteLine("Username: " + appUser.UserName);
-            Console.WriteLine("Email: " + appUser.Email);
-            Console.WriteLine("FirstName: " + appUser.FirstName);
-            Console.WriteLine("LastName: " + appUser.LastName);
-            Console.WriteLine("Phone: " + appUser.Phone);
-
             
             var result = await _userManager.CreateAsync(appUser, dto.Password);
             if (result.Succeeded)

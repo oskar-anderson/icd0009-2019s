@@ -17,7 +17,6 @@ namespace DAL.App.DTO
         
         public string Name { get; set; } = default!;
         
-        public ICollection<PizzaUser>? PizzaUsers { get; set; }
         public ICollection<RestaurantFood>? RestaurantFoods { get; set; }
         public ICollection<CartMeal>? CartMeals { get; set; }
     }

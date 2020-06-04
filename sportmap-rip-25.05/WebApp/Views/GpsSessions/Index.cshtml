@@ -1,0 +1,46 @@
+@model IEnumerable<BLL.App.DTO.GpsSession>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>GPS Sessions</h1>
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("admin"))
+{
+    <p>
+        <a asp-action="Create">Manually create a new GPS Session</a>
+    </p>
+}
+
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-12 col-md-6 col-xl-4">
+            <div class="card" style="margin-bottom: 12px;">
+                <div class="card-header">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Description)</h5>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.GpsSessionType) - @(item.GpsSessionType!.Name!)</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.AppUser) - @(item.AppUser!.FirstLastName)</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.RecordedAt) - @Html.DisplayFor(model => item.RecordedAt)</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Duration) - @(TimeSpan.FromSeconds(item.Duration).ToString(@"hh\:mm\:ss"))</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Distance) - @((item.Distance / 1000.0).ToString("N3"))</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Climb) - @Html.DisplayFor(model => item.Climb)</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Descent) - @Html.DisplayFor(model => item.Descent)</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Speed) - @Html.DisplayFor(model => item.Speed)</p>
+                    <a href="#" class="btn btn-primary">View on map</a>
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("admin"))
+                    {
+                        <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.Id">Edit</a>
+                        <a asp-action="Delete" class="btn btn-primary" asp-route-id="@item.Id">Delete</a>
+                        <a asp-action="UpdateStatistics" class="btn btn-primary" asp-route-id="@item.Id">Update</a>
+                    }
+                </div>
+            </div>
+
+        </div>
+    }
+</div>

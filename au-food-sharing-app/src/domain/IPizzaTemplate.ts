@@ -42,5 +42,14 @@ export interface IPizzaTemplateWithChildren {
     newPizzaName: string;
     newPizzaSizeChoice: number;
     freeSizes: PizzaSize[];
+    showComponentMenu: boolean;
+    restaurantSetComponents: IComponent[];
+    userSetComponents: IComponent[];
+    finalComponents: IComponent[];
+    componentsAreLoaded: boolean;
+    currentExtras: number;
+    currentModifications: number;
+    selectedPizza: IPizzaWithRestaurants;
+
 }
 

@@ -8,16 +8,26 @@ namespace PublicApi.DTO.v1
     {
         public Guid Id { get; set; }
 
+        public Guid CartId { get; set; } = default!;
+        public CartDTO? Cart { get; set; }
+        
         public Guid? PizzaId { get; set; }
         public PizzaDTO? Pizza { get; set; }
-        
-        public Guid? PizzaUserId { get; set; }
-        public PizzaUserDTO? PizzaUser { get; set; }
         
         [MinLength(1)] [MaxLength(128)] public string Name { get; set; } = default!;
         
         [DataType(DataType.Currency)]
         [Column(TypeName = "decimal(18, 2)")]
-        public decimal Gross { get; set; } = default!;
+        public decimal PizzaGross { get; set; } = default!;
+        
+        [MaxLength(256)] public string? Changes { get; set; }
+        
+        [DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal? ComponentsGross { get; set; }
+        
+        [DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal TotalGross { get; set; } = default!;
     }
 }

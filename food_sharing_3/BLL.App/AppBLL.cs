@@ -23,14 +23,10 @@ namespace BLL.App
             GetService<ICategoryService>(() => new CategoryService(UOW));
         public IComponentService Components  => 
             GetService<IComponentService>(() => new ComponentService(UOW));
-        public IComponentPizzaUserService ComponentPizzaUsers  => 
-            GetService<IComponentPizzaUserService>(() => new ComponentPizzaUserService(UOW));
         public IComponentPizzaTemplateService ComponentPizzaTemplates  => 
             GetService<IComponentPizzaTemplateService>(() => new ComponentPizzaTemplateService(UOW));
         public IItemService Items  => 
             GetService<IItemService>(() => new ItemService(UOW));
-        public IPizzaUserService PizzaUsers  => 
-            GetService<IPizzaUserService>(() => new PizzaUserService(UOW));
         public IPizzaService Pizzas  => 
             GetService<IPizzaService>(() => new PizzaService(UOW));
         public IPizzaTemplateService PizzaTemplates  => 

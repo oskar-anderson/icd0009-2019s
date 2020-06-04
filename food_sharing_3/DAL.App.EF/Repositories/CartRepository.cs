@@ -84,7 +84,6 @@ namespace DAL.App.EF.Repositories
                 .Select(c => new DAL.App.DTO.Cart()
                 {
                     Id = c.Id,
-                    State = c.State,
                     AppUserId = c.AppUser.Id,    // appUser
                     RestaurantId = c.RestaurantId,
                     Restaurant = new Restaurant()
@@ -103,12 +102,10 @@ namespace DAL.App.EF.Repositories
                             ApartmentNumber = c.UserLocation.ApartmentNumber,
 
                         },
-                    Gross = c.Gross,
                     PaymentMethod = c.PaymentMethod,
                     FirstName = c.FirstName,
                     LastName = c.LastName,
                     Phone = c.Phone,
-                    ReadyBy = c.ReadyBy
                 })
                 .ToListAsync();
         }
@@ -121,7 +118,6 @@ namespace DAL.App.EF.Repositories
                 .Select(c => new DAL.App.DTO.Cart()
                 {
                     Id = c.Id,
-                    State = c.State,
                     AppUserId = c.AppUser.Id,    // appUser
                     RestaurantId = c.RestaurantId,
                     Restaurant = new Restaurant()
@@ -139,12 +135,10 @@ namespace DAL.App.EF.Repositories
                             BuildingNumber = c.UserLocation.BuildingNumber,
                             ApartmentNumber = c.UserLocation.ApartmentNumber
                         },
-                    Gross = c.Gross,
                     PaymentMethod = c.PaymentMethod,
                     FirstName = c.FirstName,
                     LastName = c.LastName,
                     Phone = c.Phone,
-                    ReadyBy = c.ReadyBy
                 })
                 .FirstOrDefaultAsync();
         }
@@ -157,7 +151,6 @@ namespace DAL.App.EF.Repositories
                 .Select(c => new DAL.App.DTO.Cart()
                 {
                     Id = c.Id,
-                    State = c.State,
                     AppUserId = c.AppUser.Id,    // appUser
                     RestaurantId = c.RestaurantId,
                     Restaurant = new Restaurant()
@@ -182,12 +175,10 @@ namespace DAL.App.EF.Repositories
                             BuildingNumber = c.UserLocation.BuildingNumber,
                             ApartmentNumber = c.UserLocation.ApartmentNumber
                         },
-                    Gross = c.Gross,
                     PaymentMethod = c.PaymentMethod,
                     FirstName = c.FirstName,
                     LastName = c.LastName,
                     Phone = c.Phone,
-                    ReadyBy = c.ReadyBy
                 })
                 .ToListAsync();
         }
@@ -200,7 +191,6 @@ namespace DAL.App.EF.Repositories
                 .Select(c => new DAL.App.DTO.Cart()
                 {
                     Id = c.Id,
-                    State = c.State,
                     AppUserId = c.AppUser.Id,    // appUser
                     RestaurantId = c.RestaurantId,
                     Restaurant = new Restaurant()
@@ -225,12 +215,10 @@ namespace DAL.App.EF.Repositories
                             BuildingNumber = c.UserLocation.BuildingNumber,
                             ApartmentNumber = c.UserLocation.ApartmentNumber
                         },
-                    Gross = c.Gross,
                     PaymentMethod = c.PaymentMethod,
                     FirstName = c.FirstName,
                     LastName = c.LastName,
                     Phone = c.Phone,
-                    ReadyBy = c.ReadyBy
                 })
                 .FirstOrDefaultAsync();
         }

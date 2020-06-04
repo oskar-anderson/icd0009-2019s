@@ -15,7 +15,5 @@ namespace DAL.App.DTO
         public decimal Gross { get; set; } = default!;
 
         public ICollection<ComponentPizzaTemplate>? ComponentPizzaTemplate { get; set; }
-        public ICollection<ComponentPizzaUser>? ComponentPizzaUser { get; set; }
-
     }
 }
