@@ -4,12 +4,11 @@ import { RestaurantService } from 'service/restaurant-service';
 import { IRestaurant } from 'domain/IRestaurant';
 import { IAlertData } from 'types/IAlertData';
 import { AlertType } from 'types/AlertType';
-import { RestaurantDetails } from './details';
 import { alertHandler, SOURCE } from 'service/alert-service';
 
 
 @autoinject
-export class MealDelete {
+export class RestaurantDelete {
     private _alert: IAlertData | null = null;
 
     private _restaurant?: IRestaurant;

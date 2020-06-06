@@ -5,10 +5,6 @@
 
     <h1>Index ComponentPizzaTemplates</h1>
     
-    <p>
-        <a route-href="route: componentPizzaTemplate-create; params.bind: {}">Create New</a>
-    </p>
-
     <table class="table">
         <thead>
             <tr>
@@ -20,9 +16,6 @@
                 </th>
                 <th>
                     PizzaTemplateId
-                </th>
-                <th>
-                    Actions
                 </th>
             </tr>
         </thead>
@@ -36,11 +29,6 @@
                 </td>
                 <td>
                     ${componentPizzaTemplate.pizzaTemplateId}
-                </td>
-
-                <td>
-                    <a route-href="route: componentPizzaTemplate-edit; params.bind: { id: componentPizzaTemplate.id }"><i class="fa fa-color-a fa-2x fa-pencil-square"></i></a>
-                    <a route-href="route: componentPizzaTemplate-delete; params.bind: { id: componentPizzaTemplate.id }"><i class="fa fa-color-a fa-2x fa-trash"></i></a>
                 </td>
     
             </tr>

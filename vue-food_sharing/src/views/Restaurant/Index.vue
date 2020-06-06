@@ -57,8 +57,6 @@
                         <router-link :to="'/restaurant/edit/' + restaurant.id">Edit</router-link> |
                         <router-link :to="'/restaurant/details/' + restaurant.id">Details</router-link> |
                         <router-link :to="'/restaurant/delete/' + restaurant.id">Delete</router-link> |
-
-                        <router-link :to="{ name: 'RestaurantDetails', params: { id: restaurant.id }}">Delete</router-link>
                          -->
                     </td>
 

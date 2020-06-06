@@ -2,7 +2,7 @@
     <div>
         <h1>Edit</h1>
 
-        <h4>Restaurant</h4>
+        <h4>Category</h4>
         <hr>
         <div class="row">
             <div class="col-md-4">
@@ -10,36 +10,21 @@
 
                     <div class="form-group">
                         <label class="control-label" for="Name">Name</label>
-                        <input class="form-control" type="text" id="Name" maxlength="64" v-model="getRestaurant.name" />
+                        <input class="form-control" type="text" id="Name" maxlength="64" v-model="getCategory.name" />
                     </div>
-                    <div class="form-group">
-                        <label class="control-label" for="Location">Location</label>
-                        <input class="form-control" type="text" id="Location" maxlength="64" v-model="getRestaurant.location" />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="Telephone">Telephone</label>
-                        <input class="form-control" type="text" id="Telephone" maxlength="64" v-model="getRestaurant.telephone" />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="OpenTime">OpenTime</label>
-                        <input class="form-control" type="text" id="OpenTime" maxlength="64" v-model="getRestaurant.openTime" />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="OpenNotification">OpenNotification</label>
-                        <input class="form-control" type="text" id="OpenNotification" maxlength="64" v-model="getRestaurant.openNotification" />
-                    </div>
+
                     <!--
                     <div class="form-group">
                         <input type="submit" value="Submit" class="btn btn-primary" />
                     </div>
                     -->
-                    <button @click="updateOnClick(getRestaurant)" type="button" class="btn btn-primary">Submit</button>
+                    <button @click="updateOnClick(getCategory)" type="button" class="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>
 
         <div>
-            <router-link :to="{ name: 'RestaurantIndex' }">Back to list</router-link>
+            <router-link :to="{ name: 'CategoryIndex' }">Back to list</router-link>
         </div>
 
     </div>
@@ -47,15 +32,15 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { IRestaurant } from "../../domain/IRestaurant";
+import { ICategory } from "../../domain/ICategory";
 import store from "../../store";
 import router from '../../router';
 
 @Component
 export default class CategoryEdit extends Vue {
-    get getRestaurant(): IRestaurant {
-        const restaurant = store.state.restaurant;
-        const restaurantNotFound = {
+    get getCategory(): ICategory {
+        const category = store.state.category;
+        const categoryNotFound = {
             id: "",
             name: "",
             location: "",
@@ -63,13 +48,13 @@ export default class CategoryEdit extends Vue {
             openTime: "",
             openNotification: ""
         };
-        return restaurant != null ? restaurant : restaurantNotFound;
+        return category != null ? category : categoryNotFound;
     }
 
-    updateOnClick(restaurant: IRestaurant): void {
+    updateOnClick(category: ICategory): void {
         console.log("Clicked on updateOnClick button");
-        store.dispatch('editRestaurant', restaurant);
-        router.push({ name: 'RestaurantIndex' });
+        store.dispatch('editCategory', category);
+        router.push({ name: 'CategoryIndex' });
     }
 
     // ============ Lifecycle methods ==========
@@ -87,7 +72,7 @@ export default class CategoryEdit extends Vue {
     }
 
     mounted(): void {
-        store.dispatch("getRestaurant", this.$route.params.id)
+        store.dispatch("getCategory", this.$route.params.id)
         console.log("mounted");
     }
 

@@ -37,4 +37,5 @@ export interface ICartIndex {
     cartMeals: ICartMeal[];
     total: number;
     address: string;
+    sharingName: string;
 }

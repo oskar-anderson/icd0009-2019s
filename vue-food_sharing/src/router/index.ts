@@ -15,11 +15,11 @@ import RestaurantEdit from '../views/Restaurant/Edit.vue'
 import RestaurantDelete from '../views/Restaurant/Delete.vue'
 import RestaurantIndex from '../views/Restaurant/Index.vue'
 
-import MealCreate from '../views/Meal/Create.vue'
-import MealDetails from '../views/Meal/Details.vue'
-import MealEdit from '../views/Meal/Edit.vue'
-import MealDelete from '../views/Meal/Delete.vue'
-import MealIndex from '../views/Meal/Index.vue'
+import PizzaTemplateCreate from '../views/PizzaTemplate/Create.vue'
+import PizzaTemplateDetails from '../views/PizzaTemplate/Details.vue'
+import PizzaTemplateEdit from '../views/PizzaTemplate/Edit.vue'
+import PizzaTemplateDelete from '../views/PizzaTemplate/Delete.vue'
+import PizzaTemplateIndex from '../views/PizzaTemplate/Index.vue'
 
 import CategoryCreate from '../views/Category/Create.vue'
 import CategoryDetails from '../views/Category/Details.vue'
@@ -51,17 +51,11 @@ const routes: Array<RouteConfig> = [
     { path: '/restaurant/edit/:id?', name: 'RestaurantEdit', component: RestaurantEdit, props: true },
     { path: '/restaurant/delete/:id?', name: 'RestaurantDelete', component: RestaurantDelete, props: true },
 
-    { path: '/meal', name: 'MealIndex', component: MealIndex },
-    { path: '/meal/create', name: 'MealCreate', component: MealCreate },
-    { path: '/meal/details/:id?', name: 'MealDetails', component: MealDetails, props: true },
-    { path: '/meal/edit/:id?', name: 'MealEdit', component: MealEdit, props: true },
-    { path: '/meal/delete/:id?', name: 'MealDelete', component: MealDelete, props: true },
-
-    { path: '/restaurantFood', name: 'RestaurantFoodIndex', component: RestaurantFoodIndex },
-    { path: '/restaurantFood/create', name: 'RestaurantFoodCreate', component: RestaurantFoodCreate },
-    { path: '/restaurantFood/details/:id?', name: 'RestaurantFoodDetails', component: RestaurantFoodDetails, props: true },
-    { path: '/restaurantFood/edit/:id?', name: 'RestaurantFoodEdit', component: RestaurantFoodEdit, props: true },
-    { path: '/restaurantFood/delete/:id?', name: 'RestaurantFoodDelete', component: RestaurantFoodDelete, props: true },
+    { path: '/pizzaTemplate', name: 'PizzaTemplateIndex', component: PizzaTemplateIndex },
+    { path: '/pizzaTemplate/create', name: 'PizzaTemplateCreate', component: PizzaTemplateCreate },
+    { path: '/pizzaTemplate/details/:id?', name: 'PizzaTemplateDetails', component: PizzaTemplateDetails, props: true },
+    { path: '/pizzaTemplate/edit/:id?', name: 'PizzaTemplateEdit', component: PizzaTemplateEdit, props: true },
+    { path: '/pizzaTemplate/delete/:id?', name: 'PizzaTemplateDelete', component: PizzaTemplateDelete, props: true },
 
     { path: '/category', name: 'CategoryIndex', component: CategoryIndex },
     { path: '/category/create', name: 'CategoryCreate', component: CategoryCreate },

@@ -1,0 +1,41 @@
+<template>
+
+    <h1>Manage your account</h1>
+
+    <div>
+        <h4>Change your account settings</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-3">
+                <compose view="./sidebar.html"></compose>
+            </div>
+            <div class="col-md-9">
+                <h4>Profile</h4>
+
+                <h4 if.bind="_errorMessage.length !== 0" style="color:red;">${_errorMessage}</h4>
+                <h4 if.bind="_successMessage.length !== 0" style="color:green;">${_successMessage}</h4>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <form id="profile-form" method="post" submit.trigger="onSubmit($event)">
+
+                            <div class="form-group">
+                                Username
+                                <input class="form-control" disabled type="text" type="email" value.bind="_email" />
+                            </div>
+
+                            <div class="form-group">
+                                Phone Number
+                                <input class="form-control" type="tel" value.bind="_phoneNumber" />
+                            </div>
+
+                            <div>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

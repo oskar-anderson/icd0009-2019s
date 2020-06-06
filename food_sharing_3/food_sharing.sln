@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solutio
 ProjectSection(SolutionItems) = preProject
 	README.md = README.md
 	Directory.Build.props = Directory.Build.props
+	.dockerignore = .dockerignore
+	Dockerfile = Dockerfile
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublicApi.DTO.v1", "PublicApi.DTO.v1\PublicApi.DTO.v1.csproj", "{AD72A9E2-1D67-4822-A6EE-527D9297370A}"

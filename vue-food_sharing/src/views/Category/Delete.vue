@@ -4,7 +4,7 @@
 
         <h3>Are you sure you want to delete this?</h3>
         <div>
-            <h4>Restaurant</h4>
+            <h4>Category</h4>
             <hr />
             <dl class="row">
 
@@ -12,36 +12,12 @@
                     Name
                 </dt>
                 <dd class="col-sm-10">
-                    {{getRestaurant.name}}
-                </dd>
-                <dt class="col-sm-2">
-                    Location
-                </dt>
-                <dd class="col-sm-10">
-                    {{getRestaurant.location}}
-                </dd>
-                <dt class="col-sm-2">
-                    Telephone
-                </dt>
-                <dd class="col-sm-10">
-                    {{getRestaurant.telephone}}
-                </dd>
-                <dt class="col-sm-2">
-                    OpenTime
-                </dt>
-                <dd class="col-sm-10">
-                    {{getRestaurant.openTime}}
-                </dd>
-                <dt class="col-sm-2">
-                    OpenNotification
-                </dt>
-                <dd class="col-sm-10">
-                    {{getRestaurant.openNotification}}
+                    {{getCategory.name}}
                 </dd>
             </dl>
 
-            <button @click="onSubmit(getRestaurant)" type="button" class="btn btn-danger">Delete</button>
-            <router-link :to="{ name: 'RestaurantIndex' }">Back to list</router-link>
+            <button @click="onSubmit(getCategory)" type="button" class="btn btn-danger">Delete</button>
+            <router-link :to="{ name: 'CategoryIndex' }">Back to list</router-link>
 
         </div>
     </div>
@@ -50,14 +26,14 @@
 <script lang="ts">
 import router from '../../router';
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { IRestaurant } from "../../domain/IRestaurant";
+import { ICategory } from "../../domain/ICategory";
 import store from "../../store";
 
 @Component
 export default class CategoryDelete extends Vue {
-    get getRestaurant(): IRestaurant {
-        const restaurant = store.state.restaurant;
-        const restaurantDummy = {
+    get getCategory(): ICategory {
+        const category = store.state.category;
+        const categoryDummy = {
             id: "",
             name: "",
             location: "",
@@ -65,13 +41,13 @@ export default class CategoryDelete extends Vue {
             openTime: "",
             openNotification: ""
         };
-        return restaurant != null ? restaurant : restaurantDummy;
+        return category != null ? category : categoryDummy;
     }
 
-    onSubmit(event: IRestaurant): void {
+    onSubmit(event: ICategory): void {
         console.log("clicked on delete button!")
-        store.dispatch('deleteRestaurant', event.id)
-        router.push({ name: 'RestaurantIndex' });
+        store.dispatch('deleteCategory', event.id)
+        router.push({ name: 'CategoryIndex' });
     };
 
     // ============ Lifecycle methods ==========
@@ -88,7 +64,7 @@ export default class CategoryDelete extends Vue {
     }
 
     mounted(): void {
-        store.dispatch("getRestaurant", this.$route.params.id)
+        store.dispatch("getCategory", this.$route.params.id)
         console.log("mounted");
     }
 

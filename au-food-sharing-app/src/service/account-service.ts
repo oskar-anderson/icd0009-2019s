@@ -81,4 +81,139 @@ export class AccountService {
             }
         }
     }
+
+    async changeNames(email: string, firstName: string, lastName: string): Promise<IFetchResponse<ILoginResponse>> {
+        try {
+            const response = await this.httpClient.post('account/changeNames', JSON.stringify({
+                email: email,
+                firstName: firstName,
+                lastName: lastName,
+            }), {
+                cache: 'no-store'
+            });
+
+            // Everything went well!
+            if (response.status >= 200 && response.status < 300) {
+                const data = (await response.json()) as ILoginResponse;
+                return {
+                    statusCode: response.status,
+                    data: data
+                }
+            }
+
+            // Something went wrong!!
+            return {
+                statusCode: response.status,
+                errorMessage: response.statusText
+            }
+        }
+        catch (reason) {
+            return {
+                statusCode: 0,
+                errorMessage: JSON.stringify(reason)
+            }
+        }
+
+    }
+
+
+    async changePassword(email: string, oldPassword: string, newPassword: string): Promise<IFetchResponse<ILoginResponse>> {
+        try {
+            const response = await this.httpClient.post('account/changePassword', JSON.stringify({
+                email: email,
+                oldPassword: oldPassword,
+                newPassword: newPassword,
+            }), {
+                cache: 'no-store'
+            });
+
+            // Everything went well!
+            if (response.status >= 200 && response.status < 300) {
+                const data = (await response.json()) as ILoginResponse;
+                return {
+                    statusCode: response.status,
+                    data: data
+                }
+            }
+
+            // Something went wrong!!
+            return {
+                statusCode: response.status,
+                errorMessage: response.statusText
+            }
+        }
+        catch (reason) {
+            return {
+                statusCode: 0,
+                errorMessage: JSON.stringify(reason)
+            }
+        }
+
+    }
+
+
+    async changeEmail(email: string, newEmail: string): Promise<IFetchResponse<ILoginResponse>> {
+        try {
+            const response = await this.httpClient.post('account/changeEmail', JSON.stringify({
+                email: email,
+                newEmail: newEmail,
+            }), {
+                cache: 'no-store'
+            });
+
+            // Everything went well!
+            if (response.status >= 200 && response.status < 300) {
+                const data = (await response.json()) as ILoginResponse;
+                return {
+                    statusCode: response.status,
+                    data: data
+                }
+            }
+
+            // Something went wrong!!
+            return {
+                statusCode: response.status,
+                errorMessage: response.statusText
+            }
+        }
+        catch (reason) {
+            return {
+                statusCode: 0,
+                errorMessage: JSON.stringify(reason)
+            }
+        }
+    }
+
+    async changePhoneNumber(email: string, phoneNumber: string, newPhoneNumber: string): Promise<IFetchResponse<ILoginResponse>> {
+        try {
+            const response = await this.httpClient.post('account/changePhoneNumber', JSON.stringify({
+                email: email,
+                phoneNumber: phoneNumber,
+                newPhoneNumber: newPhoneNumber,
+            }), {
+                cache: 'no-store'
+            });
+
+            // Everything went well!
+            if (response.status >= 200 && response.status < 300) {
+                const data = (await response.json()) as ILoginResponse;
+                return {
+                    statusCode: response.status,
+                    data: data
+                }
+            }
+
+            // Something went wrong!!
+            return {
+                statusCode: response.status,
+                errorMessage: response.statusText
+            }
+        }
+        catch (reason) {
+            return {
+                statusCode: 0,
+                errorMessage: JSON.stringify(reason)
+            }
+        }
+    }
 }

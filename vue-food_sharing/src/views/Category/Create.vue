@@ -1,44 +1,28 @@
 <template>
     <div>
         <h1>Create</h1>
-        <h4>Restaurant</h4>
+        <h4>Category</h4>
         <hr />
         <div class="row">
             <div class="col-md-4">
-                <form onload="restaurant()" submit.trigger="onSubmit($event)">
+                <form onload="category()" submit.trigger="onSubmit($event)">
 
                     <div class="form-group">
                         <label class="control-label" for="Name">Name</label>
-                        <input class="form-control" type="text" id="Name" maxlength="64" v-model="getRestaurant.name"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="Location">Location</label>
-                        <input class="form-control" type="text" id="Location" maxlength="64"  v-model="getRestaurant.location"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="Telephone">Telephone</label>
-                        <input class="form-control" type="text" id="Telephone" maxlength="64"  v-model="getRestaurant.telephone"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="OpenTime">OpenTime</label>
-                        <input class="form-control" type="text" id="OpenTime" maxlength="64"  v-model="getRestaurant.openTime"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="OpenNotification">OpenNotification</label>
-                        <input class="form-control" type="text" id="OpenNotification" maxlength="64"  v-model="getRestaurant.openNotification"/>
+                        <input class="form-control" type="text" id="Name" maxlength="64" v-model="getCategory.name"/>
                     </div>
                     <!--
                     <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-primary" />
                     </div>
                     -->
-                    <button @click="createOnClick(getRestaurant)" type="button" class="btn btn-primary">Create</button>
+                    <button @click="createOnClick(getCategory)" type="button" class="btn btn-primary">Create</button>
                 </form>
             </div>
         </div>
 
         <div>
-            <router-link :to="{ name: 'RestaurantIndex' }">Back to list</router-link>
+            <router-link :to="{ name: 'CategoryIndex' }">Back to list</router-link>
         </div>
     </div>
 </template>
@@ -46,27 +30,23 @@
 <script lang="ts">
 import router from '../../router';
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { IRestaurant } from "../../domain/IRestaurant";
+import { ICategory } from "../../domain/ICategory";
 import store from "../../store";
 
 @Component
 export default class CategoryCreate extends Vue {
-    get getRestaurant(): IRestaurant {
-        const restaurant = {
+    get getCategory(): ICategory {
+        const category = {
             id: "",
             name: "",
-            location: "",
-            telephone: "",
-            openTime: "",
-            openNotification: ""
         };
-        return restaurant;
+        return category;
     };
 
-    createOnClick(restaurant: IRestaurant): void {
+    createOnClick(category: ICategory): void {
         console.log("Clicked on createOnClick button");
-        store.dispatch('createRestaurant', restaurant);
-        router.push({ name: 'RestaurantIndex' });
+        store.dispatch('createCategory', category);
+        router.push({ name: 'CategoryIndex' });
     }
 
     // ============ Lifecycle methods ==========

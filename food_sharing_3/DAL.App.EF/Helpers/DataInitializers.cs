@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using Domain.App;
 using Domain.App.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -25,7 +24,7 @@ namespace DAL.App.EF.Helpers
     
     [SuppressMessage("ReSharper", "IdentifierTypo")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class DataInitializers
+    public static class DataInitializers
     {
         public static void MigrateDatabase(AppDbContext context)
         {
@@ -239,10 +238,6 @@ namespace DAL.App.EF.Helpers
 
             foreach (var category in categoryArr)
             {
-                if (context.Categorys.Any(s => s.Name == category.Name))
-                {
-                    continue;
-                }
                 Category categoryDBEntry = new Category()
                 {
                     Name = category.Name,
@@ -355,10 +350,6 @@ namespace DAL.App.EF.Helpers
             
             foreach (var componentObject in componentArr)
             {
-                if (context.Components.Any(s => s.Name == componentObject.Name))
-                {
-                    continue;
-                }
                 Component component = new Component()
                 {
                     Name = componentObject.Name,
@@ -384,7 +375,7 @@ namespace DAL.App.EF.Helpers
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
                     Name = Helper.GetName(PizzaTemplatesEnum.Americana),
-                    Picture = Pictures.GetRandomPizzaPicture(),
+                    Picture = GetRandomPizzaPicture(),
                     Modifications = 1,
                     Extras = 4,
                     Description = "Juust, oliivid, ananass",
@@ -393,7 +384,7 @@ namespace DAL.App.EF.Helpers
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
                     Name = Helper.GetName(PizzaTemplatesEnum.Bolognese),
-                    Picture = Pictures.GetRandomPizzaPicture(),
+                    Picture = GetRandomPizzaPicture(),
                     Modifications = 2,
                     Extras = 3,
                     Description = "Juust, hakkliha, jalapeno, paprika",
@@ -402,7 +393,7 @@ namespace DAL.App.EF.Helpers
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
                     Name = Helper.GetName(PizzaTemplatesEnum.Siciliana),
-                    Picture = Pictures.GetRandomPizzaPicture(),
+                    Picture = GetRandomPizzaPicture(),
                     Modifications = 2,
                     Extras = 3,
                     Description = "Juust, sink, küüslauk, sibul",
@@ -411,7 +402,7 @@ namespace DAL.App.EF.Helpers
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
                     Name = Helper.GetName(PizzaTemplatesEnum.Topolino),
-                    Picture = Pictures.GetRandomPizzaPicture(),
+                    Picture = GetRandomPizzaPicture(),
                     Modifications = 2,
                     Extras = 3,
                     Description = "Juust, sink, šampinjonid, ananass",
@@ -420,7 +411,7 @@ namespace DAL.App.EF.Helpers
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
                     Name = Helper.GetName(PizzaTemplatesEnum.Pepperoni),
-                    Picture = Pictures.GetRandomPizzaPicture(),
+                    Picture = GetRandomPizzaPicture(),
                     Modifications = 1,
                     Extras = 4,
                     Description = "Tomat, mozzarella, pepperoni",
@@ -429,7 +420,7 @@ namespace DAL.App.EF.Helpers
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
                     Name = Helper.GetName(PizzaTemplatesEnum.Hawaii),
-                    Picture = Pictures.GetRandomPizzaPicture(),
+                    Picture = GetRandomPizzaPicture(),
                     Modifications = 1,
                     Extras = 4,
                     Description = "Sink, mozzarella, ananass",
@@ -438,7 +429,7 @@ namespace DAL.App.EF.Helpers
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
                     Name = Helper.GetName(PizzaTemplatesEnum.HamAndMushrooms),
-                    Picture = Pictures.GetRandomPizzaPicture(),
+                    Picture = GetRandomPizzaPicture(),
                     Modifications = 2,
                     Extras = 3,
                     Description = "Mozzarella, sink, küüslauk, šampinionid",
@@ -447,7 +438,7 @@ namespace DAL.App.EF.Helpers
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
                     Name = Helper.GetName(PizzaTemplatesEnum.Margherita),
-                    Picture = Pictures.GetRandomPizzaPicture(),
+                    Picture = GetRandomPizzaPicture(),
                     Modifications = 1,
                     Extras = 4,
                     Description = "Tomat, mozzarella, basiilik",
@@ -456,7 +447,7 @@ namespace DAL.App.EF.Helpers
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
                     Name = Helper.GetName(PizzaTemplatesEnum.ThreeCheeses),
-                    Picture = Pictures.GetRandomPizzaPicture(),
+                    Picture = GetRandomPizzaPicture(),
                     Modifications = 1,
                     Extras = 4,
                     Description = "Juust, mozarella, sinihallitusjuust",
@@ -465,7 +456,7 @@ namespace DAL.App.EF.Helpers
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
                     Name = Helper.GetName(PizzaTemplatesEnum.Mexican),
-                    Picture = Pictures.GetRandomPizzaPicture(),
+                    Picture = GetRandomPizzaPicture(),
                     Modifications = 3,
                     Extras = 2,
                     Description = "Mozzarella, kana, sibul, tomat, paprika, jalapeno",
@@ -474,7 +465,7 @@ namespace DAL.App.EF.Helpers
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
                     Name = Helper.GetName(PizzaTemplatesEnum.ChickenAndBacon),
-                    Picture = Pictures.GetRandomPizzaPicture(),
+                    Picture = GetRandomPizzaPicture(),
                     Modifications = 2,
                     Extras = 3,
                     Description = "Kana, mozzarella, peekon, küüslauk",
@@ -483,7 +474,7 @@ namespace DAL.App.EF.Helpers
                 new { 
                     CategoryId = categoryDBEntryDictionary[Helper.GetName(CategorysEnum.Pitsad)].Id,
                     Name = Helper.GetName(PizzaTemplatesEnum.Vegetarian),
-                    Picture = Pictures.GetRandomPizzaPicture(),
+                    Picture = GetRandomPizzaPicture(),
                     Modifications = 3,
                     Extras = 2,
                     Description = "Mozarella, tomatid, sibul, oliivid, šampinionid",
@@ -496,10 +487,6 @@ namespace DAL.App.EF.Helpers
             
             foreach (var pizzaTemplateObject in pizzaTemplateArr)
             {
-                if (context.PizzaTemplates.Any(s => s.Name == pizzaTemplateObject.Name))
-                {
-                    continue;
-                }
                 PizzaTemplate pizzaTemplate = new PizzaTemplate()
                 {
                     CategoryId = pizzaTemplateObject.CategoryId,
@@ -754,12 +741,6 @@ namespace DAL.App.EF.Helpers
             
             foreach (var componentPizzaTemplateObject in componentPizzaTemplateArr)
             {
-                if (context.ComponentPizzaTPLs.Any(s => 
-                    s.ComponentId == componentPizzaTemplateObject.ComponentId &&
-                    s.PizzaTemplateId == componentPizzaTemplateObject.PizzaTemplateId))
-                {
-                    continue;
-                }
                 ComponentPizzaTemplate componentPizzaTemplate = new ComponentPizzaTemplate()
                 {
                     ComponentId = componentPizzaTemplateObject.ComponentId,
@@ -944,10 +925,6 @@ namespace DAL.App.EF.Helpers
             
             foreach (var pizzaObject in pizzaArr)
             {
-                if (context.Pizzas.Any(s => s.Name == pizzaObject.Name))
-                {
-                    continue;
-                }
                 Pizza pizza = new Pizza()
                 {
                     PizzaTemplateId = pizzaObject.PizzaTemplateId,
@@ -1057,10 +1034,6 @@ namespace DAL.App.EF.Helpers
             
             foreach (var mealObject in mealArr)
             {
-                if (context.PizzaTemplates.Any(s => s.Name == mealObject.Name))
-                {
-                    continue;
-                }
                 PizzaTemplate meal = new PizzaTemplate()
                 {
                     CategoryId = mealObject.CategoryId,
@@ -1140,10 +1113,6 @@ namespace DAL.App.EF.Helpers
             
             foreach (var restaurantObject in restaurantArr)
             {
-                if (context.Restaurants.Any(s => s.Name == restaurantObject.Name))
-                {
-                    continue;
-                }
                 Restaurant restaurant = new Restaurant()
                 {
                     Name = restaurantObject.Name,
@@ -2055,87 +2024,44 @@ namespace DAL.App.EF.Helpers
             }
         
             context.SaveChanges();
+        }
+        
+        
+        
+        
+        static readonly List<string> Pizzas = new List<string>()    // steal!, steal!!, STEAL!!! https://www.crust.com.au
+        {
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/web.Vietnamese-Chilli-Chicken_600x600.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/web.Pesto-Chicken-Club_2018_600x600.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/web.Peri-Peri_600x600_NEW.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/web.BBQ_600x600.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/Chorizo_600x600.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/Quattro_600x600.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/web.Mediterranean-Lamb_2018_600x600.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/web.Mexican_600x600_NEW.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/web.Supreme_600x600_NEW.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/web.Meat-Deluxe_600x600.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/web.Pepperoni_600x600.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/Garlic_Confit_Prawn_600x600.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/web.Szechuan-Chilli-Prawn_600x600.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/PaneerMarsala_600x600.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/web.Vegetarian-Supreme_600x600.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/web.c1889-Margherita_600x600.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/VeganPeriPeri_600x600.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/web.Smokey-BBQ-Pulled-Jackfruit_600x600.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/web.Margherita_600x600.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/web.Capricciosa_600x600.png",
+            "https://d2mekbzx20fc11.cloudfront.net/uploads/web.Hawaiian_600x600.png",
+        };
 
-                    
-                    
-                    
-            
-            
-            
-            
-            // https://realityratings.com/media/reviews/photos/original/ae/c9/a9/112815904-stock-vector-no-image-available-icon-flat-vector-illustration-42-1563401801.jpg
-            
-            
-            /*
-             Americana
-             Bolognese
-             Siciliana
-             Topolino
-             Pepperoni
-             
-             
-             Väike Americana
-             5€
-             juust, salaami, ananass, oliivid
-             
-             Väike Bolognese
-             6€
-             hakkliha, sibul, küüslauk, mozarella, juust  
-             
-             Väike Siciliana
-             5€
-             juust, sink, küüslauk, sibul
-             
-             Väike Topolino
-             5.5€
-             juust, sink, šampinjonid, ananass
-             
-             Väike Pepperoni
-             5€
-             juust, kaste, pepperoni, basiilik, mozzarella, oliivid
-             
-             Keskmine Americana
-             7.7€
-             juust, salaami, ananass, oliivid
-             
-             Keskmine Bolognese
-             7.7€
-             hakkliha, sibul, küüslauk, mozarella, juust  
-             
-             Keskmine Siciliana
-             6.7€
-             juust, sink, küüslauk, sibul
-             
-             Keskmine Topolino
-             7€
-             juust, sink, šampinjonid, ananass
-             
-             Keskmine Pepperoni
-             6.7€
-             juust, kaste, pepperoni, basiilik, mozzarella, oliivid
-             
-             Suur Americana
-             8€
-             juust, salaami, ananass, oliivid
-             
-             Suur Bolognese
-             9€
-             hakkliha, sibul, küüslauk, mozarella, juust  
-             
-             Suur Siciliana
-             8€
-             juust, sink, küüslauk, sibul
-             
-             Suur Topolino
-             8.2€
-             juust, sink, šampinjonid, ananass
-             
-             Suur Pepperoni
-             8€
-             juust, kaste, pepperoni, basiilik, mozzarella, oliivid
-             
-             */
-
+        private static string GetRandomPizzaPicture()
+        {
+            var random = new Random();
+            return Pizzas[random.Next(Pizzas.Count)];
         }
     }
+    
+    
+
+    
 }

@@ -3,7 +3,7 @@
         <header class="topHead">
             <div class="container">
                 <nav style="display: flex;">
-                    <ul if.bind="appState.jwt == null" class="navbar-nav flex-row ml-auto">
+                    <ul class="navbar-nav flex-row ml-auto">
                         <li class="nav-item">
                             <a class="nav-link" style="padding: 0px 8px 0px 8px !important;" href="#">
                                 <img alt="facebook-logo" src="https://secureservercdn.net/160.153.138.53/b53.d60.myftpupload.com/wp-content/uploads/2019/09/icon-social4-white.png?time=1589656675" width="22">
@@ -11,36 +11,41 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" style="padding: 0px 8px 0px 8px !important;" href="#">
-                                <img alt="facebook-logo" src="https://secureservercdn.net/160.153.138.53/b53.d60.myftpupload.com/wp-content/uploads/2019/09/icon-social2-white.png?time=1589656675" width="22">
+                                <img alt="instagram-logo" src="https://secureservercdn.net/160.153.138.53/b53.d60.myftpupload.com/wp-content/uploads/2019/09/icon-social2-white.png?time=1589656675" width="22">
                             </a>
                         </li>
                         <!--
                             <a href="/" style="color: white" class="fa fa-facebook"></a>
                             <a href="/" style="color: white" class="fa fa-twitter"></a>
                         -->
-                        <li class="nav-item">
+
+                        <li class="nav-item" if.bind="appState.jwt == null">
                             <a class="text-light" style="padding: 0px 8px 0px 8px !important;" class="nav-link" route-href="route: account-register; params.bind: {}">Register</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" if.bind="appState.jwt == null">
                             <a class="text-light" style="padding: 0px 8px 0px 8px !important;" class="nav-link" route-href="route: account-login; params.bind: {}">Login</a>
                         </li>
-                    </ul>
-                    <ul if.bind="appState.jwt != null" class="navbar-nav flex-row ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" style="padding: 0px 8px 0px 8px !important;" href="#">
-                                <img alt="facebook-logo" src="https://secureservercdn.net/160.153.138.53/b53.d60.myftpupload.com/wp-content/uploads/2019/09/icon-social4-white.png?time=1589656675" width="22">
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" style="padding: 0px 8px 0px 8px !important;" href="#">
-                                <img alt="facebook-logo" src="https://secureservercdn.net/160.153.138.53/b53.d60.myftpupload.com/wp-content/uploads/2019/09/icon-social2-white.png?time=1589656675" width="22">
-                            </a>
+
+                        <li class="main_nav_dropdown dropdown" if.bind="appState.jwt != null">
+                            <button class="main_nav_dropbtn text-light" style="padding: 0 0; font-size: 14px;" type="button" data-toggle="dropdown">
+                                My Account
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                            <div class="main-nav-dropdown-content dropdown-menu" style="padding: .5rem 0.5rem;">
+                                <a class="nav-link text-dark" href="#/cart">Orders</a>
+                                <a class="nav-link text-dark" href="#/sharing">Order Sharings</a>
+                                <a class="nav-link text-dark" href="#/userLocation">Locations</a>
+                                <a class="nav-link text-dark" route-href="route: account-manage; params.bind: {}">Settings</a>
+                            </div>
                         </li>
                         <!--
-                            <a href="/" style="color: white" class="fa fa-facebook"></a>
-                            <a href="/" style="color: white" class="fa fa-twitter"></a>
+                        <li class="nav-item" >
+                            <a class="nav-link text-light" style="padding: 0px 8px 0px 8px !important;" route-href="route: account-manage; params.bind: {}">
+                                My account
+                            </a>
+                        </li>
                         -->
-                        <li class="nav-item">
+                        <li class="nav-item" if.bind="appState.jwt != null">
                             <a class="text-light" style="padding: 0px 0px 0px 8px !important;" class="nav-link" href="#" click.delegate="logoutOnClick()">Logout</a>
                         </li>
                     </ul>
@@ -60,20 +65,10 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarMenu">
                         
-                        <div class="main_nav_dropdown dropdown">
+
+                        <div class="main_nav_dropdown dropdown" if.bind="appState.isAdmin">
                             <button class="main_nav_dropbtn text-light" type="button" data-toggle="dropdown">
-                                DB User
-                                <i class="fa fa-caret-down"></i>
-                            </button>
-                            <div class="main-nav-dropdown-content dropdown-menu">
-                                <a class="nav-link text-dark" href="#/cart">Cart</a>
-                                <a class="nav-link text-dark" href="#/sharing">Sharing</a>
-                                <a class="nav-link text-dark" href="#/userLocation">UserLocation</a>
-                            </div>
-                        </div>
-                        <div class="main_nav_dropdown dropdown">
-                            <button class="main_nav_dropbtn text-light" type="button" data-toggle="dropdown">
-                                DB Restaurant
+                                Manage Restaurant (admin)
                                 <i class="fa fa-caret-down"></i>
                             </button>
                             <div class="main-nav-dropdown-content dropdown-menu">
@@ -87,11 +82,9 @@
                             </div>
                         </div>
 
-                        
-
 
                         <div class="main_nav_dropdown dropdown">
-                            <button class="main_nav_dropbtn" style="margin: 0px 16px 0px 0px; color: #9C9C9C" type="button" data-toggle="dropdown">
+                            <button class="main_nav_dropbtn text-light" style="margin: 0px 16px 0px 32px; color: #9C9C9C" type="button" data-toggle="dropdown">
                                 Meist
                                 <i class="fa fa-caret-down"></i>
                             </button>
@@ -102,7 +95,7 @@
                             </div>
                         </div>
                         <div style="margin: 8px 8px 8px 8px">
-                            <a style="color: #9C9C9C" href="#">Gallery</a>
+                            <a class="text-light" style="font-size: 16px" href="#">Gallery</a>
                         </div>
                         <!--
                         <div class="ml-auto">

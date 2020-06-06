@@ -11,8 +11,8 @@ import { RestaurantApi } from '@/services/RestaurantApi';
 import { ICategory } from './../domain/ICategory';
 import { CategoryApi } from '@/services/CategoryApi';
 
-import { IMeal } from './../domain/IMeal';
-import { MealApi } from '@/services/MealApi';
+import { IPizzaTemplate } from '../domain/IPizzaTemplate';
+import { PizzaTemplateApi } from '@/services/PizzaTemplateApi';
 
 import { IRestaurantFood } from './../domain/IRestaurantFood';
 import { RestaurantFoodApi } from '@/services/RestaurantFoodApi';
@@ -29,8 +29,8 @@ export default new Vuex.Store({
         categorys: [] as ICategory[],
         category: null as ICategory | null,
 
-        meals: [] as IMeal[],
-        meal: null as IMeal | null,
+        pizzaTemplates: [] as IPizzaTemplate[],
+        pizzaTemplate: null as IPizzaTemplate | null,
 
         restaurantFoods: [] as IRestaurantFood[],
         restaurantFood: null as IRestaurantFood | null,
@@ -49,11 +49,11 @@ export default new Vuex.Store({
         },
 
 
-        setMeals(state, meals: IMeal[]) {
-            state.meals = meals;
+        setPizzaTemplates(state, pizzaTemplates: IPizzaTemplate[]) {
+            state.pizzaTemplates = pizzaTemplates;
         },
-        setMeal(state, meal: IMeal) {
-            state.meal = meal;
+        setPizzaTemplate(state, pizzaTemplate: IPizzaTemplate) {
+            state.pizzaTemplate = pizzaTemplate;
         },
 
 
@@ -117,6 +117,8 @@ export default new Vuex.Store({
                 await RestaurantApi.delete(id, context.state.jwt);
                 await context.dispatch('getRestaurants');
                 //await context.dispatch('getRestaurant');
+            } else {
+                alert("Log in!");
             }
         },
         async editRestaurant(context, restaurant: IRestaurant): Promise<void> {
@@ -125,6 +127,8 @@ export default new Vuex.Store({
                 await RestaurantApi.edit(restaurant, context.state.jwt);
                 await context.dispatch('getRestaurants');
                 //await context.dispatch('getRestaurant');
+            } else {
+                alert("Log in!");
             }
         },
         async createRestaurant(context, restaurant: IRestaurant): Promise<void> {
@@ -133,46 +137,54 @@ export default new Vuex.Store({
                 await RestaurantApi.create(restaurant, context.state.jwt);
                 await context.dispatch('getRestaurants');
                 //await context.dispatch('getRestaurant');
-            }
-        },
-
-        // Meals
-
-        async getMeals(context): Promise<void> {
-            const meal = await MealApi.getAll();
-            context.commit('setMeals', meal);
-            //await context.dispatch('getMeal');
-        },
-        async getMeal(context, id: string): Promise<void> {
-            if (!id) {
-                context.commit('setMeal', null);
             } else {
-                const meal = await MealApi.get(id);
-                context.commit('setMeal', meal);
+                alert("Log in!");
             }
         },
-        async deleteMeal(context, id: string): Promise<void> {
-            console.log('isAuthenticated for deleteMeal', context.getters.isAuthenticated);
-            if (context.getters.isAuthenticated && context.state.jwt) {
-                await MealApi.delete(id, context.state.jwt);
-                await context.dispatch('getMeals');
-                //await context.dispatch('getMeal');
+
+        // PizzaTemplates
+
+        async getPizzaTemplates(context): Promise<void> {
+            const pizzaTemplates = await PizzaTemplateApi.getAll();
+            context.commit('setPizzaTemplates', pizzaTemplates);
+            //await context.dispatch('getPizzaTemplate');
+        },
+        async getPizzaTemplate(context, id: string): Promise<void> {
+            if (!id) {
+                context.commit('setPizzaTemplate', null);
+            } else {
+                const pizzaTemplate = await PizzaTemplateApi.get(id);
+                context.commit('setPizzaTemplate', pizzaTemplate);
             }
         },
-        async editMeal(context, meal: IMeal): Promise<void> {
-            console.log('isAuthenticated for editMeal', context.getters.isAuthenticated);
+        async deletePizzaTemplate(context, id: string): Promise<void> {
+            console.log('isAuthenticated for deletePizzaTemplate', context.getters.isAuthenticated);
             if (context.getters.isAuthenticated && context.state.jwt) {
-                await MealApi.edit(meal, context.state.jwt);
-                await context.dispatch('getMeals');
-                //await context.dispatch('getMeal');
+                await PizzaTemplateApi.delete(id, context.state.jwt);
+                await context.dispatch('getPizzaTemplates');
+                //await context.dispatch('getPizzaTemplate');
+            } else {
+                alert("Log in!");
             }
         },
-        async createMeal(context, meal: IMeal): Promise<void> {
-            console.log('isAuthenticated for createMeal', context.getters.isAuthenticated);
+        async editPizzaTemplate(context, pizzaTemplate: IPizzaTemplate): Promise<void> {
+            console.log('isAuthenticated for editPizzaTemplate', context.getters.isAuthenticated);
             if (context.getters.isAuthenticated && context.state.jwt) {
-                await MealApi.create(meal, context.state.jwt);
-                await context.dispatch('getMeals');
-                //await context.dispatch('getMeal');
+                await PizzaTemplateApi.edit(pizzaTemplate, context.state.jwt);
+                await context.dispatch('getPizzaTemplates');
+                //await context.dispatch('getPizzaTemplate');
+            } else {
+                alert("Log in!");
+            }
+        },
+        async createPizzaTemplate(context, pizzaTemplate: IPizzaTemplate): Promise<void> {
+            console.log('isAuthenticated for createPizzaTemplate', context.getters.isAuthenticated);
+            if (context.getters.isAuthenticated && context.state.jwt) {
+                await PizzaTemplateApi.create(pizzaTemplate, context.state.jwt);
+                await context.dispatch('getPizzaTemplates');
+                //await context.dispatch('getPizzaTemplate');
+            } else {
+                alert("Log in!");
             }
         },
 
@@ -187,8 +199,8 @@ export default new Vuex.Store({
             if (!id) {
                 context.commit('setCategory', null);
             } else {
-                const meal = await MealApi.get(id);
-                context.commit('setCategory', meal);
+                const category = await CategoryApi.get(id);
+                context.commit('setCategory', category);
             }
         },
         async deleteCategory(context, id: string): Promise<void> {
@@ -197,6 +209,8 @@ export default new Vuex.Store({
                 await CategoryApi.delete(id, context.state.jwt);
                 await context.dispatch('getCategorys');
                 //await context.dispatch('getCategory');
+            } else {
+                alert("Log in!");
             }
         },
         async editCategory(context, category: ICategory): Promise<void> {
@@ -205,6 +219,8 @@ export default new Vuex.Store({
                 await CategoryApi.edit(category, context.state.jwt);
                 await context.dispatch('getCategorys');
                 //await context.dispatch('getCategory');
+            } else {
+                alert("Log in!");
             }
         },
         async createCategory(context, category: ICategory): Promise<void> {
@@ -213,6 +229,8 @@ export default new Vuex.Store({
                 await CategoryApi.create(category, context.state.jwt);
                 await context.dispatch('getCategorys');
                 //await context.dispatch('getCategory');
+            } else {
+                alert("Log in!");
             }
         },
 
@@ -237,6 +255,8 @@ export default new Vuex.Store({
                 await RestaurantFoodApi.delete(id, context.state.jwt);
                 await context.dispatch('getRestaurantFoods');
                 //await context.dispatch('getRestaurantFood');
+            } else {
+                alert("Log in!");
             }
         },
         async editRestaurantFood(context, restaurantFood: IRestaurantFood): Promise<void> {
@@ -245,6 +265,8 @@ export default new Vuex.Store({
                 await RestaurantFoodApi.edit(restaurantFood, context.state.jwt);
                 await context.dispatch('getRestaurantFoods');
                 //await context.dispatch('getRestaurantFood');
+            } else {
+                alert("Log in!");
             }
         },
         async createRestaurantFood(context, restaurantFood: IRestaurantFood): Promise<void> {
@@ -253,6 +275,8 @@ export default new Vuex.Store({
                 await RestaurantFoodApi.create(restaurantFood, context.state.jwt);
                 await context.dispatch('getRestaurantFoods');
                 //await context.dispatch('getRestaurantFood');
+            } else {
+                alert("Log in!");
             }
         },
 

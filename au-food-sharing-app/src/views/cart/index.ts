@@ -32,7 +32,6 @@ export class CartIndex{
     private _restaurants: IRestaurant[] = [];
     private _userLocations: IUserLocation[] = [];
     private _sharings: ISharing[] = [];
-    private _sharingName: string = "My Sharing";
 
 
     private _alert: IAlertData | null = null;
@@ -65,6 +64,7 @@ export class CartIndex{
                                 this._cartMeals = response.data!;
                                 
                                 for (const cart of this._carts) {
+                                    cart.sharingName = "My Sharing";
                                     let cartMeals = this._cartMeals.filter(x => x.cartId === cart.id)
                                     cart.cartMeals = [...cartMeals]
                                     let total = cart.cartMeals.map(x => x.totalGross).reduce((a, b) => a + b);
@@ -108,7 +108,7 @@ export class CartIndex{
     shareInvoice(cart: ICartIndex) {
         this.sharingService
             .createSharing({
-                name: this._sharingName,
+                name: cart.sharingName,
                 })
             .then(
                 response => {

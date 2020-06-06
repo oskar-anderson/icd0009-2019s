@@ -23,13 +23,10 @@
                                 <router-link to="/" class="nav-link text-dark">Home</router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link to="/Meal" class="nav-link text-dark">Meal</router-link>
+                                <router-link to="/PizzaTemplate" class="nav-link text-dark">PizzaTemplate</router-link>
                             </li>
                             <li class="nav-item">
                                 <router-link to="/Restaurant" class="nav-link text-dark">Restaurant</router-link>
-                            </li>
-                            <li class="nav-item">
-                                <router-link to="/RestaurantFood" class="nav-link text-dark">RestaurantFood</router-link>
                             </li>
                             <li class="nav-item">
                                 <router-link to="/Category" class="nav-link text-dark">Category</router-link>
