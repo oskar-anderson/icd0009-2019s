@@ -1,9 +1,9 @@
 ﻿using System;
-using Contracts.DAL.Base;
+using ee.itcollege.kaande.pitsariina.Contracts.Domain;
 
 namespace BLL.App.DTO
 {
-    public class CartMeal : Contracts.Domain.IDomainEntityId
+    public class CartMeal : IDomainEntityId
     {
         public Guid Id { get; set; }
         

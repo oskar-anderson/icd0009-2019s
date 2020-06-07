@@ -13,7 +13,7 @@ export class PizzaTemplateService {
         this.httpClient.baseUrl = this.appState.baseUrl;
     }
 
-    private readonly _baseUrl = 'https://localhost:5001/api/v1.0/PizzaTemplate';
+    private readonly _baseUrl = 'https://pitsariina.azurewebsites.net/api/v1.0/PizzaTemplate';
 
     async getPizzaTemplates(): Promise<IFetchResponse<IPizzaTemplateWithChildren[]>> {
         try {
@@ -79,7 +79,7 @@ export class PizzaTemplateService {
 
     async createPizzaTemplate(pizzaTemplate: IPizzaTemplateCreate): Promise<IFetchResponse<string>> {
         try {
-            console.log(pizzaTemplate.category)
+            console.log(pizzaTemplate.categoryId)
             console.log(JSON.stringify(pizzaTemplate))
             const response = await this.httpClient
                 .post(this._baseUrl, JSON.stringify(pizzaTemplate), {

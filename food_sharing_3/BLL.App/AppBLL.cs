@@ -1,10 +1,10 @@
 ﻿using System;
 using BLL.App.Services;
-using BLL.Base;
 using Contracts.BLL.App;
 using Contracts.BLL.App.Services;
 using Contracts.DAL.App;
 using Domain.Base.App.EF;
+using ee.itcollege.kaande.pitsariina.BLL.Base;
 
 
 namespace BLL.App

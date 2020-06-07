@@ -13,7 +13,7 @@ export class SharingItemService {
         this.httpClient.baseUrl = this.appState.baseUrl;
     }
 
-    private readonly _baseUrl = 'https://localhost:5001/api/v1.0/SharingItem';
+    private readonly _baseUrl = 'https://pitsariina.azurewebsites.net/api/v1.0/SharingItem';
 
     async getSharingItems(): Promise<IFetchResponse<ISharingItem[]>> {
         try {

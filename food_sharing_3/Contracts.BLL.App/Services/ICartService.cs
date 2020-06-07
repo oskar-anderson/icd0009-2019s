@@ -1,7 +1,6 @@
-﻿
-using BLL.App.DTO;
-using Contracts.BLL.Base.Services;
+﻿using BLL.App.DTO;
 using Contracts.DAL.App.Repositories;
+using ee.itcollege.kaande.pitsariina.Contracts.BLL.Base.Services;
 
 
 namespace Contracts.BLL.App.Services

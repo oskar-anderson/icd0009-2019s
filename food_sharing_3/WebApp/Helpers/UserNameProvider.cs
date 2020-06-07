@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Contracts.DAL.Base;
+using ee.itcollege.kaande.pitsariina.Contracts.DAL.Base;
 
 
 namespace WebApp.Helpers

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using BLL.Base.Mappers;
 using Contracts.BLL.App.Mappers;
 using DAL.App.DTO;
 using DAL.App.DTO.Identity;
+using ee.itcollege.kaande.pitsariina.BLL.Base.Mappers;
 using BLLAppDTO=BLL.App.DTO;
 
 namespace BLL.App.Mappers

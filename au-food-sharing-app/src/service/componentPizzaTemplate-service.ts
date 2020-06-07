@@ -13,7 +13,7 @@ export class ComponentPizzaTemplateService {
         this.httpClient.baseUrl = this.appState.baseUrl;
     }
 
-    private readonly _baseUrl = 'https://localhost:5001/api/v1.0/ComponentPizzaTemplate';
+    private readonly _baseUrl = 'https://pitsariina.azurewebsites.net/api/v1.0/ComponentPizzaTemplate';
 
     async getComponentPizzaTemplates(): Promise<IFetchResponse<IComponentPizzaTemplate[]>> {
         try {

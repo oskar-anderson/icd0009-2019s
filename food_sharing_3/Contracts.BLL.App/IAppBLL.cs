@@ -1,6 +1,6 @@
 ﻿using System;
 using Contracts.BLL.App.Services;
-using Contracts.BLL.Base;
+using ee.itcollege.kaande.pitsariina.Contracts.BLL.Base;
 
 namespace Contracts.BLL.App
 {

@@ -8,8 +8,11 @@
     <ItemGroup>
         <ProjectReference Include="..\BLL.App.DTO\BLL.App.DTO.csproj" />
         <ProjectReference Include="..\DAL.App.DTO\DAL.App.DTO.csproj" />
-        <ProjectReference Include="..\Contracts.BLL.Base\Contracts.BLL.Base.csproj" />
         <ProjectReference Include="..\Contracts.DAL.App\Contracts.DAL.App.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="ee.itcollege.kaande.pitsariina.Contracts.BLL.Base" Version="1.0.0" />
     </ItemGroup>
 
 </Project>

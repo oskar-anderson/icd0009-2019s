@@ -52,16 +52,17 @@ export class PizzaTemplateCreate {
     }
 
     onSubmit(event: Event) {
+        console.log(this._pizzaTemplate.categoryId);
         this.pizzaTemplateService
             .createPizzaTemplate({
                 categoryId: this._pizzaTemplate.categoryId,
                 category: null,
                 name: this._pizzaTemplate.name,
                 picture: this._pizzaTemplate.picture,
-                modifications: this._pizzaTemplate.modifications,
-                extras: this._pizzaTemplate.extras,
+                modifications: parseInt(this._pizzaTemplate.modifications + ""),
+                extras: parseInt(this._pizzaTemplate.extras + ""),
                 description: this._pizzaTemplate.description,
-                varietyState: this._pizzaTemplate.varietyState
+                varietyState: parseInt(this._pizzaTemplate.varietyState + "")
                 })
             .then(
                 response => {

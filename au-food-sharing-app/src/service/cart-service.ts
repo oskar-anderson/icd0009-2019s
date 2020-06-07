@@ -13,7 +13,7 @@ export class CartService {
         this.httpClient.baseUrl = this.appState.baseUrl;
     }
 
-    private readonly _baseUrl = 'https://localhost:5001/api/v1.0/Cart';
+    private readonly _baseUrl = 'https://pitsariina.azurewebsites.net/api/v1.0/Cart';
 
     async getCarts(): Promise<IFetchResponse<ICart[]>> {
         try {

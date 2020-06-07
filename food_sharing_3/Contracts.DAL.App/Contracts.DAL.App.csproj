@@ -9,4 +9,8 @@
       <ProjectReference Include="..\DAL.App.DTO\DAL.App.DTO.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="ee.itcollege.kaande.pitsariina.Contracts.DAL.Base" Version="1.0.0" />
+    </ItemGroup>
+
 </Project>

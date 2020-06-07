@@ -13,7 +13,7 @@ export class RestaurantService {
         this.httpClient.baseUrl = this.appState.baseUrl;
     }
 
-    private readonly _baseUrl = 'https://localhost:5001/api/v1.0/Restaurant';
+    private readonly _baseUrl = 'https://pitsariina.azurewebsites.net/api/v1.0/Restaurant';
 
     async getRestaurants(): Promise<IFetchResponse<IRestaurant[]>> {
         try {

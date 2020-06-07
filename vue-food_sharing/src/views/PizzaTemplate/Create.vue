@@ -94,6 +94,8 @@ export default class PizzaTemplateCreate extends Vue {
 
     createOnClick(pizzaTemplate: IPizzaTemplate): void {
         console.log("Clicked on createOnClick button");
+        console.log("pizzaTemplate.modifications: " + parseInt(pizzaTemplate.modifications + ""));
+        console.log(parseInt(pizzaTemplate.modifications + ""));
         let pizzaTemplateCreateObject: IPizzaTemplate = {
             id: "",
             categoryId: pizzaTemplate.categoryId,

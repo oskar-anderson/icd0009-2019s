@@ -10,11 +10,12 @@
   
     <PropertyGroup>
       <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\WebApp.xml</DocumentationFile>
-      <NoWarn>1591</NoWarn>
+      <NoWarn>1591; 8602</NoWarn>
     </PropertyGroup>
 
   
   <ItemGroup>
+    <PackageReference Include="ee.itcollege.kaande.pitsariina.Contracts.DAL.Base" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.3" />

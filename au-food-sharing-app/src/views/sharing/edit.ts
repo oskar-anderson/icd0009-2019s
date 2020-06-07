@@ -2,13 +2,13 @@ import { autoinject } from 'aurelia-framework';
 import { RouteConfig, NavigationInstruction, Router } from 'aurelia-router';
 
 import { SharingService} from 'service/sharing-service';
-import { ISharing } from 'domain/Isharing';
+import { ISharing } from './../../domain/ISharing';
 
 import { ItemService} from 'service/item-service';
-import { IItem } from 'domain/Iitem';
+import { IItem } from './../../domain/IItem';
 
 import { SharingItemService} from 'service/sharingItem-service';
-import { ISharingItem } from 'domain/ISharingItem';
+import { ISharingItem } from './../../domain/ISharingItem';
 
 import { IAlertData } from 'types/IAlertData';
 import { AlertType } from 'types/AlertType';

@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <AssemblyName>ee.itcollege.kaande.pitsariina.Domain.Base</AssemblyName>
+        <RootNamespace>ee.itcollege.kaande.pitsariina.Domain.Base</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Contracts.Domain\Contracts.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.Text.Json" Version="4.7.1" />
+    </ItemGroup>
+
+</Project>

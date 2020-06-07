@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Contracts.DAL.App.Repositories;
 using DAL.App.DTO;
-using DAL.Base.EF.Repositories;
-using DAL.Base.Mappers;
 using Domain.App.Identity;
 using Domain.Base.App.EF;
+using ee.itcollege.kaande.pitsariina.DAL.Base.EF.Repositories;
+using ee.itcollege.kaande.pitsariina.DAL.Base.Mappers;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.App.EF.Repositories

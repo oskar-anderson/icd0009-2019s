@@ -1,10 +1,10 @@
 ﻿using System;
 using BLL.App.DTO.Identity;
-using Contracts.DAL.Base;
+using ee.itcollege.kaande.pitsariina.Contracts.Domain;
 
 namespace BLL.App.DTO
 {
-    public class UserLocation : Contracts.Domain.IDomainEntityId
+    public class UserLocation : IDomainEntityId
     {
         public Guid Id { get; set; }
         

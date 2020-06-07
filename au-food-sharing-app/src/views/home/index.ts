@@ -104,6 +104,7 @@ export class HomeIndex{
 
     attached() {
         this._msg = localStorage.getItem("msg") !== null? localStorage.getItem("msg")! : "";
+        localStorage.setItem("msg", "");
         this.pizzaTemplateService.getPizzaTemplates().then(
             response => {
                 this._alert = alertHandler(SOURCE.PIZZATEMPLATE, response.statusCode, response.errorMessage);
@@ -193,6 +194,9 @@ export class HomeIndex{
                 this._alert = alertHandler(SOURCE.USERLOCATION, response.statusCode, response.errorMessage);
                 if (response.statusCode >= 200 && response.statusCode < 300) {
                     this._userLocations = response.data!;
+                    for (const userLocation of this._userLocations) {
+                        console.log(userLocation.streetName);
+                    }
                     this._createNewLocation = this._userLocations.length === 0;
                 };
             }
@@ -334,21 +338,14 @@ export class HomeIndex{
     pay() {
         var e = document.getElementById("PaymentMethod") as HTMLFormElement;
         this._cart.paymentMethod = e.options[e.selectedIndex].value;
-        console.log(this._activeRestaurant!.id)
-        console.log(this._cart.asDelivery)
-        console.log(this._cart.asDelivery === true? this._cart.userLocationId : null)
-        console.log(this._cart.paymentMethod)
-        console.log(this._cart.firstName)
-        console.log(this._cart.lastName)
-        console.log(this._cart.phone)
         this.cartService.createCart({
-            restaurantId: "d300695b-7281-428f-474f-08d8073dafef",
-            asDelivery: false,
-            userLocationId: null,
-            paymentMethod: "Swedpank",
-            firstName: "Karl Oskar",
-            lastName: "Anderson",
-            phone: "123456789",
+            restaurantId: this._activeRestaurant!.id,
+            asDelivery: this._cart.asDelivery,
+            userLocationId: this._cart.asDelivery === true? this._cart.userLocationId : null,
+            paymentMethod: this._cart.paymentMethod,
+            firstName: this._cart.firstName,
+            lastName: this._cart.lastName,
+            phone: this._cart.phone,
             })
         .then(
             response => {
@@ -370,7 +367,7 @@ export class HomeIndex{
                                         pizzaGross: cartMeal.pizzaGross,
                                         changes: cartMeal.changes,
                                         componentsGross: cartMeal.componentsGross,
-                                        totalGross: 0,
+                                        totalGross: cartMeal.totalGross,
                                         })
                                     .then(
                                         async response => {

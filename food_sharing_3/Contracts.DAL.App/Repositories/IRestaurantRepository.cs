@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Contracts.DAL.Base.Repositories;
 using DAL.App.DTO;
+using ee.itcollege.kaande.pitsariina.Contracts.DAL.Base.Repositories;
 
 
 namespace Contracts.DAL.App.Repositories

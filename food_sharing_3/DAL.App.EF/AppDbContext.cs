@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Contracts.DAL.Base;
-using Contracts.Domain;
+using ee.itcollege.kaande.pitsariina.Contracts.Domain;
 using Domain.App;
 using Domain.App.Identity;
+using ee.itcollege.kaande.pitsariina.Contracts.DAL.Base;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

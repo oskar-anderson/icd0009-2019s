@@ -1,14 +1,12 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-using BLL.App.DTO.Identity;
-using Contracts.DAL.Base;
-using Contracts.Domain;
+ using BLL.App.DTO.Identity;
+using ee.itcollege.kaande.pitsariina.Contracts.Domain;
 
 namespace BLL.App.DTO
 {
-    public class Cart : Contracts.Domain.IDomainEntityId
+    public class Cart : IDomainEntityId
     {
         public Guid Id { get; set; }
         

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Contracts.DAL.Base;
+using ee.itcollege.kaande.pitsariina.Contracts.Domain;
 
 namespace BLL.App.DTO
 {
-    public class PizzaTemplate : Contracts.Domain.IDomainEntityId
+    public class PizzaTemplate : IDomainEntityId
     {
         public Guid Id { get; set; }
         

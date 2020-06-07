@@ -1,9 +1,9 @@
 ﻿using System;
-using Contracts.DAL.Base;
+using ee.itcollege.kaande.pitsariina.Contracts.Domain;
 
 namespace BLL.App.DTO
 {
-    public class SharingItem : Contracts.Domain.IDomainEntityId
+    public class SharingItem : IDomainEntityId
     {
         public Guid Id { get; set; }
         

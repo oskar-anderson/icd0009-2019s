@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Contracts.DAL.Base;
+using ee.itcollege.kaande.pitsariina.Contracts.Domain;
 
 namespace BLL.App.DTO
 {
-    public class Item : Contracts.Domain.IDomainEntityId
+    public class Item : IDomainEntityId
     {
         public Guid Id { get; set; }
         

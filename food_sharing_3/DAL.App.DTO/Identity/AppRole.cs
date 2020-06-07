@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Contracts.DAL.Base;
-using Contracts.Domain;
+using ee.itcollege.kaande.pitsariina.Contracts.Domain;
 
 namespace DAL.App.DTO.Identity
 {

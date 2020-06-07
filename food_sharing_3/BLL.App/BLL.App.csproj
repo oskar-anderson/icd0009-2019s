@@ -6,9 +6,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\BLL.Base\BLL.Base.csproj" />
         <ProjectReference Include="..\Contracts.BLL.App\Contracts.BLL.App.csproj" />
         <ProjectReference Include="..\DAL.App.EF\DAL.App.EF.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="ee.itcollege.kaande.pitsariina.BLL.Base" Version="1.0.0" />
     </ItemGroup>
 
 </Project>

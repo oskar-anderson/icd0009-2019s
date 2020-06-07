@@ -199,7 +199,7 @@
                     <label class="control-label" for="UserLocationId">UserLocationId</label>
                     <select class="form-control" id="UserLocationId" name="UserLocationId" value.bind="_cart.userLocationId">
                         <option repeat.for="userLocation of _userLocations" model.bind=userLocation.id>
-                            ${userLocation.fullName}
+                            ${userLocation.district}, ${userLocation.streetName}, ${userLocation.buildingNumber} - ${userLocation.apartmentNumber}
                         </option>
                     </select>
                     <p class="link" click.delegate="switchCreateNewLocation()">

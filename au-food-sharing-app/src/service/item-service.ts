@@ -13,7 +13,7 @@ export class ItemService {
         this.httpClient.baseUrl = this.appState.baseUrl;
     }
 
-    private readonly _baseUrl = 'https://localhost:5001/api/v1.0/Item';
+    private readonly _baseUrl = 'https://pitsariina.azurewebsites.net/api/v1.0/Item';
 
     async getItems(): Promise<IFetchResponse<IItem[]>> {
         try {

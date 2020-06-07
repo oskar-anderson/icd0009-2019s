@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Contracts.DAL.Base;
-using Contracts.Domain;
+using ee.itcollege.kaande.pitsariina.Contracts.Domain;
 using DAL.App.DTO.Identity;
 
 namespace DAL.App.DTO

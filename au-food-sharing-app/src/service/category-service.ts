@@ -13,7 +13,7 @@ export class CategoryService {
         this.httpClient.baseUrl = this.appState.baseUrl;
     }
 
-    private readonly _baseUrl = 'https://localhost:5001/api/v1.0/Category';
+    private readonly _baseUrl = 'https://pitsariina.azurewebsites.net/api/v1.0/Category';
 
     async getCategorys(): Promise<IFetchResponse<ICategory[]>> {
         try {

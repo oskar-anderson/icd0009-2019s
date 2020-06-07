@@ -49,7 +49,9 @@ namespace WebApp.Areas.Admin.Controllers
         }
 
         // GET: UserLocation/Create
+#pragma warning disable 1998
         public async Task<IActionResult> Create()
+#pragma warning restore 1998
         {
             ViewData["AppUserId"] = new SelectList(_context.Users.Where(user => user.Id == User.UserId()), "Id", "FirstName");
             return View();

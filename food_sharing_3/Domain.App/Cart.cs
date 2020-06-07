@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Domain.App.Identity;
-using Domain.Base;
+using ee.itcollege.kaande.pitsariina.Domain.Base;
 
 namespace Domain.App
 {
