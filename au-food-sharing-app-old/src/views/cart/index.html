@@ -1,0 +1,97 @@
+<template>
+    <require from="../../components/alert"></require>
+
+    <alert alert-data.bind="_alert"></alert>
+
+    <h1>Index Carts</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="table-column-sm">
+                    ID
+                </th>
+                <th>
+                    Restaurant
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Address
+                </th>
+                <th>
+                    Payment
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Phone
+                </th>
+                <th>
+                    Invoice
+                </th>
+
+                <th>
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="cart of _carts">
+                <td class="table-column-sm">
+                    <button disabled type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="${restaurant.id}">
+                        i
+                    </button>
+                </td>
+                <td>
+                    ${cart.restaurant.name}
+                </td>
+                <td>
+                    ${cart.asDelivery ? "Delivery" : "Carryout"}
+                </td>
+                <td>
+                    ${cart.userLocation ? cart.userLocation.fullName : cart.restaurant.name }
+                </td>
+                <td>
+                    ${cart.paymentMethod}
+                </td>
+                <td>
+                    ${cart.firstName} ${cart.lastName}
+                </td>
+                <td>
+                    ${cart.phone}
+                </td>
+                <td>
+                    ${cart.invoice}
+                    <span repeat.for="cartMeal of cart.cartMeals">
+                        <div>
+                            ${cartMeal.name}
+                            <span if.bind="cartMeal.changes.length !== 0">
+                                ${cartMeal.changes}
+                                <br>
+                            </span>
+                            ${cartMeal.totalGross}€
+                        </div>
+                        
+                    </span>
+                    Total: ${cart.total}€
+                </td>
+                <td>
+                    <div>
+                        Share Invoice
+                        <div class="form-group">
+                            <input class="form-control" type="text" data-val="true" data-val-required="The Name field is required." id="Name" name="Name" value.bind="cart.sharingName" />
+                            <span class="text-danger field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+                        </div>
+                        
+                        <div class="link" click.delegate="shareInvoice(cart)">
+                            <i class="fa fa-color-a fa-2x fa-pie-chart"></i>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</template>

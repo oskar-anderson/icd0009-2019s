@@ -1,0 +1,63 @@
+<template>
+    <require from="../../components/alert"></require>
+
+    <alert alert-data.bind="_alert"></alert>
+
+    <h1>Index UserLocation</h1>
+    
+    <p>
+        <a route-href="route: userLocation-create; params.bind: {}">Create New</a>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="table-column-sm">
+                    ID
+                </th>
+                <th>
+                    District
+                </th>
+                <th>
+                    StreetName
+                </th>
+                <th>
+                    BuildingNumber
+                </th>
+                <th>
+                    ApartmentNumber
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="userLocation of _userLocations">
+                <td class="table-column-sm">
+                    <button disabled type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="${restaurant.id}">
+                        i
+                    </button>
+                </td>
+                <td>
+                    ${userLocation.district}
+                </td>
+                <td>
+                    ${userLocation.streetName}
+                </td>
+                <td>
+                    ${userLocation.buildingNumber}
+                </td>
+                <td>
+                    ${userLocation.apartmentNumber}
+                </td>
+
+                <td>
+                    <a route-href="route: userLocation-edit; params.bind: { id: userLocation.id }"><i class="fa fa-color-a fa-2x fa-pencil-square"></i></a>
+                    <a route-href="route: userLocation-delete; params.bind: { id: userLocation.id }"><i class="fa fa-color-a fa-2x fa-trash"></i></a>
+                </td>
+    
+            </tr>
+        </tbody>
+    </table>
+</template>

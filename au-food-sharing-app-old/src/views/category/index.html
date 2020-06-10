@@ -1,0 +1,41 @@
+<template>
+    <h1>Index Category</h1>
+    
+    <p>
+        <a route-href="route: category-create; params.bind: {}">Create New</a>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="table-column-sm">
+                    ID
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="category of _categorys">
+                <td class="table-column-sm">
+                    <button disabled type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="${category.id}">
+                        i
+                    </button>
+                </td>
+                <td>
+                    ${category.name}
+                </td>
+
+                <td>
+                    <a route-href="route: category-edit; params.bind: { id: category.id }"><i class="fa fa-color-a fa-2x fa-pencil-square"></i></a>
+                    <a route-href="route: category-delete; params.bind: { id: category.id }"><i class="fa fa-color-a fa-2x fa-trash"></i></a>
+                </td>
+    
+            </tr>
+        </tbody>
+    </table>
+</template>

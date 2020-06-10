@@ -1,0 +1,44 @@
+<template>
+    <require from="../../components/alert"></require>
+
+    <alert alert-data.bind="_alert"></alert>
+
+    <h1>My Sharings</h1>
+    
+
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="table-column-sm">
+                    ID
+                </th>
+                <th>
+                    Sharing Name
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="sharing of _sharings">
+                <td>
+                    <button disabled type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="${sharing.id}">
+                        i
+                    </button>
+                </td>
+                <td>
+                    <a route-href="route: sharing-edit; params.bind: { id: sharing.id }">
+                        ${sharing.name}
+                    </a>
+                </td>
+
+                <td>
+                    <i click.delegate="deleteSharing(sharing)" class="fa fa-color-a fa-2x fa-trash"></i>
+                </td>
+    
+            </tr>
+        </tbody>
+    </table>
+</template>

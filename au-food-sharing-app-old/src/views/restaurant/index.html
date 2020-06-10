@@ -1,0 +1,69 @@
+<template>
+    <require from="../../components/alert"></require>
+
+    <alert alert-data.bind="_alert"></alert>
+
+    <h1>Index Restaurants</h1>
+    
+    <p>
+        <a route-href="route: restaurant-create; params.bind: {}">Create New</a>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="table-column-sm">
+                    ID
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Location
+                </th>
+                <th>
+                    Telephone
+                </th>
+                <th>
+                    OpenTime
+                </th>
+                <th>
+                    OpenNote
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="restaurant of _restaurants">
+                <td class="table-column-sm">
+                    <button disabled type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="${restaurant.id}">
+                        i
+                    </button>
+                </td>
+                <td>
+                    ${restaurant.name}
+                </td>
+                <td>
+                    ${restaurant.location}
+                </td>
+                <td>
+                    ${restaurant.telephone}
+                </td>
+                <td>
+                    ${restaurant.openTime}
+                </td>
+                <td>
+                    ${restaurant.openNotification}
+                </td>
+
+                <td>
+                    <a route-href="route: restaurant-edit; params.bind: { id: restaurant.id }"><i class="fa fa-color-a fa-2x fa-pencil-square"></i></a>
+                    <a route-href="route: restaurant-delete; params.bind: { id: restaurant.id }"><i class="fa fa-color-a fa-2x fa-trash"></i></a>
+                </td>
+    
+            </tr>
+        </tbody>
+    </table>
+</template>

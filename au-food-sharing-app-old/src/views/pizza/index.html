@@ -1,0 +1,68 @@
+<template>
+    <require from="../../components/alert"></require>
+
+    <alert alert-data.bind="_alert"></alert>
+
+    <h1>Index Pizzas</h1>
+    
+    <p>
+        <a route-href="route: pizza-create; params.bind: {}">Create New</a>
+    </p>
+
+    <div>
+        <h3>Toggle view settings</h3>
+        <button click.delegate="TriggerTechnical()" class="add btn btn-secondary">${_showTechnical ? "Hide technical" : "Show technical"}</button>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="table-column-sm" show.bind="_showTechnical">
+                    ID
+                </th>
+                <th>
+                    PizzaTemplateName
+                </th>
+                <th show.bind="_showTechnical">
+                    SizeNumber
+                </th>
+                <th>
+                    SizeName
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="pizza of _pizzas">
+                <td class="table-column-sm" show.bind="_showTechnical">
+                    <button disabled type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="${pizza.id}">
+                        i
+                    </button>
+                </td>
+                <td>
+                    ${pizza.pizzaTemplate.name}
+                </td>
+                <td show.bind="_showTechnical">
+                    ${pizza.sizeNumber}
+                </td>
+                <td>
+                    ${pizza.sizeName}
+                </td>
+                <td>
+                    ${pizza.name}
+                </td>
+
+                <td>
+                    <a route-href="route: pizza-edit; params.bind: { id: pizza.id }"><i class="fa fa-color-a fa-2x fa-pencil-square"></i></a>
+                    <a route-href="route: pizza-delete; params.bind: { id: pizza.id }"><i class="fa fa-color-a fa-2x fa-trash"></i></a>
+                </td>
+    
+            </tr>
+        </tbody>
+    </table>
+</template>

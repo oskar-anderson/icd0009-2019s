@@ -1,0 +1,35 @@
+<template>
+    <div class="form-group" >
+        <label class="control-label" for="CategoryId">CategoryId</label>
+        <select  class="form-control" data-val="true" data-val-required="The CategoryId field is required." id="CategoryId" name="CategoryId" value.bind="_pizzaTemplate.categoryId">
+            <option repeat.for="category of _categorys" model.bind=category.id>${category.name}</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="Name">Name</label>
+        <input class="form-control" type="text" data-val="true" data-val-required="The Name field is required." id="Name" name="Name" value.bind="_pizzaTemplate.name" />
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="Picture">Picture</label>
+        <input class="form-control" type="text" id="Picture" name="Picture" value.bind="_pizzaTemplate.picture" />
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="Modifications">Modifications</label>
+        <input class="form-control" type="number" data-val="true" data-val-required="The Modifications field is required." id="Modifications" name="Modifications" value.bind="_pizzaTemplate.modifications" />
+        <span class="text-danger field-validation-valid" data-valmsg-for="Modifications" data-valmsg-replace="true"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="Extras">Extras</label>
+        <input class="form-control" type="number" data-val="true" data-val-required="The Extras field is required." id="Extras" name="Extras" value.bind="_pizzaTemplate.extras" />
+        <span class="text-danger field-validation-valid" data-valmsg-for="Extras" data-valmsg-replace="true"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="Description">Description</label>
+        <input class="form-control" type="text" id="Description" name="Description" value.bind="_pizzaTemplate.description" />
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="VarietyState">VarietyState</label>
+        <input class="form-control" type="number" data-val="true" data-val-required="The VarietyState field is required." id="VarietyState" name="VarietyState" value.bind="_pizzaTemplate.varietyState" />
+    </div>
+    
+</template>

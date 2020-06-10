@@ -1,0 +1,77 @@
+<template>
+    <require from="../../components/alert"></require>
+
+    <alert alert-data.bind="_alert"></alert>
+
+    <h1>Index RestaurantFood</h1>
+    
+    <p>
+        <a route-href="route: restaurantFood-create; params.bind: {}">Create New</a>
+    </p>
+    <p>
+        <button click.delegate="TriggerTechnical()" class="add btn btn-secondary">${_showTechnical ? "Hide technical" : "Show technical"}</button>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="table-column-sm" show.bind="_showTechnical">
+                    ID
+                </th>
+                <th show.bind="_showTechnical">
+                    RestaurantID
+                </th>
+                <th>
+                    Restaurant
+                </th>
+                <th show.bind="_showTechnical">
+                    PizzaID
+                </th>
+                <th>
+                    Pizza
+                </th>
+                <th>
+                    Gross
+                </th>
+                
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="restaurantFood of _restaurantFoods">
+                <td show.bind="_showTechnical">
+                    <button disabled type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="${restaurantFood.id}">
+                        i
+                    </button>
+                </td>
+                <td show.bind="_showTechnical">
+                    <button disabled type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="${restaurantFood.pizzaId}">
+                        i
+                    </button>
+                </td>
+                <td>
+                    ${restaurantFood.pizza.name}
+                </td>
+                <td show.bind="_showTechnical">
+                    <button disabled type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="${restaurantFood.restaurantId}">
+                        i
+                    </button>
+                </td>
+                <td>
+                    ${restaurantFood.restaurant.name}
+                </td>
+                <td>
+                    ${restaurantFood.gross}
+                </td>
+
+                <td>
+                    <a route-href="route: restaurantFood-edit; params.bind: { id: restaurantFood.id }"><i class="fa fa-color-a fa-2x fa-pencil-square"></i></a>
+                    <a route-href="route: restaurantFood-delete; params.bind: { id: restaurantFood.id }"><i class="fa fa-color-a fa-2x fa-trash"></i></a>
+                </td>
+    
+            </tr>
+        </tbody>
+    </table>
+</template>

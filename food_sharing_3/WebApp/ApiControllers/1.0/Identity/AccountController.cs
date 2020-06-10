@@ -109,6 +109,7 @@ namespace WebApp.ApiControllers._1._0.Identity
             };
             
             var result = await _userManager.CreateAsync(appUser, dto.Password);
+            await _userManager.AddToRoleAsync(appUser, "User");
             if (result.Succeeded)
             {
                 _logger.LogInformation($"User {appUser.Email} created a new account with password.");

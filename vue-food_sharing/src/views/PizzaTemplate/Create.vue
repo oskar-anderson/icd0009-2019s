@@ -15,7 +15,8 @@
                                 v-for="category in getCategorys"
                                 :key="category.id"
                                 v-bind:value="category.id"
-                            >{{ category.name }}</option>
+                            >{{ category.name }}
+                            </option>
                         </select>
                     </div>
                     <div class="form-group">

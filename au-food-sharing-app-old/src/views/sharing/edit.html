@@ -1,0 +1,87 @@
+<template>
+    <require from="../../components/alert"></require>
+
+    <alert alert-data.bind="_alert"></alert>
+    
+    <h1>Sharing</h1>
+
+    <div class="table" if.bind="_sharing.sharingItems.length !== 0">
+        <table>
+            <thead>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Friend
+                </th>
+                <th>
+                    Procent
+                </th>
+                <th>
+                    FriendOwns
+                </th>
+                <th>
+                    Action
+                </th>
+            </thead>
+            <tbody repeat.for="sharingItem of _sharing.sharingItems">
+                <td>
+                    ${sharingItem.itemName}
+                </td>
+                <td>
+                    ${sharingItem.friendName}
+                </td>
+                <td>
+                    ${sharingItem.percent}%
+                </td>
+                <td>
+                    ${sharingItem.friendOwns}€
+                </td>
+                <td>
+                    <i click.delegate="deleteSharingItem(sharingItem)" class="fa fa-color-a fa-2x fa-trash"></i>
+                </td>
+                </tbody>
+        </table>
+        <hr>
+    </div>
+    <div if.bind="_sharing.items.length === 0">
+        Everything is divided!
+    </div>
+    <div if.bind="_sharing.items.length !== 0">
+        <div class="form-group">
+            <label class="control-label" for="Item">Item</label>
+            <select class="form-control" data-val="true" data-val-required="The Item field is required." name="ItemId" change.delegate="ItemChange()" value.bind="_activeItem">
+                <option repeat.for="item of _sharing.items" model.bind=item>${item.name} ${item.gross}€</option>
+            </select>
+        </div>
+        <form class="range-field">
+            <div class="slideContainer" change.delegate="updateValue()">
+                <input type="range" min="0" max="${_maxOutput}" value="${_output}" step="2.5" id="myRange" class="slider" />
+                <p style="margin-top: 30px;">
+                    Max percent ${_maxOutput}%
+                    <br>
+                    Max amount ${_maxShare}€
+                    <br>
+                    Current percent ${_output}%
+                    <br>
+                    Current amount ${_share}€
+                    Temp: ${_activeItem.name}
+                </p>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="Name">Payer Name</label>
+                <input class="form-control" type="text" data-val="true" data-val-required="The FriendName field is required." id="FriendName" name="FriendName" value.bind="_friendName" />
+                <span class="text-danger field-validation-valid" data-valmsg-for="FriendName" data-valmsg-replace="true"></span>
+            </div>
+        </form>
+
+        <div click.delegate="onSubmit($event)" class="form-group">
+            <input value="Create" class="btn btn-primary" />
+        </div>
+        <br>
+    </div>
+    <div>
+        <a route-href="route: sharing-index; params.bind: { }">Back to List</a>
+    </div>
+
+</template>

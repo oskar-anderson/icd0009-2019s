@@ -1,0 +1,51 @@
+<template>
+    <require from="../../components/alert"></require>
+
+    <alert alert-data.bind="_alert"></alert>
+
+    <h1>Index Components</h1>
+    
+    <p>
+        <a route-href="route: component-create; params.bind: {}">Create New</a>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="table-column-sm">
+                    ID
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Gross
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="component of _components">
+                <td class="table-column-sm">
+                    <button disabled type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="${component.id}">
+                        i
+                    </button>
+                </td>
+                <td>
+                    ${component.name}
+                </td>
+                <td>
+                    ${component.gross}
+                </td>
+
+                <td>
+                    <a route-href="route: component-edit; params.bind: { id: component.id }"><i class="fa fa-color-a fa-2x fa-pencil-square"></i></a>
+                    <a route-href="route: component-delete; params.bind: { id: component.id }"><i class="fa fa-color-a fa-2x fa-trash"></i></a>
+                </td>
+    
+            </tr>
+        </tbody>
+    </table>
+</template>
